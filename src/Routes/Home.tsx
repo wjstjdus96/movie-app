@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { makeImagePath } from "../utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { useNavigate, useMatch } from "react-router-dom";
+import { useNavigate, useMatch, PathMatch } from "react-router-dom";
 
 const Wrapper = styled.div`
   background-color: black;
@@ -145,7 +145,10 @@ function Home() {
   const [idx, setIdx] = useState(0);
   const [leaving, setLeaving] = useState(false);
   const navigate = useNavigate();
-  const bigMovieMatch = useMatch("/movies/:movieId");
+  const bigMovieMatch: PathMatch<string> | null = useMatch("/movies/:movieId");
+  const clickedMovie =
+    bigMovieMatch &&
+    data?.results.find((movie) => movie.id == +bigMovieMatch.params.movieId!); // ! = 항상 있음
 
   const increaseIndex = () => {
     if (data) {

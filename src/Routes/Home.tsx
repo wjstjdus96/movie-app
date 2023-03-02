@@ -37,8 +37,13 @@ const Banner = styled.div<{ bgPhoto: string }>`
 `;
 
 const Slider = styled.div`
+  margin: 0px 50px;
   position: relative;
   top: -100px;
+  h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
 `;
 
 const Row = styled(motion.div)`
@@ -49,12 +54,39 @@ const Row = styled(motion.div)`
   width: 100%;
 `;
 
+const Arrow = styled(motion.div)`
+  font-size: 20px;
+  width: 40px;
+  height: 100%;
+  background-color: rgb(0, 0, 0, 0.8);
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  opacity: 1;
+  &:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+  &:first-child {
+    left: 0px;
+  }
+  &:last-child {
+    right: 0px;
+  }
+`;
+
 const Box = styled(motion.div)<{ bgPhoto: string }>`
-  height: 180px;
+  width: 227px;
+  height: 128px;
+  min-height: 100%;
   background-image: url(${(prop) => prop.bgPhoto});
+  border-radius: 5px;
   background-size: cover;
   background-position: center center;
-  position: relative;
+  /* position: relative;
+  z-index: 1; */
   &:first-child {
     transform-origin: center left;
   }
@@ -64,7 +96,8 @@ const Box = styled(motion.div)<{ bgPhoto: string }>`
 `;
 
 const Info = styled(motion.div)`
-  padding: 10px;
+  padding: 8px;
+  border-radius: 0 0 5px 5px;
   background-color: ${(props) => props.theme.black.lighter};
   opacity: 0;
   position: absolute;
@@ -72,7 +105,7 @@ const Info = styled(motion.div)`
   bottom: 0;
   h4 {
     text-align: center;
-    font-size: 18px;
+    font-size: 13px;
   }
 `;
 
@@ -88,6 +121,7 @@ const Overlay = styled(motion.div)`
 const BigMovie = styled(motion.div)`
   position: fixed;
   background-color: red;
+  border-radius: 10px;
   width: 60vw;
   height: 70vh;
   top: 0;
@@ -98,15 +132,15 @@ const BigMovie = styled(motion.div)`
 `;
 
 const rowVariants = {
-  hidden: {
-    x: window.outerWidth + 5,
-  },
+  invisible: (isBack: boolean) => ({
+    x: isBack ? -window.outerWidth - 5 : window.outerWidth + 5,
+  }),
   visible: {
     x: 0,
   },
-  exit: {
-    x: -window.outerWidth - 5,
-  },
+  exit: (isBack: boolean) => ({
+    x: isBack ? window.outerWidth + 5 : -window.outerWidth - 5,
+  }),
 };
 
 const boxVariants = {
@@ -142,23 +176,39 @@ function Home() {
     ["movies", "nowPlaying"],
     getMovies
   );
-  const [idx, setIdx] = useState(0);
-  const [leaving, setLeaving] = useState(false);
+  const [idx, setIdx] = useState(0); // 슬라이더 인덱스
+  const [leaving, setLeaving] = useState(false); // 슬라이더 진행 중인지
+  const [isBack, setIsBack] = useState(false);
   const navigate = useNavigate();
   const bigMovieMatch: PathMatch<string> | null = useMatch("/movies/:movieId");
+
   const clickedMovie =
     bigMovieMatch &&
     data?.results.find((movie) => movie.id == +bigMovieMatch.params.movieId!); // ! = 항상 있음
 
-  const increaseIndex = () => {
+  const increaseIndex = async () => {
     if (data) {
       if (leaving) return;
       toggleLeaving();
+      await setIsBack(false);
       const totalMovies = data.results.length - 1;
       const maxIdx = Math.floor(totalMovies / offset) - 1;
       setIdx((prev) => (prev === maxIdx ? 0 : prev + 1));
     }
   };
+  const decreaseIndex = async () => {
+    if (data) {
+      if (leaving) return;
+      toggleLeaving();
+      await setIsBack(true);
+      const totalMovies = data.results.length - 1;
+      const minIdx = 0;
+      setIdx((prev) =>
+        prev === minIdx ? Math.floor(totalMovies / offset) - 1 : prev - 1
+      );
+    }
+  };
+
   const toggleLeaving = () => setLeaving((prev) => !prev);
   const onBoxClicked = (movieId: number) => {
     navigate(`/movies/${movieId}`);
@@ -173,18 +223,25 @@ function Home() {
         <Loader>loading</Loader>
       ) : (
         <>
-          <Banner
-            onClick={increaseIndex}
-            bgPhoto={makeImagePath(data?.results[0].backdrop_path || "")}
-          >
+          <Banner bgPhoto={makeImagePath(data?.results[0].backdrop_path || "")}>
             <h2>{data?.results[0].title}</h2>
             <p>{data?.results[0].overview}</p>
           </Banner>
           <Slider>
-            <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
+            <h2>가장 많이 본 영화</h2>
+            <div>
+              <Arrow onClick={decreaseIndex}>&lt;</Arrow>
+              <Arrow onClick={increaseIndex}>&gt;</Arrow>
+            </div>
+            <AnimatePresence
+              custom={isBack}
+              initial={false}
+              onExitComplete={toggleLeaving}
+            >
               <Row
+                custom={isBack}
                 variants={rowVariants}
-                initial="hidden"
+                initial="invisible"
                 animate="visible"
                 exit="exit"
                 transition={{ type: "tween" }}

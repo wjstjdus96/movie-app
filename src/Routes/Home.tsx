@@ -5,6 +5,7 @@ import { makeImagePath } from "../utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useNavigate, useMatch, PathMatch } from "react-router-dom";
+import Detail from "./Detail";
 
 const Wrapper = styled.div`
   background-color: black;
@@ -215,6 +216,7 @@ function Home() {
   };
   const onOverlayClicked = () => {
     navigate(`/`);
+    console.log(clickedMovie);
   };
 
   return (
@@ -277,7 +279,9 @@ function Home() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                 />
-                <BigMovie layoutId={bigMovieMatch.params.movieId} />
+                <BigMovie layoutId={bigMovieMatch.params.movieId}>
+                  <Detail />
+                </BigMovie>
               </>
             ) : null}
           </AnimatePresence>

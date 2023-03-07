@@ -23,6 +23,12 @@ export interface IGetMoviesResult {
 
 export function getMovies() {
   return fetch(
-    `${BASE_PATH}/movie/top_rated?api_key=${API_KEY}&language=ko-KR`
+    `${BASE_PATH}/movie/top_rated?api_key=${API_KEY}&language=${LNG}`
+  ).then((response) => response.json());
+}
+
+export function getDetails(movieId: string) {
+  return fetch(
+    `${BASE_PATH}/movie/${movieId}?api_key=${API_KEY}&language=${LNG}`
   ).then((response) => response.json());
 }

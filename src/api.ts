@@ -21,6 +21,13 @@ export interface IGetMoviesResult {
   total_results: number;
 }
 
+export interface IGetRelated {
+  page: number;
+  total_pages: number;
+  total_results: number;
+  results: IMovie[];
+}
+
 export function getMovies() {
   return fetch(
     `${BASE_PATH}/movie/top_rated?api_key=${API_KEY}&language=${LNG}`
@@ -30,5 +37,11 @@ export function getMovies() {
 export function getDetails(movieId: string) {
   return fetch(
     `${BASE_PATH}/movie/${movieId}?api_key=${API_KEY}&language=${LNG}`
+  ).then((response) => response.json());
+}
+
+export function getRelated(movieId: string) {
+  return fetch(
+    `${BASE_PATH}/movie/${movieId}/similar?api_key=${API_KEY}&language=${LNG}&page=1`
   ).then((response) => response.json());
 }

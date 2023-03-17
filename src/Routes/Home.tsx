@@ -121,10 +121,10 @@ const Overlay = styled(motion.div)`
 
 const BigMovie = styled(motion.div)`
   position: fixed;
-  background-color: red;
+  background-color: #211e1e;
   border-radius: 10px;
-  width: 60vw;
-  height: 70vh;
+  width: 45vw;
+  height: 90vh;
   top: 0;
   bottom: 0;
   left: 0;
@@ -177,6 +177,7 @@ function Home() {
     ["movies", "nowPlaying"],
     getMovies
   );
+
   const [idx, setIdx] = useState(0); // 슬라이더 인덱스
   const [leaving, setLeaving] = useState(false); // 슬라이더 진행 중인지
   const [isBack, setIsBack] = useState(false);
@@ -211,12 +212,14 @@ function Home() {
   };
 
   const toggleLeaving = () => setLeaving((prev) => !prev);
-  const onBoxClicked = (movieId: number) => {
-    navigate(`/movies/${movieId}`);
+  const onBoxClicked = async (movieId: number) => {
+    console.log(clickedMovie);
+    await navigate(`/movies/${movieId}`);
+    console.log(clickedMovie);
   };
   const onOverlayClicked = () => {
-    navigate(`/`);
     console.log(clickedMovie);
+    navigate(`/`);
   };
 
   return (
@@ -279,9 +282,7 @@ function Home() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                 />
-                <BigMovie layoutId={bigMovieMatch.params.movieId}>
-                  <Detail />
-                </BigMovie>
+                <BigMovie layoutId={bigMovieMatch.params.movieId}></BigMovie>
               </>
             ) : null}
           </AnimatePresence>

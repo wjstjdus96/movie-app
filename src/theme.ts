@@ -11,4 +11,7 @@ export const theme: DefaultTheme = {
     lighter: "#fff",
     darker: "#e5e5e5",
   },
+  modal: {
+    background: "#181818",
+  },
 };

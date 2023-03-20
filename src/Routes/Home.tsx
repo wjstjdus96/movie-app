@@ -37,7 +37,7 @@ const Banner = styled.div<{ bgPhoto: string }>`
     margin-bottom: 20px;
   }
   & > p {
-    font-size: 20px;
+    font-size: 18px;
     width: 50%;
     line-height: 150%;
   }

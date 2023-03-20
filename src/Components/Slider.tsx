@@ -4,7 +4,6 @@ import { IGetDataResult } from "../api";
 import { useState } from "react";
 import { makeImagePath } from "../utils";
 import { useNavigate, useMatch, PathMatch } from "react-router-dom";
-import Detail from "../Routes/Detail";
 import Modal from "./Modal";
 
 const Wrapper = styled.div`
@@ -18,24 +17,28 @@ const Wrapper = styled.div`
 
 const Arrow = styled(motion.div)`
   font-size: 20px;
-  width: 40px;
-  height: 100%;
+  width: 50px;
+  height: 50px;
   background-color: rgb(0, 0, 0, 0.8);
+  border-radius: 50%;
   position: absolute;
+  transform: translateY(85%);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1;
-  opacity: 1;
+  opacity: 0.5;
+
   &:hover {
     opacity: 1;
     cursor: pointer;
+    font-weight: 600;
   }
   &:first-child {
-    left: 0px;
+    left: -30px;
   }
   &:last-child {
-    right: 0px;
+    right: -30px;
   }
 `;
 
@@ -55,8 +58,6 @@ const Box = styled(motion.div)<{ bgPhoto: string }>`
   border-radius: 5px;
   background-size: cover;
   background-position: center center;
-  /* position: relative;
-  z-index: 1; */
   &:first-child {
     transform-origin: center left;
   }
@@ -66,16 +67,17 @@ const Box = styled(motion.div)<{ bgPhoto: string }>`
 `;
 
 const Info = styled(motion.div)`
-  padding: 8px;
+  padding: 5px;
   border-radius: 0 0 5px 5px;
-  background-color: ${(props) => props.theme.black.lighter};
+  background-color: ${(props) => props.theme.modal.background};
+  background-color: rgba(0, 0, 0, 0.5);
   opacity: 0;
   position: absolute;
   width: 100%;
   bottom: 0;
   h4 {
     text-align: center;
-    font-size: 13px;
+    font-size: 12px;
   }
 `;
 
@@ -109,6 +111,7 @@ const boxVariants = {
 const infoVariants = {
   hover: {
     opacity: 1,
+    backgroundcolor: "rgba(0,0,0,1)",
     transition: {
       delay: 0.5,
       duration: 0.1,
@@ -130,7 +133,7 @@ export default function Slider({ data, title, listType, field }: ISlider) {
   const [isBack, setIsBack] = useState(false);
   const offset = 6;
   const navigate = useNavigate();
-  const bigMovieMatch = useMatch(`/movies/:movieId`);
+  const bigMovieMatch = useMatch(`/movies/:listType/:movieId`);
   const toggleLeaving = () => setLeaving((prev) => !prev);
 
   const increaseIndex = async () => {
@@ -156,57 +159,62 @@ export default function Slider({ data, title, listType, field }: ISlider) {
     }
   };
 
-  const onBoxClicked = async (movieId: number) => {
-    await navigate(`/movies/${movieId}`);
+  const onBoxClicked = async (movieId: number, listType: string) => {
+    await navigate(`/movies/${listType}/${movieId}`);
   };
 
   return (
-    <Wrapper>
-      <h2>{title}</h2>
-      <div>
-        <Arrow onClick={decreaseIndex}>&lt;</Arrow>
-        <Arrow onClick={increaseIndex}>&gt;</Arrow>
-      </div>
-      <AnimatePresence
-        custom={isBack}
-        initial={false}
-        onExitComplete={toggleLeaving}
-      >
-        <Row
+    <div>
+      <Wrapper>
+        <h2>{title}</h2>
+        <div>
+          <Arrow onClick={decreaseIndex}>&lt;</Arrow>
+          <Arrow onClick={increaseIndex}>&gt;</Arrow>
+        </div>
+        <AnimatePresence
           custom={isBack}
-          variants={rowVariants}
-          initial="invisible"
-          animate="visible"
-          exit="exit"
-          transition={{ type: "tween" }}
-          key={idx}
+          initial={false}
+          onExitComplete={toggleLeaving}
         >
-          {data?.results
-            .slice(1)
-            .slice(offset * idx, offset * idx + offset)
-            .map((movie) => (
-              <Box
-                layoutId={movie.id + title}
-                variants={boxVariants}
-                whileHover="hover"
-                initial="normal"
-                transition={{ type: "tween" }}
-                key={movie.id}
-                bgPhoto={makeImagePath(movie.backdrop_path, "w500")}
-                onClick={() => onBoxClicked(movie.id)}
-              >
-                <Info variants={infoVariants}>
-                  <h4>{movie.title}</h4>
-                </Info>
-              </Box>
-            ))}
-        </Row>
-      </AnimatePresence>
+          <Row
+            custom={isBack}
+            variants={rowVariants}
+            initial="invisible"
+            animate="visible"
+            exit="exit"
+            transition={{ type: "tween" }}
+            key={idx}
+          >
+            {data?.results
+              .slice(1)
+              .slice(offset * idx, offset * idx + offset)
+              .map((movie) => (
+                <Box
+                  layoutId={movie.id + listType}
+                  variants={boxVariants}
+                  whileHover="hover"
+                  initial="normal"
+                  transition={{ type: "tween" }}
+                  key={movie.id}
+                  bgPhoto={makeImagePath(movie.backdrop_path, "w500")}
+                  onClick={() => onBoxClicked(movie.id, listType)}
+                >
+                  <Info variants={infoVariants}>
+                    <h4>{movie.title}</h4>
+                  </Info>
+                </Box>
+              ))}
+          </Row>
+        </AnimatePresence>
+      </Wrapper>{" "}
       <AnimatePresence>
         {bigMovieMatch ? (
-          <Modal dataId={bigMovieMatch.params.movieId} listType={title} />
+          <Modal
+            dataId={bigMovieMatch.params.movieId!}
+            listType={bigMovieMatch.params.listType!}
+          />
         ) : null}
       </AnimatePresence>
-    </Wrapper>
+    </div>
   );
 }

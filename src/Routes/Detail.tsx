@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "react-router-dom";
-import { getDetails, getRelated, IGetRelated } from "../api";
+import { getDetails, getRelated, IGetDataResult } from "../api";
 import styled from "styled-components";
 import { makeImagePath } from "../utils";
 import RelatedMovie from "../Components/RelatedMovie";

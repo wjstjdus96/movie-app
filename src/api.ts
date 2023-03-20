@@ -2,7 +2,7 @@ const API_KEY = "c7ed214708d356a99cf12085cc89c05e";
 const BASE_PATH = "https://api.themoviedb.org/3";
 const LNG = "ko-KR";
 
-interface IMovie {
+interface IData {
   id: number;
   backdrop_path: string;
   poster_path: string;
@@ -10,27 +10,38 @@ interface IMovie {
   overview: string;
 }
 
-export interface IGetMoviesResult {
-  dates: {
+export interface IGetDataResult {
+  dates?: {
     maximum: string;
     minimum: string;
   };
   page: number;
-  results: IMovie[];
+  results: IData[];
   total_pages: number;
   total_results: number;
 }
 
-export interface IGetRelated {
-  page: number;
-  total_pages: number;
-  total_results: number;
-  results: IMovie[];
+export function getNowPlayingMovies() {
+  return fetch(
+    `${BASE_PATH}/movie/now_playing?api_key=${API_KEY}&language=${LNG}`
+  ).then((response) => response.json());
 }
 
-export function getMovies() {
+export function getPopularMovies() {
+  return fetch(
+    `${BASE_PATH}/movie/popular?api_key=${API_KEY}&language=${LNG}`
+  ).then((response) => response.json());
+}
+
+export function getTopRatedMovies() {
   return fetch(
     `${BASE_PATH}/movie/top_rated?api_key=${API_KEY}&language=${LNG}`
+  ).then((response) => response.json());
+}
+
+export function getUpcomingMovies() {
+  return fetch(
+    `${BASE_PATH}/movie/upcoming?api_key=${API_KEY}&language=${LNG}`
   ).then((response) => response.json());
 }
 

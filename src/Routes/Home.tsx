@@ -14,7 +14,7 @@ import Slider from "../Components/Slider";
 
 const Wrapper = styled.div`
   background-color: black;
-  padding-bottom: 200px;
+  padding-bottom: 50px;
 `;
 
 const Loader = styled.div`
@@ -46,7 +46,7 @@ const Banner = styled.div<{ bgPhoto: string }>`
 const Sliders = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 190px;
+  gap: 180px;
   position: relative;
   top: -150px;
 `;

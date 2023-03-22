@@ -6,11 +6,8 @@ import {
   IGetDataResult,
 } from "../api";
 import styled from "styled-components";
-import { makeImagePath } from "../utils";
-import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
-import { useNavigate, useMatch, PathMatch } from "react-router-dom";
 import Slider from "../Components/Slider";
+import Banner from "../Components/Banner";
 
 const Wrapper = styled.div`
   background-color: black;
@@ -21,26 +18,6 @@ const Loader = styled.div`
   height: 20vh;
   text-align: center;
   color: white;
-`;
-
-const Banner = styled.div<{ bgPhoto: string }>`
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 50px;
-  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)),
-    url(${(prop) => prop.bgPhoto});
-  background-size: cover;
-  & > h2 {
-    font-size: 48px;
-    margin-bottom: 20px;
-  }
-  & > p {
-    font-size: 18px;
-    width: 50%;
-    line-height: 150%;
-  }
 `;
 
 const Sliders = styled.div`
@@ -74,13 +51,10 @@ function Home() {
       ) : (
         <>
           <Banner
-            bgPhoto={makeImagePath(
-              nowPlayingMovies?.results[0].backdrop_path || ""
-            )}
-          >
-            <h2>{nowPlayingMovies?.results[0].title}</h2>
-            <p>{nowPlayingMovies?.results[0].overview}</p>
-          </Banner>
+            bgPhoto={nowPlayingMovies?.results[0]?.backdrop_path || "undefined"}
+            title={nowPlayingMovies?.results[0]?.title! || "undefined"}
+            overview={nowPlayingMovies?.results[0]?.overview! || "undefined"}
+          />
           <Sliders>
             <Slider
               data={nowPlayingMovies}

@@ -6,8 +6,9 @@ interface IData {
   id: number;
   backdrop_path: string;
   poster_path: string;
-  title: string;
+  title?: string;
   overview: string;
+  name?: string;
 }
 
 export interface IGetDataResult {
@@ -21,6 +22,7 @@ export interface IGetDataResult {
   total_results: number;
 }
 
+//movies
 export function getNowPlayingMovies() {
   return fetch(
     `${BASE_PATH}/movie/now_playing?api_key=${API_KEY}&language=${LNG}`
@@ -54,5 +56,18 @@ export function getDetails(movieId: string) {
 export function getRelated(movieId: string) {
   return fetch(
     `${BASE_PATH}/movie/${movieId}/similar?api_key=${API_KEY}&language=${LNG}&page=1`
+  ).then((response) => response.json());
+}
+
+//tvs
+export function getPopularTvs() {
+  return fetch(
+    `${BASE_PATH}/tv/popular?api_key=${API_KEY}&language=${LNG}`
+  ).then((response) => response.json());
+}
+
+export function getNowPlayingTvs() {
+  return fetch(
+    `${BASE_PATH}/tv/now_playing?api_key=${API_KEY}&language=${LNG}`
   ).then((response) => response.json());
 }

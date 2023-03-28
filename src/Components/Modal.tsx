@@ -90,15 +90,21 @@ const Body = styled.div`
 
 const Infos = styled.div`
   display: flex;
+  align-items: center;
   margin-bottom: 1.8vh;
   font-size: 0.9rem;
-  div::after {
+  .info::after {
     content: "·";
     margin: 0 15px;
   }
-  div:last-child::after {
+  .info:last-child::after {
     content: "";
     margin: 0;
+  }
+  div:last-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 `;
 
@@ -108,6 +114,36 @@ const Genres = styled.div`
     display: flex;
     margin-left: 5px !important;
     margin: 0 0;
+  }
+`;
+
+const Rating = styled.div<{ percent: number }>`
+  position: relative;
+  unicode-bidi: bidi-override;
+  width: max-content;
+  -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 0.5px;
+  -webkit-text-stroke-color: white;
+  div {
+    margin-top: -7px;
+  }
+  div:first-child {
+    color: #fff58c;
+    padding: 0;
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    -webkit-text-fill-color: gold;
+    width: ${(prop) => prop.percent + "%"};
+    font-size: 20px;
+  }
+  div:last-child {
+    z-index: 0;
+    padding: 0;
+    font-size: 20px;
   }
 `;
 
@@ -133,12 +169,6 @@ interface IModal {
 }
 
 export default function Modal({ dataId, listType }: IModal) {
-  const navigate = useNavigate();
-
-  const onOverlayClicked = () => {
-    navigate(`/`);
-  };
-
   const { isLoading, data: detailData } = useQuery<any>(
     ["details", dataId],
     () => getDetails(dataId)
@@ -148,6 +178,16 @@ export default function Modal({ dataId, listType }: IModal) {
     ["related", dataId],
     () => getRelated(dataId)
   );
+
+  const navigate = useNavigate();
+
+  const onOverlayClicked = () => {
+    navigate(`/`);
+  };
+
+  const ratingToPercent = () => {
+    const score = detailData?.vote_average * 10;
+  };
 
   console.log(detailData);
 
@@ -170,9 +210,11 @@ export default function Modal({ dataId, listType }: IModal) {
         </Head>
         <Body>
           <Infos>
-            <div>{detailData?.release_date?.slice(0, 4) + "  "}</div>
-            <div>{detailData?.runtime}분</div>
-            <Genres>
+            <div className="info">
+              {detailData?.release_date?.slice(0, 4) + "  "}
+            </div>
+            <div className="info">{detailData?.runtime}분</div>
+            <Genres className="info">
               {detailData?.genres?.map((item: any, idx: number) => (
                 <p>
                   {item.name}
@@ -180,7 +222,28 @@ export default function Modal({ dataId, listType }: IModal) {
                 </p>
               ))}
             </Genres>
-            <div>{/* {detailData?.vote_average &&} */}</div>
+            <div className="info">
+              <Rating percent={detailData?.vote_average * 10}>
+                <div>
+                  <span>★</span>
+                  <span>★</span>
+                  <span>★</span>
+                  <span>★</span>
+                  <span>★</span>
+                </div>
+                <div>
+                  <span>★</span>
+                  <span>★</span>
+                  <span>★</span>
+                  <span>★</span>
+                  <span>★</span>
+                </div>
+              </Rating>
+              <span>
+                {" "}
+                &nbsp;( {(detailData?.vote_average / 2 + "").slice(0, 3)} )
+              </span>
+            </div>
           </Infos>
           {detailData?.tagline && (
             <p>

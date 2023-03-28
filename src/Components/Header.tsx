@@ -56,7 +56,7 @@ const Item = styled.li`
   }
 `;
 
-const Search = styled.form`
+const Search = styled(motion.form)`
   color: white;
   svg {
     height: 25px;
@@ -64,6 +64,7 @@ const Search = styled.form`
   display: flex;
   align-items: center;
   position: relative;
+  border: 1px dashed white;
 `;
 
 const Circle = styled(motion.div)`
@@ -82,6 +83,9 @@ const Input = styled(motion.input)`
   transform-origin: right center;
   position: absolute;
   left: -150px;
+  outline: none;
+  border: 0;
+  /* background-color: ; */
 `;
 
 const logoVariants = {

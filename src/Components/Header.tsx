@@ -64,7 +64,6 @@ const Search = styled(motion.form)`
   display: flex;
   align-items: center;
   position: relative;
-  border: 1px dashed white;
 `;
 
 const Circle = styled(motion.div)`
@@ -80,12 +79,17 @@ const Circle = styled(motion.div)`
 `;
 
 const Input = styled(motion.input)`
+  width: 250px;
   transform-origin: right center;
   position: absolute;
-  left: -150px;
-  outline: none;
-  border: 0;
-  /* background-color: ; */
+  right: 0px;
+  padding: 10px;
+  padding-left: 40px;
+  z-index: -1;
+  color: ${(props) => props.theme.white.lighter};
+  font-size: 12px;
+  background-color: rgba(20, 20, 20, 0.9);
+  border: 1px solid ${(props) => props.theme.white.lighter};
 `;
 
 const logoVariants = {
@@ -162,7 +166,7 @@ function Header() {
         <Search onSubmit={handleSubmit(onValid)}>
           <motion.svg
             onClick={openSearch}
-            animate={{ x: searchOpen ? -180 : 0 }}
+            animate={{ x: searchOpen ? -215 : 0 }}
             transition={{ type: "linear" }}
             fill="currentColor"
             viewBox="0 0 20 20"

@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
-import { getNowPlayingTvs, getPopularTvs, IGetDataResult } from "../api";
+import { getonTheAirTvs, getPopularTvs, IGetDataResult } from "../api";
 import Banner from "../Components/Banner";
+import Slider from "../Components/Slider";
 
 const Wrapper = styled.div`
   background-color: black;
@@ -14,15 +15,23 @@ const Loader = styled.div`
   color: white;
 `;
 
-function Tv() {
-  // const { data: nowPlayingTvs, isLoading } = useQuery<IGetDataResult>(
-  //   ["tvs", "nowPlaying"],
-  //   getNowPlayingTvs
-  // );
+const Sliders = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 180px;
+  position: relative;
+  top: -150px;
+`;
 
+function Tv() {
   const { data: popularTvs, isLoading } = useQuery<IGetDataResult>(
     ["tvs", "popular"],
     getPopularTvs
+  );
+
+  const { data: onTheAirTvs } = useQuery<IGetDataResult>(
+    ["tvs", "onTheAir"],
+    getonTheAirTvs
   );
 
   return (
@@ -36,6 +45,20 @@ function Tv() {
             title={popularTvs?.results[0]?.name! || "undefined"}
             overview={popularTvs?.results[0]?.overview! || "undefined"}
           />
+          <Sliders>
+            <Slider
+              data={popularTvs}
+              title="인기 티비쇼"
+              listType="popular"
+              field="tvs"
+            />
+            <Slider
+              data={onTheAirTvs}
+              title="방영 중인 티비쇼"
+              listType="onTheAir"
+              field="tvs"
+            />
+          </Sliders>
         </>
       )}
     </Wrapper>

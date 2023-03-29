@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import {
   getNowPlayingMovies,
   getPopularMovies,
+  getTopRatedMovies,
   getUpcomingMovies,
   IGetDataResult,
 } from "../api";
@@ -36,7 +37,7 @@ function Home() {
 
   const { data: popularMovies } = useQuery<IGetDataResult>(
     ["movies", "popular"],
-    getPopularMovies
+    getTopRatedMovies
   );
 
   const { data: upcomingMovies } = useQuery<IGetDataResult>(
@@ -57,6 +58,12 @@ function Home() {
           />
           <Sliders>
             <Slider
+              data={popularMovies}
+              title="인기 영화"
+              listType="Popular"
+              field="movies"
+            />
+            <Slider
               data={nowPlayingMovies}
               title="현재 상영 중"
               listType="NowPlaying"
@@ -66,12 +73,6 @@ function Home() {
               data={upcomingMovies}
               title=" 개봉 예정 영화"
               listType="UpComing"
-              field="movies"
-            />
-            <Slider
-              data={popularMovies}
-              title="인기 영화"
-              listType="Popular"
               field="movies"
             />
           </Sliders>

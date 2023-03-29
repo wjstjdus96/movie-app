@@ -2,7 +2,12 @@ import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { getDetails, getRelated } from "../api";
+import {
+  getMovieDetails,
+  getRelated,
+  getRelatedTvs,
+  getTvDetails,
+} from "../api";
 import { useQuery } from "@tanstack/react-query";
 import { makeImagePath } from "../utils";
 import RelatedMovie from "./RelatedMovie";
@@ -166,27 +171,31 @@ const RelatedMovies = styled.div`
 interface IModal {
   dataId: string;
   listType: string;
+  field: string;
 }
 
-export default function Modal({ dataId, listType }: IModal) {
+export default function Modal({ dataId, listType, field }: IModal) {
   const { isLoading, data: detailData } = useQuery<any>(
     ["details", dataId],
-    () => getDetails(dataId)
+    () => {
+      if (field == "movies") return getMovieDetails(dataId);
+      return getTvDetails(dataId);
+    }
   );
 
   const { isLoading: relatedLoading, data: relatedData } = useQuery<any>(
     ["related", dataId],
-    () => getRelated(dataId)
+    () => {
+      if (field == "movies") return getRelated(dataId);
+      return getRelatedTvs(dataId);
+    }
   );
 
   const navigate = useNavigate();
 
   const onOverlayClicked = () => {
-    navigate(`/`);
-  };
-
-  const ratingToPercent = () => {
-    const score = detailData?.vote_average * 10;
+    if (field == "movies") return navigate(`/`);
+    return navigate("/tv");
   };
 
   console.log(detailData);
@@ -204,16 +213,24 @@ export default function Modal({ dataId, listType }: IModal) {
             <Poster
               src={makeImagePath(detailData?.poster_path || "", "w500")}
             />
-            <h2>{detailData?.title}</h2>
-            <h4>{detailData?.original_title}</h4>
+            <h2>{detailData?.title ? detailData?.title : detailData?.name}</h2>
+            <h4>
+              {detailData?.original_title
+                ? detailData?.original_title
+                : detailData?.original_name}
+            </h4>
           </div>
         </Head>
         <Body>
           <Infos>
             <div className="info">
-              {detailData?.release_date?.slice(0, 4) + "  "}
+              {detailData?.release_date
+                ? detailData?.release_date?.slice(0, 4)
+                : detailData?.first_air_date?.slice(0, 4)}
             </div>
-            <div className="info">{detailData?.runtime}분</div>
+            {detailData?.runtime && (
+              <div className="info">{detailData?.runtime}분</div>
+            )}
             <Genres className="info">
               {detailData?.genres?.map((item: any, idx: number) => (
                 <p>
@@ -241,7 +258,7 @@ export default function Modal({ dataId, listType }: IModal) {
               </Rating>
               <span>
                 {" "}
-                &nbsp;( {(detailData?.vote_average / 2 + "").slice(0, 3)} )
+                &nbsp;( {(detailData?.vote_average + "").slice(0, 3)} )
               </span>
             </div>
           </Infos>
@@ -252,19 +269,23 @@ export default function Modal({ dataId, listType }: IModal) {
             </p>
           )}
           <p>{detailData?.overview}</p>
-          <hr />
-          <Related>
-            <h2>비슷한 영화</h2>
-            <RelatedMovies>
-              {relatedData?.results.map((item: any) => (
-                <RelatedMovie
-                  id={item.id}
-                  title={item.title}
-                  poster={item.poster_path}
-                />
-              ))}
-            </RelatedMovies>
-          </Related>
+          {relatedData && (
+            <>
+              <hr />
+              <Related>
+                <h2>비슷한 컨텐츠</h2>
+                <RelatedMovies>
+                  {relatedData?.results.map((item: any) => (
+                    <RelatedMovie
+                      id={item.id}
+                      title={item.title ? item.title : item.name}
+                      poster={item.poster_path}
+                    />
+                  ))}
+                </RelatedMovies>
+              </Related>
+            </>
+          )}
         </Body>
       </ModalWrapper>
     </>

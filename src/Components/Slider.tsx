@@ -133,8 +133,10 @@ export default function Slider({ data, title, listType, field }: ISlider) {
   const [isBack, setIsBack] = useState(false);
   const offset = 6;
   const navigate = useNavigate();
-  const bigMovieMatch = useMatch(`/movies/:listType/:movieId`);
+  const bigMovieMatch = useMatch(`/:field/:listType/:dataId`);
   const toggleLeaving = () => setLeaving((prev) => !prev);
+
+  console.log(bigMovieMatch);
 
   const increaseIndex = async () => {
     if (data) {
@@ -159,8 +161,12 @@ export default function Slider({ data, title, listType, field }: ISlider) {
     }
   };
 
-  const onBoxClicked = async (movieId: number, listType: string) => {
-    await navigate(`/movies/${listType}/${movieId}`);
+  const onBoxClicked = async (
+    dataId: number,
+    listType: string,
+    field: string
+  ) => {
+    await navigate(`/${field}/${listType}/${dataId}`);
   };
 
   return (
@@ -188,19 +194,22 @@ export default function Slider({ data, title, listType, field }: ISlider) {
             {data?.results
               .slice(1)
               .slice(offset * idx, offset * idx + offset)
-              .map((movie) => (
+              .map((data) => (
                 <Box
-                  layoutId={movie.id + listType}
+                  layoutId={data.id + listType}
                   variants={boxVariants}
                   whileHover="hover"
                   initial="normal"
                   transition={{ type: "tween" }}
-                  key={movie.id}
-                  bgPhoto={makeImagePath(movie.backdrop_path, "w500")}
-                  onClick={() => onBoxClicked(movie.id, listType)}
+                  key={data.id}
+                  bgPhoto={makeImagePath(data.backdrop_path, "w500")}
+                  onClick={() => onBoxClicked(data.id, listType, field)}
                 >
                   <Info variants={infoVariants}>
-                    <h4>{movie.title}</h4>
+                    <h4>
+                      {data.title && data.title}
+                      {data.name}
+                    </h4>
                   </Info>
                 </Box>
               ))}
@@ -210,8 +219,9 @@ export default function Slider({ data, title, listType, field }: ISlider) {
       <AnimatePresence>
         {bigMovieMatch ? (
           <Modal
-            dataId={bigMovieMatch.params.movieId!}
+            dataId={bigMovieMatch.params.dataId!}
             listType={bigMovieMatch.params.listType!}
+            field={bigMovieMatch.params.field!}
           />
         ) : null}
       </AnimatePresence>

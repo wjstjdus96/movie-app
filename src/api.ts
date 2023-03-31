@@ -85,3 +85,10 @@ export function getRelatedTvs(tvId: string) {
     `${BASE_PATH}/tv/${tvId}/similar?api_key=${API_KEY}&language=${LNG}&page=1`
   ).then((response) => response.json());
 }
+
+//search
+export function getSearch(query: string) {
+  return fetch(
+    `${BASE_PATH}/search/multi?api_key=${API_KEY}&language=${LNG}&query=${query}&page=1`
+  ).then((response) => response.json());
+}

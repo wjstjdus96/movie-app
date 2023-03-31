@@ -198,8 +198,6 @@ export default function Modal({ dataId, listType, field }: IModal) {
     return navigate("/tv");
   };
 
-  console.log(detailData);
-
   return (
     <>
       <Overlay

@@ -10,9 +10,12 @@ const Wrapper = styled.div`
 `;
 
 const Loader = styled.div`
-  height: 20vh;
-  text-align: center;
   color: white;
+  position: fixed;
+  left: 50%;
+  margin: 0 auto;
+  top: 50%;
+  transform: translateX(-50%);
 `;
 
 const Sliders = styled.div`
@@ -37,7 +40,7 @@ function Tv() {
   return (
     <Wrapper>
       {isLoading ? (
-        <Loader>loading</Loader>
+        <Loader>Loading...</Loader>
       ) : (
         <>
           <Banner

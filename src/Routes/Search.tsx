@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate, useMatch } from "react-router";
 import styled from "styled-components";
 import { getSearch, IGetDataResult } from "../api";
 import { motion, AnimatePresence } from "framer-motion";
@@ -7,6 +7,7 @@ import { makeImagePath } from "../utils";
 import { useForm } from "react-hook-form";
 import { IForm } from "../Components/Header";
 import { useState } from "react";
+import Modal from "../Components/Modal";
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -103,10 +104,15 @@ function Search() {
     defaultValues: { keyword: `${keyword}` },
   });
   const navigate = useNavigate();
+  const modalMatch = useMatch(`/search/:mediaType/:dataId`);
 
   const onValid = (data: IForm) => {
     console.log(data);
     navigate(`/search?keyword=${data.keyword}`);
+  };
+
+  const onBoxClicked = async (dataId: number, mediaType: string) => {
+    await navigate(`/search/${mediaType}/${dataId}?keyword=${keyword}`);
   };
 
   const { isLoading, data } = useQuery<any>(["search", keyword], () => {
@@ -115,6 +121,7 @@ function Search() {
   });
 
   console.log(data);
+  console.log(modalMatch);
 
   return (
     <Wrapper>
@@ -131,6 +138,7 @@ function Search() {
               whileHover="hover"
               transition={{ type: "tween" }}
               bgPhoto={makeImagePath(item.backdrop_path, "w500")}
+              onClick={() => onBoxClicked(item.id, item.media_type)}
             >
               <Info variants={infoVariants}>
                 <h4>
@@ -141,6 +149,16 @@ function Search() {
             </Box>
           ))}
         </Results>
+      </AnimatePresence>
+      <AnimatePresence>
+        {modalMatch ? (
+          <Modal
+            dataId={modalMatch.params.dataId!}
+            listType={modalMatch.params.mediaType!}
+            field={modalMatch.params.mediaType! + "s"}
+            keyword={keyword || ""}
+          />
+        ) : null}
       </AnimatePresence>
     </Wrapper>
   );

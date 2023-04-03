@@ -172,9 +172,10 @@ interface IModal {
   dataId: string;
   listType: string;
   field: string;
+  keyword?: string;
 }
 
-export default function Modal({ dataId, listType, field }: IModal) {
+export default function Modal({ dataId, listType, field, keyword }: IModal) {
   const { isLoading, data: detailData } = useQuery<any>(
     ["details", dataId],
     () => {
@@ -194,6 +195,7 @@ export default function Modal({ dataId, listType, field }: IModal) {
   const navigate = useNavigate();
 
   const onOverlayClicked = () => {
+    if (keyword) return navigate(`/search?keyword=${keyword}`);
     if (field == "movies") return navigate(`/`);
     return navigate("/tv");
   };
@@ -255,7 +257,6 @@ export default function Modal({ dataId, listType, field }: IModal) {
                 </div>
               </Rating>
               <span>
-                {" "}
                 &nbsp;( {(detailData?.vote_average + "").slice(0, 3)} )
               </span>
             </div>

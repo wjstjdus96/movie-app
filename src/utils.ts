@@ -1,4 +1,5 @@
 import noImage from "./assets/images/noImage.png";
+import noPoster from "./assets/images/noPoster.jpeg";
 
 export function makeImagePath(id: string, format?: string) {
   if (id === "" || id === null || id === undefined) {
@@ -6,6 +7,12 @@ export function makeImagePath(id: string, format?: string) {
   } else {
     return `https://image.tmdb.org/t/p/${format ? format : "original"}/${id}`;
   }
+}
 
-  // return `https://image.tmdb.org/t/p/${format ? format : "original"}/${id}`;
+export function makePosterPath(id: string, format?: string) {
+  if (id === "" || id === null || id === undefined) {
+    return noPoster;
+  } else {
+    return `https://image.tmdb.org/t/p/${format ? format : "original"}/${id}`;
+  }
 }

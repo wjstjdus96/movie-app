@@ -9,7 +9,7 @@ import {
   getTvDetails,
 } from "../api";
 import { useQuery } from "@tanstack/react-query";
-import { makeImagePath } from "../utils";
+import { makeImagePath, makePosterPath } from "../utils";
 import RelatedMovie from "./RelatedMovie";
 
 const Overlay = styled(motion.div)`
@@ -211,7 +211,7 @@ export default function Modal({ dataId, listType, field, keyword }: IModal) {
         <Head bgPhoto={makeImagePath(detailData?.backdrop_path || "")}>
           <div>
             <Poster
-              src={makeImagePath(detailData?.poster_path || "", "w500")}
+              src={makePosterPath(detailData?.poster_path || "", "w500")}
             />
             <h2>{detailData?.title ? detailData?.title : detailData?.name}</h2>
             <h4>

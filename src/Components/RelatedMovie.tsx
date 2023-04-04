@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { makeImagePath } from "../utils";
+import { makeImagePath, makePosterPath } from "../utils";
 
 const Wrapper = styled.div`
   position: relative;
@@ -39,7 +39,7 @@ interface RelatedMovieProps {
 function RelatedMovie({ id, title, poster }: RelatedMovieProps) {
   return (
     <Wrapper>
-      <Box src={makeImagePath(poster, "w500")}></Box>
+      <Box src={makePosterPath(poster, "w500")}></Box>
       <Title>
         <h4>{title}</h4>
       </Title>

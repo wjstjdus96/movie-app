@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useMatch } from "react-router";
 import styled from "styled-components";
 import { getSearch, IGetDataResult } from "../api";
 import { motion, AnimatePresence } from "framer-motion";
-import { makeImagePath } from "../utils";
+import { makeImagePath } from "../utils/makePath";
 import { useForm } from "react-hook-form";
 import { IForm } from "../Components/Header";
 import { useState } from "react";

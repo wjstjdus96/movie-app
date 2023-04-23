@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import { IGetDataResult } from "../api";
 import { useState } from "react";
-import { makeImagePath } from "../utils";
+import { makeImagePath } from "../utils/makePath";
 import { useNavigate, useMatch, PathMatch } from "react-router-dom";
 import Modal from "./Modal";
 

@@ -9,7 +9,7 @@ import {
   getTvDetails,
 } from "../api";
 import { useQuery } from "@tanstack/react-query";
-import { makeImagePath, makePosterPath } from "../utils";
+import { makeImagePath, makePosterPath } from "../utils/makePath";
 import RelatedMovie from "./RelatedMovie";
 
 const Overlay = styled(motion.div)`

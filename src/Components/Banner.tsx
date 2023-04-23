@@ -1,4 +1,4 @@
-import { makeImagePath } from "../utils";
+import { makeImagePath } from "../utils/makePath";
 import styled from "styled-components";
 
 const Wrapper = styled.div<{ bgPhoto: string }>`

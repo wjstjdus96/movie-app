@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { makeImagePath, makePosterPath } from "../utils";
+import { makeImagePath, makePosterPath } from "../utils/makePath";
 
 const Wrapper = styled.div`
   position: relative;

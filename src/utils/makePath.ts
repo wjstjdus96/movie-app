@@ -1,5 +1,5 @@
-import noImage from "./assets/images/noImage.png";
-import noPoster from "./assets/images/noPoster.jpeg";
+import noImage from "../assets/images/noImage.png";
+import noPoster from "../assets/images/noPoster.jpeg";
 
 export function makeImagePath(id: string, format?: string) {
   if (id === "" || id === null || id === undefined) {

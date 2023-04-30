@@ -107,7 +107,6 @@ function Search() {
   const modalMatch = useMatch(`/search/:mediaType/:dataId`);
 
   const onValid = (data: IForm) => {
-    console.log(data);
     navigate(`/search?keyword=${data.keyword}`);
   };
 
@@ -119,9 +118,6 @@ function Search() {
     if (keyword) return getSearch(keyword);
     return null;
   });
-
-  console.log(data);
-  console.log(modalMatch);
 
   return (
     <Wrapper>
@@ -138,7 +134,7 @@ function Search() {
               whileHover="hover"
               transition={{ type: "tween" }}
               bgPhoto={makeImagePath(item.backdrop_path, "w500")}
-              onClick={() => onBoxClicked(item.id, item.media_type)}
+              onClick={() => onBoxClicked(item.id, item.media_type + "s")}
             >
               <Info variants={infoVariants}>
                 <h4>
@@ -155,8 +151,7 @@ function Search() {
           <Modal
             dataId={modalMatch.params.dataId!}
             listType={modalMatch.params.mediaType!}
-            // layoutId=""
-            field={modalMatch.params.mediaType! + "s"}
+            field={modalMatch.params.mediaType!}
             keyword={keyword || ""}
           />
         ) : null}

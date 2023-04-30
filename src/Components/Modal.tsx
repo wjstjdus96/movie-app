@@ -178,16 +178,9 @@ interface IModal {
   listType: string;
   field: string;
   keyword?: string;
-  layoutId?: string;
 }
 
-export default function Modal({
-  dataId,
-  listType,
-  field,
-  keyword,
-  layoutId,
-}: IModal) {
+export default function Modal({ dataId, listType, field, keyword }: IModal) {
   const { isLoading, data: detailData } = useQuery<any>(
     ["details", dataId],
     () => {
@@ -205,8 +198,6 @@ export default function Modal({
   );
 
   const navigate = useNavigate();
-  const modalMatch = useMatch("/:mediatype/:id");
-  console.log(modalMatch);
 
   const onOverlayClicked = () => {
     if (keyword) return navigate(`/search?keyword=${keyword}`);
@@ -294,6 +285,8 @@ export default function Modal({
                       id={item.id}
                       title={item.title ? item.title : item.name}
                       poster={item.poster_path}
+                      field={field}
+                      keyword={keyword}
                     />
                   ))}
                 </RelatedMovies>

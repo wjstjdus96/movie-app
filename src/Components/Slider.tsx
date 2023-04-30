@@ -223,7 +223,6 @@ export default function Slider({ data, title, listType, field }: ISlider) {
             key={bigMovieMatch.params.dataId! + listType}
             dataId={bigMovieMatch.params.dataId!}
             listType={listType}
-            layoutId={bigMovieMatch.params.dataId! + listType}
             field={bigMovieMatch.params.field!}
           />
         ) : null}

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { makeImagePath, makePosterPath } from "../utils/makePath";
 
@@ -34,13 +35,29 @@ interface RelatedMovieProps {
   id: string;
   title: string;
   poster: string;
+  field: string;
+  keyword?: string;
 }
 
-function RelatedMovie({ id, title, poster }: RelatedMovieProps) {
+function RelatedMovie({
+  id,
+  title,
+  poster,
+  field,
+  keyword,
+}: RelatedMovieProps) {
+  const navigate = useNavigate();
+  const onRelatedClicked = () => {
+    if (keyword) {
+      return navigate(`/search/${field}/${id}?keyword=${keyword}`);
+    }
+    return navigate(`/${field}/${id}`);
+  };
+
   return (
     <Wrapper>
       <Box src={makePosterPath(poster, "w500")}></Box>
-      <Title>
+      <Title onClick={() => onRelatedClicked()}>
         <h4>{title}</h4>
       </Title>
     </Wrapper>

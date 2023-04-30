@@ -133,10 +133,8 @@ export default function Slider({ data, title, listType, field }: ISlider) {
   const [isBack, setIsBack] = useState(false);
   const offset = 6;
   const navigate = useNavigate();
-  const bigMovieMatch = useMatch(`/:field/:listType/:dataId`);
+  const bigMovieMatch = useMatch(`/:field/:dataId`);
   const toggleLeaving = () => setLeaving((prev) => !prev);
-
-  console.log(bigMovieMatch);
 
   const increaseIndex = async () => {
     if (data) {
@@ -166,7 +164,8 @@ export default function Slider({ data, title, listType, field }: ISlider) {
     listType: string,
     field: string
   ) => {
-    await navigate(`/${field}/${listType}/${dataId}`);
+    await navigate(`/${field}/${dataId}`);
+    console.log(bigMovieMatch);
   };
 
   return (
@@ -195,32 +194,36 @@ export default function Slider({ data, title, listType, field }: ISlider) {
               .slice(1)
               .slice(offset * idx, offset * idx + offset)
               .map((data) => (
-                <Box
-                  layoutId={data.id + listType}
-                  variants={boxVariants}
-                  whileHover="hover"
-                  initial="normal"
-                  transition={{ type: "tween" }}
-                  key={data.id}
-                  bgPhoto={makeImagePath(data.backdrop_path, "w500")}
-                  onClick={() => onBoxClicked(data.id, listType, field)}
-                >
-                  <Info variants={infoVariants}>
-                    <h4>
-                      {data.title && data.title}
-                      {data.name}
-                    </h4>
-                  </Info>
-                </Box>
+                <>
+                  <Box
+                    key={data.id}
+                    layoutId={data.id + ""}
+                    variants={boxVariants}
+                    whileHover="hover"
+                    initial="normal"
+                    transition={{ type: "tween" }}
+                    bgPhoto={makeImagePath(data.backdrop_path, "w500")}
+                    onClick={() => onBoxClicked(data.id, listType, field)}
+                  >
+                    <Info variants={infoVariants}>
+                      <h4>
+                        {data.title && data.title}
+                        {data.name}
+                      </h4>
+                    </Info>
+                  </Box>
+                </>
               ))}
           </Row>
         </AnimatePresence>
-      </Wrapper>{" "}
+      </Wrapper>
       <AnimatePresence>
         {bigMovieMatch ? (
           <Modal
+            key={bigMovieMatch.params.dataId! + listType}
             dataId={bigMovieMatch.params.dataId!}
-            listType={bigMovieMatch.params.listType!}
+            listType={listType}
+            layoutId={bigMovieMatch.params.dataId! + listType}
             field={bigMovieMatch.params.field!}
           />
         ) : null}

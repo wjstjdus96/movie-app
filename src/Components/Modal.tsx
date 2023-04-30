@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useMatch, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import {
   getMovieDetails,
@@ -32,7 +32,7 @@ const ModalWrapper = styled(motion.div)`
   left: 0;
   right: 0;
   margin: auto;
-  z-index: 50;
+  z-index: 100;
   overflow-y: scroll;
   &::-webkit-scrollbar {
     width: 6px;
@@ -115,6 +115,11 @@ const Infos = styled.div`
 
 const Genres = styled.div`
   display: flex;
+  div {
+    display: flex;
+    margin-left: 5px !important;
+    margin: 0 0;
+  }
   p {
     display: flex;
     margin-left: 5px !important;
@@ -173,9 +178,16 @@ interface IModal {
   listType: string;
   field: string;
   keyword?: string;
+  layoutId?: string;
 }
 
-export default function Modal({ dataId, listType, field, keyword }: IModal) {
+export default function Modal({
+  dataId,
+  listType,
+  field,
+  keyword,
+  layoutId,
+}: IModal) {
   const { isLoading, data: detailData } = useQuery<any>(
     ["details", dataId],
     () => {
@@ -193,11 +205,13 @@ export default function Modal({ dataId, listType, field, keyword }: IModal) {
   );
 
   const navigate = useNavigate();
+  const modalMatch = useMatch("/:mediatype/:id");
+  console.log(modalMatch);
 
   const onOverlayClicked = () => {
     if (keyword) return navigate(`/search?keyword=${keyword}`);
     if (field == "movies") return navigate(`/`);
-    return navigate("/tv");
+    return navigate("/tvs");
   };
 
   return (
@@ -207,7 +221,7 @@ export default function Modal({ dataId, listType, field, keyword }: IModal) {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       />
-      <ModalWrapper layoutId={dataId + listType}>
+      <ModalWrapper key={dataId} layoutId={dataId}>
         <Head bgPhoto={makeImagePath(detailData?.backdrop_path || "")}>
           <div>
             <Poster
@@ -233,10 +247,10 @@ export default function Modal({ dataId, listType, field, keyword }: IModal) {
             )}
             <Genres className="info">
               {detailData?.genres?.map((item: any, idx: number) => (
-                <p>
+                <div key={item.name}>
                   {item.name}
                   {detailData?.genres[idx + 1] && <p>/</p>}
-                </p>
+                </div>
               ))}
             </Genres>
             <div className="info">
@@ -276,6 +290,7 @@ export default function Modal({ dataId, listType, field, keyword }: IModal) {
                 <RelatedMovies>
                   {relatedData?.results.map((item: any) => (
                     <RelatedMovie
+                      key={item.id}
                       id={item.id}
                       title={item.title ? item.title : item.name}
                       poster={item.poster_path}

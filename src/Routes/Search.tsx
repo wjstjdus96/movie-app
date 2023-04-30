@@ -155,6 +155,7 @@ function Search() {
           <Modal
             dataId={modalMatch.params.dataId!}
             listType={modalMatch.params.mediaType!}
+            // layoutId=""
             field={modalMatch.params.mediaType! + "s"}
             keyword={keyword || ""}
           />

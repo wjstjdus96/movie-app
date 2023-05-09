@@ -30,6 +30,23 @@ const Input = styled.input`
   margin-bottom: 25px;
 `;
 
+const FieldButtons = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+  gap: 10px;
+  margin-bottom: 20px;
+  button {
+    border: 1px solid ${(props) => props.theme.white.lighter};
+    color: ${(props) => props.theme.white.lighter};
+    padding: 3px;
+    background-color: rgba(20, 20, 20, 0.9);
+    &:active {
+      background-color: #bdc3c7;
+    }
+  }
+`;
+
 const Results = styled.div`
   display: grid;
   justify-content: space-between;
@@ -114,6 +131,8 @@ function Search() {
     await navigate(`/search/${mediaType}/${dataId}?keyword=${keyword}`);
   };
 
+  const onFieldButtonClicked = () => {};
+
   const { isLoading, data } = useQuery<any>(["search", keyword], () => {
     if (keyword) return getSearch(keyword);
     return null;
@@ -125,6 +144,11 @@ function Search() {
         <Input {...register("keyword", { required: true, minLength: 1 })} />
       </Form>
       <p>" {keyword} " 에 대한 검색결과입니다.</p>
+      <FieldButtons>
+        <button onClick={onFieldButtonClicked}>영화</button>
+        <button>시리즈</button>
+        <button>인물</button>
+      </FieldButtons>
       <AnimatePresence>
         <Results>
           {data?.results.map((item: any) => (

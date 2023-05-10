@@ -34,7 +34,7 @@ const FieldButtons = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   width: 100%;
-  gap: 10px;
+  /* gap: 10px; */
   margin-bottom: 20px;
   button {
     border: 1px solid ${(props) => props.theme.white.lighter};
@@ -44,6 +44,9 @@ const FieldButtons = styled.div`
     &:active {
       background-color: #bdc3c7;
     }
+  }
+  .actived {
+    background-color: #bdc3c7;
   }
 `;
 
@@ -127,11 +130,27 @@ function Search() {
     navigate(`/search?keyword=${data.keyword}`);
   };
 
+  const onFieldButtonClicked = (field: string) => {
+    const mediaType = document.getElementById(field);
+
+    navigate(`/search/${mediaType?.id}?keyword=${keyword}`);
+    mediaType?.classList.toggle("actived");
+    console.log(mediaType?.classList);
+    console.log(document.getElementsByTagName("button"));
+    toggleButtonClicked(mediaType!.id);
+  };
+
+  const toggleButtonClicked = (mediaType: string) => {
+    const btns = document.getElementsByTagName("button");
+    console.log(typeof btns);
+    // for (btn of btns){
+
+    // }
+  };
+
   const onBoxClicked = async (dataId: number, mediaType: string) => {
     await navigate(`/search/${mediaType}/${dataId}?keyword=${keyword}`);
   };
-
-  const onFieldButtonClicked = () => {};
 
   const { isLoading, data } = useQuery<any>(["search", keyword], () => {
     if (keyword) return getSearch(keyword);
@@ -145,9 +164,15 @@ function Search() {
       </Form>
       <p>" {keyword} " 에 대한 검색결과입니다.</p>
       <FieldButtons>
-        <button onClick={onFieldButtonClicked}>영화</button>
-        <button>시리즈</button>
-        <button>인물</button>
+        <button id="movies" onClick={() => onFieldButtonClicked("movies")}>
+          영화
+        </button>
+        <button id="tvs" onClick={() => onFieldButtonClicked("tvs")}>
+          시리즈
+        </button>
+        <button id="persons" onClick={() => onFieldButtonClicked("persons")}>
+          인물
+        </button>
       </FieldButtons>
       <AnimatePresence>
         <Results>

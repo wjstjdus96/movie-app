@@ -87,8 +87,11 @@ export function getRelatedTvs(tvId: string) {
 }
 
 //search
-export function getSearch(query: string) {
+export function getSearch(query: string, field: string) {
+  console.log(field);
   return fetch(
-    `${BASE_PATH}/search/multi?api_key=${API_KEY}&language=${LNG}&query=${query}&page=1`
+    `${BASE_PATH}/search/${
+      field == "multi" ? field : field.slice(0, field.length - 1)
+    }?api_key=${API_KEY}&language=${LNG}&query=${query}&page=1`
   ).then((response) => response.json());
 }

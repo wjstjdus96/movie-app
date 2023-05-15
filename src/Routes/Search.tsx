@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQueries, useQuery } from "@tanstack/react-query";
 import { useLocation, useNavigate, useMatch } from "react-router";
 import styled from "styled-components";
 import { getSearch, IGetDataResult } from "../api";
@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { makeImagePath } from "../utils/makePath";
 import { useForm } from "react-hook-form";
 import { IForm } from "../Components/Header";
-import { useState } from "react";
+import { useEffect } from "react";
 import Modal from "../Components/Modal";
 
 const Wrapper = styled.div`
@@ -32,7 +32,7 @@ const Input = styled.input`
 
 const FieldButtons = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   width: 100%;
   /* gap: 10px; */
   margin-bottom: 20px;
@@ -125,6 +125,7 @@ function Search() {
   });
   const navigate = useNavigate();
   const modalMatch = useMatch(`/search/:mediaType/:dataId`);
+  const mediaType = useMatch(`/search/:mediaType`)?.params.mediaType;
 
   const onValid = (data: IForm) => {
     navigate(`/search?keyword=${data.keyword}`);
@@ -134,6 +135,7 @@ function Search() {
     const mediaType = document.getElementById(field);
     navigate(`/search/${mediaType?.id}?keyword=${keyword}`);
     toggleButtonClicked(mediaType!.id);
+    console.log(mediaType);
   };
 
   const toggleButtonClicked = (mediaType: string) => {
@@ -151,10 +153,37 @@ function Search() {
     await navigate(`/search/${mediaType}/${dataId}?keyword=${keyword}`);
   };
 
-  const { isLoading, data } = useQuery<any>(["search", keyword], () => {
-    if (keyword) return getSearch(keyword);
+  const { data: totalData } = useQuery<any>(["search", keyword], () => {
+    if (keyword) return getSearch(keyword, "multi");
     return null;
   });
+
+  const { data: movieData } = useQuery<any>(["search", keyword], () => {
+    if (keyword) return getSearch(keyword, "movies");
+    return null;
+  });
+
+  const { data: tvData } = useQuery<any>(["search", "tvs"], () => {
+    if (keyword) return getSearch(keyword, "tvs");
+    return null;
+  });
+
+  const { data: personData } = useQuery<any>(["search", "persons"], () => {
+    if (keyword) return getSearch(keyword, "persons");
+    return null;
+  });
+
+  let data = totalData;
+
+  useEffect(() => {
+    if (!modalMatch) {
+      onFieldButtonClicked(mediaType ? mediaType : "totals");
+      if (mediaType == "movies") data = movieData;
+      if (mediaType == "tvs") data = tvData;
+      if (mediaType == "persons") data = personData;
+      console.log(data);
+    }
+  }, [mediaType]);
 
   return (
     <Wrapper>
@@ -163,6 +192,13 @@ function Search() {
       </Form>
       <p>" {keyword} " 에 대한 검색결과입니다.</p>
       <FieldButtons>
+        <button
+          id="totals"
+          className="actived"
+          onClick={() => onFieldButtonClicked("totals")}
+        >
+          전체
+        </button>
         <button id="movies" onClick={() => onFieldButtonClicked("movies")}>
           영화
         </button>
@@ -175,23 +211,24 @@ function Search() {
       </FieldButtons>
       <AnimatePresence>
         <Results>
-          {data?.results.map((item: any) => (
-            <Box
-              variants={boxVariants}
-              initial="normal"
-              whileHover="hover"
-              transition={{ type: "tween" }}
-              bgPhoto={makeImagePath(item.backdrop_path, "w500")}
-              onClick={() => onBoxClicked(item.id, item.media_type + "s")}
-            >
-              <Info variants={infoVariants}>
-                <h4>
-                  {item.title && item.title}
-                  {item.name && item.name}
-                </h4>
-              </Info>
-            </Box>
-          ))}
+          {data &&
+            data.results.map((item: any) => (
+              <Box
+                variants={boxVariants}
+                initial="normal"
+                whileHover="hover"
+                transition={{ type: "tween" }}
+                bgPhoto={makeImagePath(item.backdrop_path, "w500")}
+                onClick={() => onBoxClicked(item.id, "movies")}
+              >
+                <Info variants={infoVariants}>
+                  <h4>
+                    {item.title && item.title}
+                    {item.name && item.name}
+                  </h4>
+                </Info>
+              </Box>
+            ))}
         </Results>
       </AnimatePresence>
       <AnimatePresence>

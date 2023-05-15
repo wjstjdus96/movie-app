@@ -132,20 +132,19 @@ function Search() {
 
   const onFieldButtonClicked = (field: string) => {
     const mediaType = document.getElementById(field);
-
     navigate(`/search/${mediaType?.id}?keyword=${keyword}`);
-    mediaType?.classList.toggle("actived");
-    console.log(mediaType?.classList);
-    console.log(document.getElementsByTagName("button"));
     toggleButtonClicked(mediaType!.id);
   };
 
   const toggleButtonClicked = (mediaType: string) => {
     const btns = document.getElementsByTagName("button");
-    console.log(typeof btns);
-    // for (btn of btns){
-
-    // }
+    for (let i = 0; i < btns.length; i++) {
+      if (btns[i].id == mediaType) {
+        btns[i].classList.add("actived");
+      } else {
+        btns[i].classList.remove("actived");
+      }
+    }
   };
 
   const onBoxClicked = async (dataId: number, mediaType: string) => {

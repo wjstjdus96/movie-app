@@ -87,11 +87,9 @@ export function getRelatedTvs(tvId: string) {
 }
 
 //search
-export function getSearch(query: string, field: string) {
-  console.log(field);
-  return fetch(
-    `${BASE_PATH}/search/${
-      field == "multi" ? field : field.slice(0, field.length - 1)
-    }?api_key=${API_KEY}&language=${LNG}&query=${query}&page=1`
+export async function getSearch(query: string, field: string) {
+  let type = field == "multi" ? field : field.slice(0, field.length - 1);
+  return await fetch(
+    `${BASE_PATH}/search/${type}?api_key=${API_KEY}&language=${LNG}&query=${query}&page=1`
   ).then((response) => response.json());
 }

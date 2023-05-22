@@ -1,4 +1,4 @@
-import { useQueries, useQuery } from "@tanstack/react-query";
+import { useQueries, useQuery, useMutation } from "@tanstack/react-query";
 import { useLocation, useNavigate, useMatch } from "react-router";
 import styled from "styled-components";
 import { getSearch, IGetDataResult } from "../api";
@@ -126,16 +126,17 @@ function Search() {
   const navigate = useNavigate();
   const modalMatch = useMatch(`/search/:mediaType/:dataId`);
   const mediaType = useMatch(`/search/:mediaType`)?.params.mediaType;
+  const mediaTypeWithoutS = mediaType?.slice(0, -1);
 
   const onValid = (data: IForm) => {
     navigate(`/search?keyword=${data.keyword}`);
   };
 
   const onFieldButtonClicked = (field: string) => {
-    const mediaType = document.getElementById(field);
-    navigate(`/search/${mediaType?.id}?keyword=${keyword}`);
-    toggleButtonClicked(mediaType!.id);
-    console.log(mediaType);
+    const type = document.getElementById(field);
+    navigate(`/search/${type?.id}?keyword=${keyword}`);
+    toggleButtonClicked(type!.id);
+    console.log(data);
   };
 
   const toggleButtonClicked = (mediaType: string) => {
@@ -153,35 +154,14 @@ function Search() {
     await navigate(`/search/${mediaType}/${dataId}?keyword=${keyword}`);
   };
 
-  const { data: totalData } = useQuery<any>(["search", keyword], () => {
+  const { data } = useQuery<any>(["search", keyword], () => {
     if (keyword) return getSearch(keyword, "multi");
     return null;
   });
 
-  const { data: movieData } = useQuery<any>(["search", keyword], () => {
-    if (keyword) return getSearch(keyword, "movies");
-    return null;
-  });
-
-  const { data: tvData } = useQuery<any>(["search", "tvs"], () => {
-    if (keyword) return getSearch(keyword, "tvs");
-    return null;
-  });
-
-  const { data: personData } = useQuery<any>(["search", "persons"], () => {
-    if (keyword) return getSearch(keyword, "persons");
-    return null;
-  });
-
-  let data = totalData;
-
   useEffect(() => {
     if (!modalMatch) {
       onFieldButtonClicked(mediaType ? mediaType : "totals");
-      if (mediaType == "movies") data = movieData;
-      if (mediaType == "tvs") data = tvData;
-      if (mediaType == "persons") data = personData;
-      console.log(data);
     }
   }, [mediaType]);
 
@@ -212,23 +192,28 @@ function Search() {
       <AnimatePresence>
         <Results>
           {data &&
-            data.results.map((item: any) => (
-              <Box
-                variants={boxVariants}
-                initial="normal"
-                whileHover="hover"
-                transition={{ type: "tween" }}
-                bgPhoto={makeImagePath(item.backdrop_path, "w500")}
-                onClick={() => onBoxClicked(item.id, "movies")}
-              >
-                <Info variants={infoVariants}>
-                  <h4>
-                    {item.title && item.title}
-                    {item.name && item.name}
-                  </h4>
-                </Info>
-              </Box>
-            ))}
+            data.results
+              .filter((item: any) => {
+                if (mediaType == "totals") return item;
+                if (item.media_type == mediaTypeWithoutS) return item;
+              })
+              .map((item: any) => (
+                <Box
+                  variants={boxVariants}
+                  initial="normal"
+                  whileHover="hover"
+                  transition={{ type: "tween" }}
+                  bgPhoto={makeImagePath(item.backdrop_path, "w500")}
+                  onClick={() => onBoxClicked(item.id, mediaType!)}
+                >
+                  <Info variants={infoVariants}>
+                    <h4>
+                      {item.title && item.title}
+                      {item.name && item.name}
+                    </h4>
+                  </Info>
+                </Box>
+              ))}
         </Results>
       </AnimatePresence>
       <AnimatePresence>

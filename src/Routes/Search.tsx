@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { makeImagePath } from "../utils/makePath";
 import { useForm } from "react-hook-form";
 import { IForm } from "../Components/Header";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Modal from "../Components/Modal";
 
 const Wrapper = styled.div`
@@ -126,7 +126,8 @@ function Search() {
   const navigate = useNavigate();
   const modalMatch = useMatch(`/search/:mediaType/:dataId`);
   const mediaType = useMatch(`/search/:mediaType`)?.params.mediaType;
-  const mediaTypeWithoutS = mediaType?.slice(0, -1);
+  // const [filteredData, setFilteredData] = useState(data.results);
+  const [type, setType] = useState(mediaType);
 
   const onValid = (data: IForm) => {
     navigate(`/search?keyword=${data.keyword}`);
@@ -136,7 +137,6 @@ function Search() {
     const type = document.getElementById(field);
     navigate(`/search/${type?.id}?keyword=${keyword}`);
     toggleButtonClicked(type!.id);
-    console.log(data);
   };
 
   const toggleButtonClicked = (mediaType: string) => {
@@ -150,19 +150,35 @@ function Search() {
     }
   };
 
-  const onBoxClicked = async (dataId: number, mediaType: string) => {
-    await navigate(`/search/${mediaType}/${dataId}?keyword=${keyword}`);
-  };
-
-  const { data } = useQuery<any>(["search", keyword], () => {
+  const { isLoading, data } = useQuery<any>(["search", keyword], () => {
     if (keyword) return getSearch(keyword, "multi");
     return null;
   });
+
+  // const filterData = (data: any) => {
+  //   return data.results
+  //     .filter((item: any) => {
+  //       if (mediaType == "totals") return item;
+  //       if (item.media_type == mediaTypeWithoutS) return item;
+  //     })
+  //   console.log(data, isLoading);
+  //   return data.results;
+  // };
+
+  const onBoxClicked = (dataId: number, mediaType: string) => {
+    navigate(`/search/${mediaType}/${dataId}?keyword=${keyword}`);
+  };
+
+  const decideType = () => {
+    let type = mediaType ? mediaType : modalMatch?.params.mediaType;
+    setType(type);
+  };
 
   useEffect(() => {
     if (!modalMatch) {
       onFieldButtonClicked(mediaType ? mediaType : "totals");
     }
+    decideType();
   }, [mediaType]);
 
   return (
@@ -191,11 +207,15 @@ function Search() {
       </FieldButtons>
       <AnimatePresence>
         <Results>
-          {data &&
+          {!isLoading &&
+          data.results.filter((item: any) => {
+            if (type == "totals") return item;
+            if (item.media_type == type?.slice(0, -1)) return item;
+          }).length != 0 ? (
             data.results
               .filter((item: any) => {
-                if (mediaType == "totals") return item;
-                if (item.media_type == mediaTypeWithoutS) return item;
+                if (type == "totals") return item;
+                if (item.media_type == type?.slice(0, -1)) return item;
               })
               .map((item: any) => (
                 <Box
@@ -213,7 +233,10 @@ function Search() {
                     </h4>
                   </Info>
                 </Box>
-              ))}
+              ))
+          ) : (
+            <p>검색 결과 없음</p>
+          )}
         </Results>
       </AnimatePresence>
       <AnimatePresence>

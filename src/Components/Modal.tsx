@@ -201,7 +201,7 @@ export default function Modal({ dataId, listType, field, keyword }: IModal) {
   const navigate = useNavigate();
 
   const onOverlayClicked = () => {
-    if (keyword) return navigate(`/search?keyword=${keyword}`);
+    if (keyword) return navigate(`/search/${field}?keyword=${keyword}`);
     if (field == "movies") return navigate(`/`);
     return navigate("/tvs");
   };

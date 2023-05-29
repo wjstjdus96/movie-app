@@ -2,12 +2,7 @@ import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMatch, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import {
-  getMovieDetails,
-  getRelated,
-  getRelatedTvs,
-  getTvDetails,
-} from "../api";
+import { getDetails, getRelated } from "../api";
 import { useQuery } from "@tanstack/react-query";
 import { makeImagePath, makePosterPath } from "../utils/makePath";
 import RelatedMovie from "./RelatedMovie";
@@ -179,28 +174,36 @@ interface IModal {
   listType: string;
   field: string;
   keyword?: string;
+  totalField?: string;
 }
 
-export default function Modal({ dataId, listType, field, keyword }: IModal) {
+export default function Modal({
+  dataId,
+  listType,
+  field,
+  keyword,
+  totalField,
+}: IModal) {
   const { isLoading, data: detailData } = useQuery<any>(
     ["details", dataId],
     () => {
-      if (field == "movies") return getMovieDetails(dataId);
-      return getTvDetails(dataId);
+      if (field == "totals") return getDetails(totalField!, dataId);
+      return getDetails(field.slice(0, -1), dataId);
     }
   );
 
   const { isLoading: relatedLoading, data: relatedData } = useQuery<any>(
     ["related", dataId],
     () => {
-      if (field == "movies") return getRelated(dataId);
-      return getRelatedTvs(dataId);
+      if (field == "totals") return getRelated(totalField!, dataId);
+      return getRelated(field.slice(0, -1), dataId);
     }
   );
 
   const navigate = useNavigate();
 
   const onOverlayClicked = () => {
+    if (field == "totals") return navigate(`/search/totals?keyword=${keyword}`);
     if (keyword) return navigate(`/search/${field}?keyword=${keyword}`);
     if (field == "movies") return navigate(`/`);
     return navigate("/tvs");

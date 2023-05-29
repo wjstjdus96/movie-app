@@ -49,18 +49,6 @@ export function getUpcomingMovies() {
   ).then((response) => response.json());
 }
 
-export function getMovieDetails(movieId: string) {
-  return fetch(
-    `${BASE_PATH}/movie/${movieId}?api_key=${API_KEY}&language=${LNG}`
-  ).then((response) => response.json());
-}
-
-export function getRelated(movieId: string) {
-  return fetch(
-    `${BASE_PATH}/movie/${movieId}/similar?api_key=${API_KEY}&language=${LNG}&page=1`
-  ).then((response) => response.json());
-}
-
 //tvs
 export function getPopularTvs() {
   return fetch(
@@ -74,15 +62,15 @@ export function getonTheAirTvs() {
   ).then((response) => response.json());
 }
 
-export function getTvDetails(tvId: string) {
+export function getDetails(type: string, id: string) {
   return fetch(
-    `${BASE_PATH}/tv/${tvId}?api_key=${API_KEY}&language=${LNG}`
+    `${BASE_PATH}/${type}/${id}?api_key=${API_KEY}&language=${LNG}`
   ).then((response) => response.json());
 }
 
-export function getRelatedTvs(tvId: string) {
+export function getRelated(type: string, id: string) {
   return fetch(
-    `${BASE_PATH}/tv/${tvId}/similar?api_key=${API_KEY}&language=${LNG}&page=1`
+    `${BASE_PATH}/${type}/${id}/similar?api_key=${API_KEY}&language=${LNG}&page=1`
   ).then((response) => response.json());
 }
 

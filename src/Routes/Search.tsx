@@ -126,8 +126,8 @@ function Search() {
   const navigate = useNavigate();
   const modalMatch = useMatch(`/search/:mediaType/:dataId`);
   const mediaType = useMatch(`/search/:mediaType`)?.params.mediaType;
-  // const [filteredData, setFilteredData] = useState(data.results);
   const [type, setType] = useState(mediaType);
+  let [dataType, setDataType] = useState("");
 
   const onValid = (data: IForm) => {
     navigate(`/search?keyword=${data.keyword}`);
@@ -155,17 +155,12 @@ function Search() {
     return null;
   });
 
-  // const filterData = (data: any) => {
-  //   return data.results
-  //     .filter((item: any) => {
-  //       if (mediaType == "totals") return item;
-  //       if (item.media_type == mediaTypeWithoutS) return item;
-  //     })
-  //   console.log(data, isLoading);
-  //   return data.results;
-  // };
-
-  const onBoxClicked = (dataId: number, mediaType: string) => {
+  const onBoxClicked = async (
+    dataId: number,
+    dataMediaType: string,
+    mediaType: string
+  ) => {
+    setDataType(dataMediaType);
     navigate(`/search/${mediaType}/${dataId}?keyword=${keyword}`);
   };
 
@@ -224,7 +219,9 @@ function Search() {
                   whileHover="hover"
                   transition={{ type: "tween" }}
                   bgPhoto={makeImagePath(item.backdrop_path, "w500")}
-                  onClick={() => onBoxClicked(item.id, mediaType!)}
+                  onClick={() =>
+                    onBoxClicked(item.id, item.media_type, mediaType!)
+                  }
                 >
                   <Info variants={infoVariants}>
                     <h4>
@@ -245,6 +242,7 @@ function Search() {
             dataId={modalMatch.params.dataId!}
             listType={modalMatch.params.mediaType!}
             field={modalMatch.params.mediaType!}
+            totalField={dataType}
             keyword={keyword || ""}
           />
         ) : null}

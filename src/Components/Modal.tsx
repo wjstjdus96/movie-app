@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { getDetails, getRelated } from "../api";
 import { useQuery } from "@tanstack/react-query";
 import { makeImagePath, makePosterPath } from "../utils/makePath";
-import RelatedMovie from "./RelatedMovie";
+import RelatedMovie from "./RelatedVideo";
 
 const Overlay = styled(motion.div)`
   position: fixed;

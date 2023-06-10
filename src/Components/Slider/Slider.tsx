@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
-import { IGetDataResult } from "../api";
+import { IGetDataResult } from "../../api";
 import { useState } from "react";
-import { makeImagePath } from "../utils/makePath";
+import { makeImagePath } from "../../utils/makePath";
 import { useNavigate, useMatch, PathMatch } from "react-router-dom";
-import Modal from "./Modal";
+import Modal from "../Modal";
+import SliderBox from "./SliderBox";
 
 const Wrapper = styled.div`
   margin: 0px 50px;
@@ -50,37 +51,6 @@ const Row = styled(motion.div)`
   width: 100%;
 `;
 
-const Box = styled(motion.div)<{ bgPhoto: string }>`
-  width: 227px;
-  height: 128px;
-  min-height: 100%;
-  background-image: url(${(prop) => prop.bgPhoto});
-  border-radius: 5px;
-  background-size: cover;
-  background-position: center center;
-  &:first-child {
-    transform-origin: center left;
-  }
-  &:last-child {
-    transform-origin: center right;
-  }
-`;
-
-const Info = styled(motion.div)`
-  padding: 5px;
-  border-radius: 0 0 5px 5px;
-  background-color: ${(props) => props.theme.modal.background};
-  background-color: rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  h4 {
-    text-align: center;
-    font-size: 12px;
-  }
-`;
-
 const rowVariants = {
   invisible: (isBack: boolean) => ({
     x: isBack ? -window.outerWidth - 5 : window.outerWidth + 5,
@@ -91,33 +61,6 @@ const rowVariants = {
   exit: (isBack: boolean) => ({
     x: isBack ? window.outerWidth + 5 : -window.outerWidth - 5,
   }),
-};
-
-const boxVariants = {
-  normal: {
-    scale: 1,
-  },
-  hover: {
-    scale: 1.3,
-    y: -80,
-    transition: {
-      delay: 0.5,
-      duration: 0.2,
-      type: "tween",
-    },
-  },
-};
-
-const infoVariants = {
-  hover: {
-    opacity: 1,
-    backgroundcolor: "rgba(0,0,0,1)",
-    transition: {
-      delay: 0.5,
-      duration: 0.1,
-      type: "tween",
-    },
-  },
 };
 
 interface ISlider {
@@ -195,23 +138,7 @@ export default function Slider({ data, title, listType, field }: ISlider) {
               .slice(offset * idx, offset * idx + offset)
               .map((data) => (
                 <>
-                  <Box
-                    key={data.id}
-                    layoutId={data.id + ""}
-                    variants={boxVariants}
-                    whileHover="hover"
-                    initial="normal"
-                    transition={{ type: "tween" }}
-                    bgPhoto={makeImagePath(data.backdrop_path, "w500")}
-                    onClick={() => onBoxClicked(data.id, listType, field)}
-                  >
-                    <Info variants={infoVariants}>
-                      <h4>
-                        {data.title && data.title}
-                        {data.name}
-                      </h4>
-                    </Info>
-                  </Box>
+                  <SliderBox data={data} field={field} />
                 </>
               ))}
           </Row>

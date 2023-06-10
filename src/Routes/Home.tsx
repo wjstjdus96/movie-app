@@ -7,7 +7,7 @@ import {
   IGetDataResult,
 } from "../api";
 import styled from "styled-components";
-import Slider from "../Components/Slider";
+import Slider from "../Components/Slider/Slider";
 import Banner from "../Components/Banner";
 
 const Wrapper = styled.div`

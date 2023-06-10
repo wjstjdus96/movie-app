@@ -74,6 +74,12 @@ export function getRelated(type: string, id: string) {
   ).then((response) => response.json());
 }
 
+export function getImages(type: string, id: number) {
+  return fetch(`${BASE_PATH}/${type}/${id}/images?api_key=${API_KEY}`).then(
+    (response) => response.json()
+  );
+}
+
 //search
 export async function getSearch(query: string, field: string) {
   let type = field == "multi" ? field : field.slice(0, field.length - 1);

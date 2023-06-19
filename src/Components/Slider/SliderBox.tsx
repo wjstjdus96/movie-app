@@ -6,6 +6,7 @@ import { makeImagePath } from "../../utils/makePath";
 import { useNavigate } from "react-router-dom";
 
 const Box = styled(motion.div)<{ bgPhoto: string }>`
+  position: relative;
   width: 227px;
   height: 128px;
   min-height: 100%;
@@ -19,6 +20,32 @@ const Box = styled(motion.div)<{ bgPhoto: string }>`
   &:last-child {
     transform-origin: center right;
   }
+`;
+
+const Logo = styled.img<{ bgPhoto: string }>`
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background-size: cover;
+  max-width: 70%;
+  max-height: 70%;
+  content: url(${(prop) => prop.bgPhoto});
+`;
+
+const TextLogo = styled.h2<{ length: number }>`
+  display: flex;
+  position: absolute;
+  font-family: "Oswald, sans-serif";
+  left: 10px;
+  bottom: -10px;
+  font-size: ${(props) => (props.length > 10 ? "20px" : "28px")} !important;
+  width: 80%;
+  font-weight: 900;
+  text-align: center;
+  color: white;
+  text-shadow: 2px 2px #558abb;
+  align-items: flex-end;
+  margin: 0;
 `;
 
 const Info = styled(motion.div)`
@@ -86,29 +113,47 @@ interface ISliderBox {
 
 function SliderBox({ field, data }: ISliderBox) {
   const navigate = useNavigate();
-
-  const onBoxClicked = async (dataId: number, field: string) => {
-    await navigate(`/${field}/${dataId}`);
+  const { data: imageData, isLoading: imageLoading } = useQuery<IGetImage>(
+    ["images", data.id],
+    () => getImages(field.slice(0, -1), data.id)
+  );
+  console.log(data);
+  const onBoxClicked = (dataId: number, field: string) => {
+    navigate(`/${field}/${dataId}`);
   };
 
   return (
-    <Box
-      key={data.id}
-      layoutId={data.id + ""}
-      variants={boxVariants}
-      whileHover="hover"
-      initial="normal"
-      transition={{ type: "tween" }}
-      bgPhoto={makeImagePath(data.backdrop_path, "w500")}
-      onClick={() => onBoxClicked(data.id, field)}
-    >
-      <Info variants={infoVariants}>
-        <h4>
-          {data.title && data.title}
-          {data.name}
-        </h4>
-      </Info>
-    </Box>
+    <>
+      {imageData ? (
+        <Box
+          key={data.id}
+          layoutId={data.id + ""}
+          variants={boxVariants}
+          whileHover="hover"
+          initial="normal"
+          transition={{ type: "tween" }}
+          bgPhoto={makeImagePath(imageData?.backdrops[0].file_path!, "w500")}
+          onClick={() => onBoxClicked(data.id, field)}
+        >
+          {imageData.logos[0]?.file_path != undefined ? (
+            <Logo
+              bgPhoto={makeImagePath(imageData?.logos[0].file_path!, "w500")}
+            />
+          ) : (
+            <TextLogo length={data.original_title.length}>
+              {data.original_title}
+            </TextLogo>
+          )}
+
+          <Info variants={infoVariants}>
+            <h4>
+              {data.title && data.title}
+              {data.name}
+            </h4>
+          </Info>
+        </Box>
+      ) : null}
+    </>
   );
 }
 export default SliderBox;

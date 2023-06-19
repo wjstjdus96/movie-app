@@ -137,9 +137,7 @@ export default function Slider({ data, title, listType, field }: ISlider) {
               .slice(1)
               .slice(offset * idx, offset * idx + offset)
               .map((data) => (
-                <>
-                  <SliderBox data={data} field={field} />
-                </>
+                <SliderBox data={data} field={field} />
               ))}
           </Row>
         </AnimatePresence>

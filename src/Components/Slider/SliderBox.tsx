@@ -122,6 +122,8 @@ function SliderBox({ field, data }: ISliderBox) {
     navigate(`/${field}/${dataId}`);
   };
 
+  console.log(data);
+
   return (
     <>
       {imageData ? (
@@ -132,7 +134,7 @@ function SliderBox({ field, data }: ISliderBox) {
           whileHover="hover"
           initial="normal"
           transition={{ type: "tween" }}
-          bgPhoto={makeImagePath(imageData?.backdrops[0].file_path!, "w500")}
+          bgPhoto={makeImagePath(imageData?.backdrops[0]?.file_path!, "w500")}
           onClick={() => onBoxClicked(data.id, field)}
         >
           {imageData.logos[0]?.file_path != undefined ? (
@@ -140,8 +142,14 @@ function SliderBox({ field, data }: ISliderBox) {
               bgPhoto={makeImagePath(imageData?.logos[0].file_path!, "w500")}
             />
           ) : (
-            <TextLogo length={data.original_title.length}>
-              {data.original_title}
+            <TextLogo
+              length={
+                data.original_title
+                  ? data.original_title.length
+                  : data.original_name.length
+              }
+            >
+              {data.original_title ? data.original_title : data.original_name}
             </TextLogo>
           )}
 

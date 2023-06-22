@@ -1,38 +1,97 @@
+import { useQuery } from "@tanstack/react-query";
 import { makeImagePath } from "../utils/makePath";
 import styled from "styled-components";
+import { IGetImage } from "./Slider/SliderBox";
+import { getImages } from "../api";
+import { BsPlayFill, BsInfoCircle } from "react-icons/bs";
 
 const Wrapper = styled.div<{ bgPhoto: string }>`
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   padding: 50px;
   background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)),
     url(${(prop) => prop.bgPhoto});
   background-size: cover;
-  & > h2 {
-    font-size: 48px;
-    margin-bottom: 20px;
+  & > div {
+    width: 30%;
   }
-  & > p {
+`;
+
+const Logo = styled.img<{ logoPhoto: string }>`
+  content: url(${(prop) => prop.logoPhoto});
+  background-size: cover;
+  margin-top: 100px;
+  margin-bottom: 40px;
+  max-width: 100%;
+  max-height: 50%;
+`;
+
+const Buttons = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  & > button {
+    padding: 10px 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 10px;
+    border: none;
     font-size: 18px;
-    width: 50%;
-    line-height: 150%;
+    cursor: pointer;
+    &:first-child {
+      background-color: white;
+    }
+    &:last-child {
+      background-color: rgba(0, 0, 0, 0.4);
+      color: white;
+    }
+    &:hover {
+      filter: brightness(70%);
+    }
   }
 `;
 
 interface IBanner {
+  id: number;
+  field: string;
   bgPhoto: string;
   title: string;
   overview: string;
 }
 
-function Banner({ bgPhoto, title, overview }: IBanner) {
+function Banner({ bgPhoto, title, overview, field, id }: IBanner) {
+  const { data, isLoading } = useQuery<IGetImage>(["images", id], () =>
+    getImages(field.slice(0, -1), id)
+  );
+
   return (
-    <Wrapper bgPhoto={makeImagePath(bgPhoto || "")}>
-      <h2>{title}</h2>
-      <p>{overview}</p>
-    </Wrapper>
+    <>
+      {data ? (
+        <Wrapper bgPhoto={makeImagePath(data.backdrops[0].file_path || "")}>
+          <div>
+            {data.logos[0]?.file_path != undefined ? (
+              <Logo
+                logoPhoto={makeImagePath(data?.logos[0].file_path!, "w500")}
+              />
+            ) : (
+              <div>{title}</div>
+            )}
+            <Buttons>
+              <button>
+                <BsPlayFill size="24" />
+                재생
+              </button>
+              <button>
+                <BsInfoCircle size="24" />
+                상세정보
+              </button>
+            </Buttons>
+          </div>
+        </Wrapper>
+      ) : null}
+    </>
   );
 }
 

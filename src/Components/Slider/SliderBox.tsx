@@ -100,7 +100,7 @@ interface IImage {
   width: number;
 }
 
-interface IGetImage {
+export interface IGetImage {
   backdrops: IImage[];
   id: number;
   logos: IImage[];
@@ -117,7 +117,7 @@ function SliderBox({ field, data }: ISliderBox) {
     ["images", data.id],
     () => getImages(field.slice(0, -1), data.id)
   );
-  console.log(data);
+
   const onBoxClicked = (dataId: number, field: string) => {
     navigate(`/${field}/${dataId}`);
   };

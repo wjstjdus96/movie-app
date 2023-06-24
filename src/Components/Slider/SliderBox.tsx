@@ -4,9 +4,9 @@ import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import { makeImagePath } from "../../utils/makePath";
 import { useNavigate } from "react-router-dom";
+import { FaPlay, FaHeart, FaAngleDown } from "react-icons/fa";
 
 const Box = styled(motion.div)<{ bgPhoto: string }>`
-  position: relative;
   width: 227px;
   height: 128px;
   min-height: 100%;
@@ -20,12 +20,17 @@ const Box = styled(motion.div)<{ bgPhoto: string }>`
   &:last-child {
     transform-origin: center right;
   }
+  & > div {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const Logo = styled.img<{ bgPhoto: string }>`
   position: absolute;
   bottom: 10px;
-  left: 10px;
+  left: 20px;
   background-size: cover;
   max-width: 70%;
   max-height: 70%;
@@ -36,7 +41,7 @@ const TextLogo = styled.h2<{ length: number }>`
   display: flex;
   position: absolute;
   font-family: "Oswald, sans-serif";
-  left: 10px;
+  left: 20px;
   bottom: -10px;
   font-size: ${(props) => (props.length > 10 ? "20px" : "28px")} !important;
   width: 80%;
@@ -49,17 +54,46 @@ const TextLogo = styled.h2<{ length: number }>`
 `;
 
 const Info = styled(motion.div)`
+  position: absolute;
   padding: 5px;
   border-radius: 0 0 5px 5px;
   background-color: ${(props) => props.theme.modal.background};
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0);
   opacity: 0;
   position: absolute;
   width: 100%;
-  bottom: 0;
   h4 {
-    text-align: center;
     font-size: 12px;
+  }
+`;
+
+const InfoBtn = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  & > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    cursor: pointer;
+    & > div {
+      height: 30px;
+      width: 30px;
+      border: 1px solid white;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  & > div:last-child {
+    height: 30px;
+    width: 30px;
+    border: 1px solid white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
@@ -70,6 +104,8 @@ const boxVariants = {
   hover: {
     scale: 1.3,
     y: -80,
+    zIndex: 1,
+    borderRadius: "5px 5px 0px 0px",
     transition: {
       delay: 0.5,
       duration: 0.2,
@@ -82,9 +118,10 @@ const infoVariants = {
   hover: {
     opacity: 1,
     backgroundcolor: "rgba(0,0,0,1)",
+    padding: "15px",
     transition: {
       delay: 0.5,
-      duration: 0.1,
+      duration: 0.2,
       type: "tween",
     },
   },
@@ -135,30 +172,42 @@ function SliderBox({ field, data }: ISliderBox) {
           initial="normal"
           transition={{ type: "tween" }}
           bgPhoto={makeImagePath(imageData?.backdrops[0]?.file_path!, "w500")}
-          onClick={() => onBoxClicked(data.id, field)}
         >
-          {imageData.logos[0]?.file_path != undefined ? (
-            <Logo
-              bgPhoto={makeImagePath(imageData?.logos[0].file_path!, "w500")}
-            />
-          ) : (
-            <TextLogo
-              length={
-                data.original_title
-                  ? data.original_title.length
-                  : data.original_name.length
-              }
-            >
-              {data.original_title ? data.original_title : data.original_name}
-            </TextLogo>
-          )}
-
-          <Info variants={infoVariants}>
-            <h4>
-              {data.title && data.title}
-              {data.name}
-            </h4>
-          </Info>
+          <div>
+            {imageData.logos[0]?.file_path != undefined ? (
+              <Logo
+                bgPhoto={makeImagePath(imageData?.logos[0].file_path!, "w500")}
+              />
+            ) : (
+              <TextLogo
+                length={
+                  data.original_title
+                    ? data.original_title.length
+                    : data.original_name.length
+                }
+              >
+                {data.original_title ? data.original_title : data.original_name}
+              </TextLogo>
+            )}
+          </div>
+          <div>
+            <Info variants={infoVariants}>
+              <InfoBtn>
+                <div>
+                  <div>
+                    <FaPlay size="13" />
+                  </div>
+                  <div>
+                    <FaHeart size="13" />
+                  </div>
+                </div>
+                <div onClick={() => onBoxClicked(data.id, field)}>
+                  <FaAngleDown size="18" />
+                </div>
+              </InfoBtn>
+              <h4>{data.title ? data.title : data.name}</h4>
+            </Info>
+          </div>
         </Box>
       ) : null}
     </>

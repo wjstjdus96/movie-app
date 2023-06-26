@@ -171,7 +171,7 @@ function SliderBox({ field, data }: ISliderBox) {
           whileHover="hover"
           initial="normal"
           transition={{ type: "tween" }}
-          bgPhoto={makeImagePath(imageData?.backdrops[0]?.file_path!, "w500")}
+          bgPhoto={makeImagePath(imageData?.backdrops[1]?.file_path!, "w500")}
         >
           <div>
             {imageData.logos[0]?.file_path != undefined ? (

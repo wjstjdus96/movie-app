@@ -7,7 +7,7 @@ import { makeImagePath } from "../utils/makePath";
 import { useForm } from "react-hook-form";
 import { IForm } from "../Components/Header";
 import { useEffect, useState } from "react";
-import Modal from "../Components/Modal";
+import Modal from "../Components/Modal/Modal";
 
 const Wrapper = styled.div`
   height: 100vh;

@@ -36,7 +36,7 @@ const Buttons = styled.div`
     justify-content: center;
     align-items: center;
     gap: 8px;
-    border-radius: 10px;
+    border-radius: 5px;
     border: none;
     font-size: 18px;
     cursor: pointer;

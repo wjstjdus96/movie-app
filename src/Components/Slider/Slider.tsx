@@ -4,7 +4,7 @@ import { IGetDataResult } from "../../api";
 import { useState } from "react";
 import { makeImagePath } from "../../utils/makePath";
 import { useNavigate, useMatch, PathMatch } from "react-router-dom";
-import Modal from "../Modal";
+import Modal from "../Modal/Modal";
 import SliderBox from "./SliderBox";
 
 const Wrapper = styled.div`

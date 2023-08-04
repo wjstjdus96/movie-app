@@ -8,7 +8,7 @@ import { makeImagePath, makePosterPath } from "../../utils/makePath";
 import RelatedMovie from "./RelatedVideo";
 import VideoModal from "./VideoModal";
 import { IModal } from "../../types/component";
-import { IGetDataResult } from "../../types/data";
+import { IDetailData, IGetDataResult } from "../../types/data";
 
 const Overlay = styled(motion.div)`
   position: fixed;
@@ -55,7 +55,7 @@ export default function Modal({
   keyword,
   totalField,
 }: IModal) {
-  const { isLoading, data: detailData } = useQuery<any>(
+  const { isLoading, data: detailData } = useQuery<IDetailData>(
     ["details", dataId],
     () => {
       if (field == "totals") return getDetails(totalField!, dataId);

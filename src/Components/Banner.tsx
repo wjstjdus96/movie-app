@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { makeImagePath } from "../utils/makePath";
 import styled from "styled-components";
-import { IGetImage } from "./Slider/SliderBox";
 import { getImages } from "../apis/api";
 import { BsPlayFill, BsInfoCircle } from "react-icons/bs";
+import { IBanner } from "../types/component";
+import { IGetImage } from "../types/data";
 
 const Wrapper = styled.div<{ bgPhoto: string }>`
   height: 100vh;
@@ -52,14 +53,6 @@ const Buttons = styled.div`
     }
   }
 `;
-
-interface IBanner {
-  id: number;
-  field: string;
-  bgPhoto: string;
-  title: string;
-  overview: string;
-}
 
 function Banner({ bgPhoto, title, overview, field, id }: IBanner) {
   const { data, isLoading } = useQuery<IGetImage>(["images", id], () =>

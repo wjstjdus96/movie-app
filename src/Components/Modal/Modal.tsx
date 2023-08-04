@@ -7,6 +7,8 @@ import { useQuery } from "@tanstack/react-query";
 import { makeImagePath, makePosterPath } from "../../utils/makePath";
 import RelatedMovie from "./RelatedVideo";
 import VideoModal from "./VideoModal";
+import { IModal } from "../../types/component";
+import { IGetDataResult } from "../../types/data";
 
 const Overlay = styled(motion.div)`
   position: fixed;
@@ -46,14 +48,6 @@ const ModalWrapper = styled(motion.div)`
   }
 `;
 
-interface IModal {
-  dataId: string;
-  listType: string;
-  field: string;
-  keyword?: string;
-  totalField?: string;
-}
-
 export default function Modal({
   dataId,
   listType,
@@ -69,13 +63,11 @@ export default function Modal({
     }
   );
 
-  const { isLoading: relatedLoading, data: relatedData } = useQuery<any>(
-    ["related", dataId],
-    () => {
+  const { isLoading: relatedLoading, data: relatedData } =
+    useQuery<IGetDataResult>(["related", dataId], () => {
       if (field == "totals") return getRelated(totalField!, dataId);
       return getRelated(field.slice(0, -1), dataId);
-    }
-  );
+    });
 
   const navigate = useNavigate();
 

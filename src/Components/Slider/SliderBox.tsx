@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { makeImagePath } from "../../utils/makePath";
 import { useNavigate } from "react-router-dom";
 import { FaPlay, FaHeart, FaAngleDown } from "react-icons/fa";
+import { ISliderBox } from "../../types/component";
+import { IGetImage } from "../../types/data";
 
 const Box = styled(motion.div)<{ bgPhoto: string }>`
   width: 227px;
@@ -127,27 +129,6 @@ const infoVariants = {
   },
 };
 
-interface IImage {
-  aspect_ratio: number;
-  file_path: string;
-  height: number;
-  iso_639_1: string;
-  vote_average: number;
-  vote_count: number;
-  width: number;
-}
-
-export interface IGetImage {
-  backdrops: IImage[];
-  id: number;
-  logos: IImage[];
-  posters: IImage[];
-}
-interface ISliderBox {
-  field: string;
-  data: any;
-}
-
 function SliderBox({ field, data }: ISliderBox) {
   const navigate = useNavigate();
   const { data: imageData, isLoading: imageLoading } = useQuery<IGetImage>(
@@ -158,8 +139,6 @@ function SliderBox({ field, data }: ISliderBox) {
   const onBoxClicked = (dataId: number, field: string) => {
     navigate(`/${field}/${dataId}`);
   };
-
-  console.log(data);
 
   return (
     <>

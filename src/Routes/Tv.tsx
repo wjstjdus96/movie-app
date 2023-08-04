@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
-import { getonTheAirTvs, getPopularTvs, IGetDataResult } from "../apis/api";
+import { getonTheAirTvs, getPopularTvs } from "../apis/api";
 import Banner from "../Components/Banner";
 import Slider from "../Components/Slider/Slider";
+import { IGetDataResult } from "../types/data";
 
 const Wrapper = styled.div`
   background-color: black;

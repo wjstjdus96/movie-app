@@ -3,27 +3,6 @@ const BASE_PATH = "https://api.themoviedb.org/3";
 const LNG = "ko-KR";
 const REGION = "KR";
 
-interface IData {
-  id: number;
-  backdrop_path: string;
-  poster_path: string;
-  overview: string;
-  title?: string;
-  name?: string;
-  first_air_date?: string;
-}
-
-export interface IGetDataResult {
-  dates?: {
-    maximum: string;
-    minimum: string;
-  };
-  page: number;
-  results: IData[];
-  total_pages: number;
-  total_results: number;
-}
-
 //movies
 export function getNowPlayingMovies() {
   return fetch(

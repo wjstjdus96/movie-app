@@ -3,6 +3,7 @@ import { makeImagePath, makePosterPath } from "../../utils/makePath";
 import styled from "styled-components";
 import RelatedMovie from "./RelatedVideo";
 import { AiFillStar } from "react-icons/ai";
+import { IVideoModal } from "../../types/component";
 
 const Head = styled.div<{ bgPhoto: string }>`
   overflow: visible;
@@ -126,19 +127,13 @@ const RelatedMovies = styled.div`
   align-items: center;
 `;
 
-interface IVideoModal {
-  detailData: any;
-  relatedData: any;
-  field: string;
-  keyword?: string;
-}
-
 export default function VideoModal({
   detailData,
   relatedData,
   field,
   keyword,
 }: IVideoModal) {
+  console.log(JSON.stringify(relatedData));
   return (
     <>
       <Head bgPhoto={makeImagePath(detailData?.backdrop_path || "")}></Head>

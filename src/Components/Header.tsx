@@ -8,6 +8,7 @@ import {
 } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { IForm } from "../types/component";
 
 const Nav = styled(motion.nav)`
   display: flex;
@@ -100,10 +101,6 @@ const logoVariants = {
     fillOpacity: 0.5,
   },
 };
-
-export interface IForm {
-  keyword: string;
-}
 
 function Header() {
   const [searchOpen, setSearchOpen] = useState(false);

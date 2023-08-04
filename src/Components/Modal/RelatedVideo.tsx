@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { makeImagePath, makePosterPath } from "../../utils/makePath";
+import { RelatedMovieProps } from "../../types/data";
 
 const Wrapper = styled.div`
   position: relative;
@@ -30,14 +31,6 @@ const Title = styled.div`
     padding: 10px;
   }
 `;
-
-interface RelatedMovieProps {
-  id: string;
-  title: string;
-  poster: string;
-  field: string;
-  keyword?: string;
-}
 
 export default function RelatedMovie({
   id,

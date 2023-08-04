@@ -4,11 +4,11 @@ import {
   getPopularMovies,
   getTopRatedMovies,
   getUpcomingMovies,
-  IGetDataResult,
 } from "../apis/api";
 import styled from "styled-components";
 import Slider from "../Components/Slider/Slider";
 import Banner from "../Components/Banner";
+import { IGetDataResult } from "../types/data";
 
 const Wrapper = styled.div`
   background-color: black;

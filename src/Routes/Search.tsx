@@ -1,13 +1,13 @@
 import { useQueries, useQuery, useMutation } from "@tanstack/react-query";
 import { useLocation, useNavigate, useMatch } from "react-router";
 import styled from "styled-components";
-import { getSearch, IGetDataResult } from "../apis/api";
+import { getSearch } from "../apis/api";
 import { motion, AnimatePresence } from "framer-motion";
 import { makeImagePath } from "../utils/makePath";
 import { useForm } from "react-hook-form";
-import { IForm } from "../Components/Header";
 import { useEffect, useState } from "react";
 import Modal from "../Components/Modal/Modal";
+import { IForm } from "../types/component";
 
 const Wrapper = styled.div`
   height: 100vh;

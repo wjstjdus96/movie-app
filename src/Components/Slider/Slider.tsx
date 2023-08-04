@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
-import { IGetDataResult } from "../../apis/api";
 import { useState } from "react";
 import { makeImagePath } from "../../utils/makePath";
 import { useNavigate, useMatch, PathMatch } from "react-router-dom";
 import Modal from "../Modal/Modal";
 import SliderBox from "./SliderBox";
+import { IGetDataResult } from "../../types/data";
+import { ISlider } from "../../types/component";
 
 const Wrapper = styled.div`
   margin: 0px 50px;
@@ -62,13 +63,6 @@ const rowVariants = {
     x: isBack ? window.outerWidth + 5 : -window.outerWidth - 5,
   }),
 };
-
-interface ISlider {
-  data?: IGetDataResult;
-  title: string;
-  listType: string;
-  field: string;
-}
 
 export default function Slider({ data, title, listType, field }: ISlider) {
   const [idx, setIdx] = useState(0); // 슬라이더 인덱스

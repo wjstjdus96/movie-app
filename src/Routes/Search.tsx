@@ -1,7 +1,7 @@
 import { useQueries, useQuery, useMutation } from "@tanstack/react-query";
 import { useLocation, useNavigate, useMatch } from "react-router";
 import styled from "styled-components";
-import { getSearch, IGetDataResult } from "../api";
+import { getSearch, IGetDataResult } from "../apis/api";
 import { motion, AnimatePresence } from "framer-motion";
 import { makeImagePath } from "../utils/makePath";
 import { useForm } from "react-hook-form";

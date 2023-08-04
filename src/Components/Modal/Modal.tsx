@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMatch, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { getDetails, getRelated } from "../../api";
+import { getDetails, getRelated } from "../../apis/api";
 import { useQuery } from "@tanstack/react-query";
 import { makeImagePath, makePosterPath } from "../../utils/makePath";
 import RelatedMovie from "./RelatedVideo";

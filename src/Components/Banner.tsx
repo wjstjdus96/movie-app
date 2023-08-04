@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { makeImagePath } from "../utils/makePath";
 import styled from "styled-components";
 import { IGetImage } from "./Slider/SliderBox";
-import { getImages } from "../api";
+import { getImages } from "../apis/api";
 import { BsPlayFill, BsInfoCircle } from "react-icons/bs";
 
 const Wrapper = styled.div<{ bgPhoto: string }>`

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getImages } from "../../api";
+import { getImages } from "../../apis/api";
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import { makeImagePath } from "../../utils/makePath";
@@ -171,7 +171,7 @@ function SliderBox({ field, data }: ISliderBox) {
           whileHover="hover"
           initial="normal"
           transition={{ type: "tween" }}
-          bgPhoto={makeImagePath(imageData?.backdrops[1]?.file_path!, "w500")}
+          bgPhoto={makeImagePath(imageData?.backdrops[0]?.file_path!, "w500")}
         >
           <div>
             {imageData.logos[0]?.file_path != undefined ? (

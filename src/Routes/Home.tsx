@@ -5,7 +5,7 @@ import {
   getTopRatedMovies,
   getUpcomingMovies,
   IGetDataResult,
-} from "../api";
+} from "../apis/api";
 import styled from "styled-components";
 import Slider from "../Components/Slider/Slider";
 import Banner from "../Components/Banner";

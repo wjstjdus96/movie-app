@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
-import { getonTheAirTvs, getPopularTvs, IGetDataResult } from "../api";
+import { getonTheAirTvs, getPopularTvs, IGetDataResult } from "../apis/api";
 import Banner from "../Components/Banner";
 import Slider from "../Components/Slider/Slider";
 

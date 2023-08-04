@@ -34,6 +34,11 @@ const Body = styled.div`
     line-height: 150%;
     margin-bottom: 15px;
   }
+  hr {
+    border-width: 1px 0px 0px 0px;
+    color: white;
+    width: 100%;
+  }
 `;
 
 const Intro = styled.div`
@@ -184,6 +189,7 @@ export default function VideoModal({
               <p>{detailData?.overview}</p>
             </div>
           </Intro>
+
           {relatedData && (
             <>
               <hr />

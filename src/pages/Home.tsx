@@ -9,6 +9,8 @@ import styled from "styled-components";
 import Slider from "../Components/Slider/Slider";
 import Banner from "../Components/Banner";
 import { IGetDataResult } from "../types/data";
+import { useRecoilState } from "recoil";
+import { videosState } from "../recoil/atom";
 
 const Wrapper = styled.div`
   background-color: black;

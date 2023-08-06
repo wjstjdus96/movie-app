@@ -1,7 +1,15 @@
+import { IGetVideos } from "../types/data";
+
 const API_KEY = "c7ed214708d356a99cf12085cc89c05e";
 const BASE_PATH = "https://api.themoviedb.org/3";
 const LNG = "ko-KR";
 const REGION = "KR";
+
+export async function getVideos({ field, listType }: IGetVideos) {
+  return fetch(
+    `${BASE_PATH}/${field}/${listType}?api_key=${API_KEY}&language=${LNG}&region=${REGION}`
+  ).then((response) => response.json());
+}
 
 //movies
 export function getNowPlayingMovies() {

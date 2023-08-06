@@ -37,6 +37,11 @@ export interface IImage {
   width: number;
 }
 
+export interface IGetVideos {
+  field: string;
+  listType: string;
+}
+
 export interface IGetImage {
   backdrops: IImage[];
   id: number;

@@ -5,7 +5,7 @@ import { getNowPlayingMovies, getVideos } from "../apis/api";
 // in -> field, listType
 // out -> data
 
-export const useVideoQuery = ({ field, listType }: IGetVideos) => {
+export const useVideoQuery = (field: string, listType: string) => {
   const { isLoading, isSuccess, data } = useQuery<IGetDataResult>(
     [field, listType],
     () => getVideos({ field, listType })

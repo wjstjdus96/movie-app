@@ -11,6 +11,7 @@ import Banner from "../Components/Banner";
 import { IGetDataResult } from "../types/data";
 import { useRecoilState } from "recoil";
 import { videosState } from "../recoil/atom";
+import { useVideoQuery } from "../hooks/useVideoQuery";
 
 const Wrapper = styled.div`
   background-color: black;
@@ -35,20 +36,9 @@ const Sliders = styled.div`
 `;
 
 function Home() {
-  const { data: nowPlayingMovies, isLoading } = useQuery<IGetDataResult>(
-    ["movies", "nowPlaying"],
-    getNowPlayingMovies
-  );
-
-  const { data: popularMovies } = useQuery<IGetDataResult>(
-    ["movies", "popular"],
-    getTopRatedMovies
-  );
-
-  const { data: upcomingMovies } = useQuery<IGetDataResult>(
-    ["movies", "upcoming"],
-    getUpcomingMovies
-  );
+  const { data: nowPlayingMovies } = useVideoQuery("movie", "now_playing");
+  const { data: popularMovies } = useVideoQuery("movie", "popular");
+  const { data: upcomingMovies } = useVideoQuery("movie", "upcoming");
 
   return (
     <Wrapper>

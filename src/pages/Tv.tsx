@@ -5,6 +5,8 @@ import Slider from "../Components/Slider/Slider";
 import { IGetDataResult } from "../types/data";
 import { useVideoQuery } from "../hooks/useVideoQuery";
 import { useState } from "react";
+import { TvLoadingState, loadingState } from "../recoil/atom";
+import { useRecoilState } from "recoil";
 
 const Wrapper = styled.div`
   background-color: black;
@@ -29,9 +31,11 @@ const Sliders = styled.div`
 `;
 
 function Tv() {
-  const [isLoading] = useState(false);
+  const [isLoading] = useRecoilState(loadingState);
   const { data: popularTvs } = useVideoQuery("tv", "top_rated");
   const { data: onTheAirTvs } = useVideoQuery("tv", "on_the_air");
+
+  console.log(isLoading);
 
   return (
     <Wrapper>

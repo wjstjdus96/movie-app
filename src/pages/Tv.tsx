@@ -43,13 +43,7 @@ function Tv() {
         <Loader>Loading...</Loader>
       ) : (
         <>
-          <Banner
-            id={popularTvs?.results[0].id!}
-            field="tvs"
-            bgPhoto={popularTvs?.results[0]?.backdrop_path || "undefined"}
-            title={popularTvs?.results[0]?.name! || "undefined"}
-            overview={popularTvs?.results[0]?.overview! || "undefined"}
-          />
+          {popularTvs && <Banner data={popularTvs!.results[0]} field="tvs" />}
           <Sliders>
             <Slider
               data={popularTvs}

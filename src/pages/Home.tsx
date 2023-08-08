@@ -42,13 +42,9 @@ function Home() {
         <Loader>Loading...</Loader>
       ) : (
         <>
-          <Banner
-            id={nowPlayingMovies?.results[0]?.id!}
-            field="movies"
-            bgPhoto={nowPlayingMovies?.results[0]?.backdrop_path || "undefined"}
-            title={nowPlayingMovies?.results[0]?.title! || "undefined"}
-            overview={nowPlayingMovies?.results[0]?.overview! || "undefined"}
-          />
+          {nowPlayingMovies && (
+            <Banner data={nowPlayingMovies.results[0]} field="movies" />
+          )}
           <Sliders>
             <Slider
               data={popularMovies}

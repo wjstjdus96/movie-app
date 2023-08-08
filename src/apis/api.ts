@@ -11,44 +11,6 @@ export async function getVideos({ field, listType }: IGetVideos) {
   ).then((response) => response.json());
 }
 
-//movies
-export function getNowPlayingMovies() {
-  return fetch(
-    `${BASE_PATH}/movie/now_playing?api_key=${API_KEY}&language=${LNG}&region=${REGION}`
-  ).then((response) => response.json());
-}
-
-export function getPopularMovies() {
-  return fetch(
-    `${BASE_PATH}/movie/popular?api_key=${API_KEY}&language=${LNG}&region=${REGION}`
-  ).then((response) => response.json());
-}
-
-export function getTopRatedMovies() {
-  return fetch(
-    `${BASE_PATH}/movie/top_rated?api_key=${API_KEY}&language=${LNG}&region=${REGION}`
-  ).then((response) => response.json());
-}
-
-export function getUpcomingMovies() {
-  return fetch(
-    `${BASE_PATH}/movie/upcoming?api_key=${API_KEY}&language=${LNG}&region=${REGION}`
-  ).then((response) => response.json());
-}
-
-//tvs
-export function getPopularTvs() {
-  return fetch(
-    `${BASE_PATH}/tv/top_rated?api_key=${API_KEY}&language=${LNG}`
-  ).then((response) => response.json());
-}
-
-export function getonTheAirTvs() {
-  return fetch(
-    `${BASE_PATH}/tv/on_the_air?api_key=${API_KEY}&language=${LNG}`
-  ).then((response) => response.json());
-}
-
 export function getDetails(type: string, id: string) {
   return fetch(
     `${BASE_PATH}/${type}/${id}?api_key=${API_KEY}&language=${LNG}`

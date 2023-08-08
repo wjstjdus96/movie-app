@@ -1,10 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import {
-  getNowPlayingMovies,
-  getPopularMovies,
-  getTopRatedMovies,
-  getUpcomingMovies,
-} from "../apis/api";
 import styled from "styled-components";
 import Slider from "../Components/Slider/Slider";
 import Banner from "../Components/Banner";
@@ -12,6 +6,7 @@ import { IGetDataResult } from "../types/data";
 import { useRecoilState } from "recoil";
 import { videosState } from "../recoil/atom";
 import { useVideoQuery } from "../hooks/useVideoQuery";
+import { useState } from "react";
 
 const Wrapper = styled.div`
   background-color: black;
@@ -36,6 +31,7 @@ const Sliders = styled.div`
 `;
 
 function Home() {
+  const [isLoading] = useState(false);
   const { data: nowPlayingMovies } = useVideoQuery("movie", "now_playing");
   const { data: popularMovies } = useVideoQuery("movie", "popular");
   const { data: upcomingMovies } = useVideoQuery("movie", "upcoming");

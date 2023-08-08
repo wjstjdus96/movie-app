@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
-import { getonTheAirTvs, getPopularTvs } from "../apis/api";
 import Banner from "../Components/Banner";
 import Slider from "../Components/Slider/Slider";
 import { IGetDataResult } from "../types/data";
+import { useVideoQuery } from "../hooks/useVideoQuery";
+import { useState } from "react";
 
 const Wrapper = styled.div`
   background-color: black;
@@ -28,15 +29,9 @@ const Sliders = styled.div`
 `;
 
 function Tv() {
-  const { data: popularTvs, isLoading } = useQuery<IGetDataResult>(
-    ["tvs", "popular"],
-    getPopularTvs
-  );
-
-  const { data: onTheAirTvs } = useQuery<IGetDataResult>(
-    ["tvs", "onTheAir"],
-    getonTheAirTvs
-  );
+  const [isLoading] = useState(false);
+  const { data: popularTvs } = useVideoQuery("tv", "top_rated");
+  const { data: onTheAirTvs } = useVideoQuery("tv", "on_the_air");
 
   return (
     <Wrapper>

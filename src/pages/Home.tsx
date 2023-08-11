@@ -4,7 +4,7 @@ import Slider from "../Components/Slider/Slider";
 import Banner from "../Components/Banner";
 import { IGetDataResult } from "../types/data";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { MovieLoadingState, loadingState } from "../recoil/atom";
+import { loadingState } from "../recoil/atom";
 import { useVideoQuery } from "../hooks/useVideoQuery";
 import { useEffect, useState } from "react";
 
@@ -31,7 +31,7 @@ const Sliders = styled.div`
 `;
 
 function Home() {
-  const [isLoading, setIsLoading] = useRecoilState(loadingState);
+  const isLoading = useRecoilValue(loadingState);
   const { data: nowPlayingMovies } = useVideoQuery("movie", "now_playing");
   const { data: popularMovies } = useVideoQuery("movie", "popular");
   const { data: upcomingMovies } = useVideoQuery("movie", "upcoming");

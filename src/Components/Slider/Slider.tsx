@@ -65,44 +65,29 @@ const rowVariants = {
 };
 
 export default function Slider({ data, title, listType, field }: ISlider) {
-  const [idx, setIdx] = useState(0); // 슬라이더 인덱스
-  const [leaving, setLeaving] = useState(false); // 슬라이더 진행 중인지
+  const [idx, setIdx] = useState(0);
+  const [leaving, setLeaving] = useState(false);
   const [isBack, setIsBack] = useState(false);
   const offset = 6;
-  const navigate = useNavigate();
   const bigMovieMatch = useMatch(`/:field/:dataId`);
   const toggleLeaving = () => setLeaving((prev) => !prev);
 
-  const increaseIndex = async () => {
+  const changeIndex = async (isIncrease: boolean) => {
     if (data) {
       if (leaving) return;
       toggleLeaving();
-      await setIsBack(false);
+      await setIsBack(!isIncrease);
       const totalMovies = data.results.length - 1;
-      const maxIdx = Math.floor(totalMovies / offset) - 1;
-      setIdx((prev) => (prev === maxIdx ? 0 : prev + 1));
+      if (isIncrease == true) {
+        const maxIdx = Math.floor(totalMovies / offset) - 1;
+        setIdx((prev) => (prev === maxIdx ? 0 : prev + 1));
+      } else {
+        const minIdx = 0;
+        setIdx((prev) =>
+          prev === minIdx ? Math.floor(totalMovies / offset) - 1 : prev - 1
+        );
+      }
     }
-  };
-  const decreaseIndex = async () => {
-    if (data) {
-      if (leaving) return;
-      toggleLeaving();
-      await setIsBack(true);
-      const totalMovies = data.results.length - 1;
-      const minIdx = 0;
-      setIdx((prev) =>
-        prev === minIdx ? Math.floor(totalMovies / offset) - 1 : prev - 1
-      );
-    }
-  };
-
-  const onBoxClicked = async (
-    dataId: number,
-    listType: string,
-    field: string
-  ) => {
-    await navigate(`/${field}/${dataId}`);
-    console.log(bigMovieMatch);
   };
 
   return (
@@ -110,8 +95,8 @@ export default function Slider({ data, title, listType, field }: ISlider) {
       <Wrapper>
         <h2>{title}</h2>
         <div>
-          <Arrow onClick={decreaseIndex}>&lt;</Arrow>
-          <Arrow onClick={increaseIndex}>&gt;</Arrow>
+          <Arrow onClick={() => changeIndex(false)}>&lt;</Arrow>
+          <Arrow onClick={() => changeIndex(true)}>&gt;</Arrow>
         </div>
         <AnimatePresence
           custom={isBack}

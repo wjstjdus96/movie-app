@@ -7,8 +7,9 @@ import Modal from "../Modal/Modal";
 import SliderBox from "./SliderBox";
 import { IGetDataResult } from "../../types/data";
 import { ISlider } from "../../types/component";
+import { SliderPages } from "./SliderPages";
 
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
   margin: 0px 50px;
   position: relative;
   h2 {
@@ -68,21 +69,22 @@ export default function Slider({ data, title, listType, field }: ISlider) {
   const [idx, setIdx] = useState(0);
   const [leaving, setLeaving] = useState(false);
   const [isBack, setIsBack] = useState(false);
+  const [isHover, setIsHover] = useState(false);
   const offset = 6;
-  const bigMovieMatch = useMatch(`/:field/:dataId`);
   const toggleLeaving = () => setLeaving((prev) => !prev);
+  const bigMovieMatch = useMatch(`/:field/:dataId`);
 
   const changeIndex = async (isIncrease: boolean) => {
     if (data) {
       if (leaving) return;
       toggleLeaving();
       await setIsBack(!isIncrease);
-      const totalMovies = data.results.length - 1;
+      const totalMovies = data.results!.length - 1;
+      const maxIdx = Math.floor(totalMovies / offset) - 1;
+      const minIdx = 0;
       if (isIncrease == true) {
-        const maxIdx = Math.floor(totalMovies / offset) - 1;
         setIdx((prev) => (prev === maxIdx ? 0 : prev + 1));
       } else {
-        const minIdx = 0;
         setIdx((prev) =>
           prev === minIdx ? Math.floor(totalMovies / offset) - 1 : prev - 1
         );
@@ -92,12 +94,16 @@ export default function Slider({ data, title, listType, field }: ISlider) {
 
   return (
     <div>
-      <Wrapper>
-        <h2>{title}</h2>
+      <Wrapper initial="hidden" whileHover="hover" exit="exit">
+        <div>
+          <h2>{title}</h2>
+          <SliderPages maxIndex={7} index={idx} />
+        </div>
         <div>
           <Arrow onClick={() => changeIndex(false)}>&lt;</Arrow>
           <Arrow onClick={() => changeIndex(true)}>&gt;</Arrow>
         </div>
+
         <AnimatePresence
           custom={isBack}
           initial={false}

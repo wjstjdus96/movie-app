@@ -38,3 +38,13 @@ export interface IModal {
   keyword?: string;
   totalField?: string;
 }
+
+export interface ISliderPages {
+  maxIndex: number;
+  index: number;
+}
+
+export interface IPaginationProps {
+  maxIndex: number;
+  curIndex: number;
+}

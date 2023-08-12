@@ -8,11 +8,13 @@ import SliderBox from "./SliderBox";
 import { IGetDataResult } from "../../types/data";
 import { ISlider } from "../../types/component";
 import { SliderPages } from "./SliderPages";
+import { SliderArrow } from "./SliderArrow";
 
 const Wrapper = styled(motion.div)`
   margin: 0px 50px;
   position: relative;
   h2 {
+    color: ${(props) => props.theme.white.lighter};
     font-size: 28px;
     margin-bottom: 20px;
   }
@@ -69,7 +71,6 @@ export default function Slider({ data, title, listType, field }: ISlider) {
   const [idx, setIdx] = useState(0);
   const [leaving, setLeaving] = useState(false);
   const [isBack, setIsBack] = useState(false);
-  const [isHover, setIsHover] = useState(false);
   const offset = 6;
   const toggleLeaving = () => setLeaving((prev) => !prev);
   const bigMovieMatch = useMatch(`/:field/:dataId`);
@@ -89,7 +90,6 @@ export default function Slider({ data, title, listType, field }: ISlider) {
           prev === minIdx ? Math.floor(totalMovies / offset) - 1 : prev - 1
         );
       }
-      console.log(idx);
     }
   };
 
@@ -97,19 +97,18 @@ export default function Slider({ data, title, listType, field }: ISlider) {
     <div>
       <Wrapper initial="hidden" whileHover="hover" exit="exit">
         {data && (
-          <div>
-            <h2>{title}</h2>
-            <SliderPages
-              title={title}
-              maxIndex={data.results.length}
-              index={idx}
-            />
-          </div>
+          <>
+            <div>
+              <h2>{title}</h2>
+              <SliderPages
+                title={title}
+                maxIndex={data.results.length}
+                index={idx}
+              />
+            </div>
+            <SliderArrow onChangeIndex={changeIndex} />
+          </>
         )}
-        <div>
-          <Arrow onClick={() => changeIndex(false)}>&lt;</Arrow>
-          <Arrow onClick={() => changeIndex(true)}>&gt;</Arrow>
-        </div>
         <AnimatePresence
           custom={isBack}
           initial={false}

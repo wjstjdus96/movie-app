@@ -29,7 +29,7 @@ const paginationVariants = {
   hover: {
     opacity: 1,
     transition: {
-      duration: 0.6,
+      duration: 0.3,
       type: "tween",
     },
   },
@@ -42,7 +42,6 @@ const paginationVariants = {
 };
 
 export function SliderPages({ maxIndex, index, title }: ISliderPages) {
-  console.log(title + "  " + index);
   return (
     <Pagination
       maxIndex={maxIndex}

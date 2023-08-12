@@ -49,3 +49,7 @@ export interface IPaginationProps {
   maxIndex: number;
   curIndex: number;
 }
+
+export interface ISliderArrow {
+  onChangeIndex: (isBack: boolean) => void;
+}

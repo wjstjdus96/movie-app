@@ -20,33 +20,6 @@ const Wrapper = styled(motion.div)`
   }
 `;
 
-const Arrow = styled(motion.div)`
-  font-size: 20px;
-  width: 50px;
-  height: 50px;
-  background-color: rgb(0, 0, 0, 0.8);
-  border-radius: 50%;
-  position: absolute;
-  transform: translateY(85%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-  opacity: 0.5;
-
-  &:hover {
-    opacity: 1;
-    cursor: pointer;
-    font-weight: 600;
-  }
-  &:first-child {
-    left: -30px;
-  }
-  &:last-child {
-    right: -30px;
-  }
-`;
-
 const Row = styled(motion.div)`
   display: grid;
   gap: 10px;
@@ -73,23 +46,21 @@ export default function Slider({ data, title, listType, field }: ISlider) {
   const [isBack, setIsBack] = useState(false);
   const offset = 6;
   const toggleLeaving = () => setLeaving((prev) => !prev);
+
   const bigMovieMatch = useMatch(`/:field/:dataId`);
 
-  const changeIndex = async (isIncrease: boolean) => {
-    if (data) {
-      if (leaving) return;
+  const changeIndex = (isBack: boolean) => {
+    if (data && !leaving) {
       toggleLeaving();
-      await setIsBack(!isIncrease);
+      setIsBack(!isBack);
       const totalMovies = data.results!.length - 1;
       const maxIdx = Math.floor(totalMovies / offset) - 1;
       const minIdx = 0;
-      if (isIncrease == true) {
-        setIdx((prev) => (prev === maxIdx ? 0 : prev + 1));
-      } else {
-        setIdx((prev) =>
-          prev === minIdx ? Math.floor(totalMovies / offset) - 1 : prev - 1
-        );
-      }
+      isBack
+        ? setIdx((prev) => (prev === maxIdx ? 0 : prev + 1))
+        : setIdx((prev) =>
+            prev === minIdx ? Math.floor(totalMovies / offset) - 1 : prev - 1
+          );
     }
   };
 
@@ -126,8 +97,8 @@ export default function Slider({ data, title, listType, field }: ISlider) {
             {data?.results
               .slice(1)
               .slice(offset * idx, offset * idx + offset)
-              .map((data) => (
-                <SliderBox data={data} field={field} />
+              .map((data, idx) => (
+                <SliderBox data={data} field={field} key={idx} />
               ))}
           </Row>
         </AnimatePresence>

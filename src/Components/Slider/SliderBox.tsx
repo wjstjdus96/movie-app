@@ -188,7 +188,9 @@ function SliderBox({ field, data }: ISliderBox) {
             </Info>
           </div>
         </Box>
-      ) : null}
+      ) : (
+        <div></div>
+      )}
     </>
   );
 }

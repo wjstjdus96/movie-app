@@ -3,7 +3,7 @@ import { IPaginationProps, ISliderPages } from "../../types/component";
 import styled from "styled-components";
 
 const Pagination = styled(motion.div)<IPaginationProps>`
-  /* opacity: 0; */
+  opacity: 0;
   margin-right: 2rem;
   display: grid;
   position: absolute;
@@ -41,7 +41,8 @@ const paginationVariants = {
   },
 };
 
-export function SliderPages({ maxIndex, index }: ISliderPages) {
+export function SliderPages({ maxIndex, index, title }: ISliderPages) {
+  console.log(title + "  " + index);
   return (
     <Pagination
       maxIndex={maxIndex}

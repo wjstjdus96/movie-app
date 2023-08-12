@@ -89,21 +89,27 @@ export default function Slider({ data, title, listType, field }: ISlider) {
           prev === minIdx ? Math.floor(totalMovies / offset) - 1 : prev - 1
         );
       }
+      console.log(idx);
     }
   };
 
   return (
     <div>
       <Wrapper initial="hidden" whileHover="hover" exit="exit">
-        <div>
-          <h2>{title}</h2>
-          <SliderPages maxIndex={7} index={idx} />
-        </div>
+        {data && (
+          <div>
+            <h2>{title}</h2>
+            <SliderPages
+              title={title}
+              maxIndex={data.results.length}
+              index={idx}
+            />
+          </div>
+        )}
         <div>
           <Arrow onClick={() => changeIndex(false)}>&lt;</Arrow>
           <Arrow onClick={() => changeIndex(true)}>&gt;</Arrow>
         </div>
-
         <AnimatePresence
           custom={isBack}
           initial={false}

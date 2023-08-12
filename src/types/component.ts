@@ -42,6 +42,7 @@ export interface IModal {
 export interface ISliderPages {
   maxIndex: number;
   index: number;
+  title: string;
 }
 
 export interface IPaginationProps {

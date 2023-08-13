@@ -10,6 +10,7 @@ export interface IBanner {
 
 export interface ISliderBox {
   field: string;
+  listType: string;
   data: any;
 }
 

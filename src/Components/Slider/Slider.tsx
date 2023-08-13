@@ -3,12 +3,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { makeImagePath } from "../../utils/makePath";
 import { useNavigate, useMatch, PathMatch } from "react-router-dom";
-import Modal from "../Modal/Modal";
 import SliderBox from "./SliderBox";
 import { IGetDataResult } from "../../types/data";
 import { ISlider } from "../../types/component";
 import { SliderPages } from "./SliderPages";
 import { SliderArrow } from "./SliderArrow";
+import { useRecoilValue } from "recoil";
+import { isModalState } from "../../recoil/atom";
+import Modali from "../Modal/Modal";
 
 const Wrapper = styled(motion.div)`
   margin: 0px 50px;
@@ -45,6 +47,8 @@ export default function Slider({ data, title, listType, field }: ISlider) {
   const [leaving, setLeaving] = useState(false);
   const [isBack, setIsBack] = useState(false);
   const offset = 6;
+  const isModal = useRecoilValue(isModalState);
+
   const toggleLeaving = () => setLeaving((prev) => !prev);
 
   const bigMovieMatch = useMatch(`/:field/:dataId`);
@@ -98,21 +102,16 @@ export default function Slider({ data, title, listType, field }: ISlider) {
               .slice(1)
               .slice(offset * idx, offset * idx + offset)
               .map((data, idx) => (
-                <SliderBox data={data} field={field} key={idx} />
+                <SliderBox
+                  key={idx}
+                  data={data}
+                  field={field}
+                  listType={listType}
+                />
               ))}
           </Row>
         </AnimatePresence>
       </Wrapper>
-      <AnimatePresence>
-        {bigMovieMatch ? (
-          <Modal
-            key={bigMovieMatch.params.dataId! + listType}
-            dataId={bigMovieMatch.params.dataId!}
-            listType={listType}
-            field={bigMovieMatch.params.field!}
-          />
-        ) : null}
-      </AnimatePresence>
     </div>
   );
 }

@@ -5,8 +5,9 @@ import Slider from "../Components/Slider/Slider";
 import { IGetDataResult } from "../types/data";
 import { useVideoQuery } from "../hooks/useVideoQuery";
 import { useState } from "react";
-import { loadingState } from "../recoil/atom";
+import { isModalState, loadingState } from "../recoil/atom";
 import { useRecoilState, useRecoilValue } from "recoil";
+import Modal from "../Components/Modal/Modal";
 
 const Wrapper = styled.div`
   background-color: black;
@@ -32,6 +33,7 @@ const Sliders = styled.div`
 
 function Tv() {
   const isLoading = useRecoilValue(loadingState);
+  const isModal = useRecoilValue(isModalState);
   const { data: popularTvs } = useVideoQuery("tv", "top_rated");
   const { data: onTheAirTvs } = useVideoQuery("tv", "on_the_air");
 
@@ -56,6 +58,7 @@ function Tv() {
               field="tvs"
             />
           </Sliders>
+          {isModal && <Modal />}
         </>
       )}
     </Wrapper>

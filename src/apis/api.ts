@@ -5,22 +5,30 @@ const BASE_PATH = "https://api.themoviedb.org/3";
 const LNG = "ko-KR";
 const REGION = "KR";
 
+interface IGetVideoModalInfo {
+  query: string;
+  field: string;
+  id: number;
+}
+
 export async function getVideos({ field, listType }: IGetVideos) {
   return fetch(
     `${BASE_PATH}/${field}/${listType}?api_key=${API_KEY}&language=${LNG}&region=${REGION}`
   ).then((response) => response.json());
 }
 
-export function getDetails(type: string, id: string) {
-  return fetch(
-    `${BASE_PATH}/${type}/${id}?api_key=${API_KEY}&language=${LNG}`
-  ).then((response) => response.json());
-}
+export async function getVideoModalInfo({
+  query,
+  field,
+  id,
+}: IGetVideoModalInfo) {
+  let url = `${BASE_PATH}/${field}/${id}`;
 
-export function getRelated(type: string, id: string) {
-  return fetch(
-    `${BASE_PATH}/${type}/${id}/similar?api_key=${API_KEY}&language=${LNG}&page=1`
-  ).then((response) => response.json());
+  if (query) url += `/${query}`;
+  url += `?api_key=${API_KEY}&language=${LNG}`;
+  if (query == "similar") url += "&page=1";
+
+  return fetch(url).then((response) => response.json());
 }
 
 export function getImages(type: string, id: number) {

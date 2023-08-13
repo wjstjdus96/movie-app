@@ -4,9 +4,11 @@ import Slider from "../Components/Slider/Slider";
 import Banner from "../Components/Banner";
 import { IGetDataResult } from "../types/data";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { loadingState } from "../recoil/atom";
+import { isModalState, loadingState } from "../recoil/atom";
 import { useVideoQuery } from "../hooks/useVideoQuery";
 import { useEffect, useState } from "react";
+import { AnimatePresence } from "framer-motion";
+import Modal from "../Components/Modal/Modal";
 
 const Wrapper = styled.div`
   background-color: black;
@@ -32,6 +34,7 @@ const Sliders = styled.div`
 
 function Home() {
   const isLoading = useRecoilValue(loadingState);
+  const isModal = useRecoilValue(isModalState);
   const { data: nowPlayingMovies } = useVideoQuery("movie", "now_playing");
   const { data: popularMovies } = useVideoQuery("movie", "popular");
   const { data: upcomingMovies } = useVideoQuery("movie", "upcoming");
@@ -65,6 +68,7 @@ function Home() {
               field="movies"
             />
           </Sliders>
+          {isModal && <Modal />}
         </>
       )}
     </Wrapper>

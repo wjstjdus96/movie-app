@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { makeImagePath } from "../utils/makePath";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import Modal from "../Components/Modal/Modal";
 import { IForm } from "../types/component";
 
 const Wrapper = styled.div`
@@ -236,7 +235,7 @@ function Search() {
           )}
         </Results>
       </AnimatePresence>
-      <AnimatePresence>
+      {/* <AnimatePresence>
         {modalMatch ? (
           <Modal
             dataId={modalMatch.params.dataId!}
@@ -246,7 +245,7 @@ function Search() {
             keyword={keyword || ""}
           />
         ) : null}
-      </AnimatePresence>
+      </AnimatePresence> */}
     </Wrapper>
   );
 }

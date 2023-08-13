@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import {
-  getNowPlayingMovies,
-  getPopularMovies,
-  getTopRatedMovies,
-  getUpcomingMovies,
-} from "../apis/api";
 import styled from "styled-components";
 import Slider from "../Components/Slider/Slider";
 import Banner from "../Components/Banner";
 import { IGetDataResult } from "../types/data";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { isModalState, loadingState } from "../recoil/atom";
+import { useVideoQuery } from "../hooks/useVideoQuery";
+import { useEffect, useState } from "react";
+import { AnimatePresence } from "framer-motion";
+import Modal from "../Components/Modal/Modal";
 
 const Wrapper = styled.div`
   background-color: black;
@@ -33,20 +33,11 @@ const Sliders = styled.div`
 `;
 
 function Home() {
-  const { data: nowPlayingMovies, isLoading } = useQuery<IGetDataResult>(
-    ["movies", "nowPlaying"],
-    getNowPlayingMovies
-  );
-
-  const { data: popularMovies } = useQuery<IGetDataResult>(
-    ["movies", "popular"],
-    getTopRatedMovies
-  );
-
-  const { data: upcomingMovies } = useQuery<IGetDataResult>(
-    ["movies", "upcoming"],
-    getUpcomingMovies
-  );
+  const isLoading = useRecoilValue(loadingState);
+  const isModal = useRecoilValue(isModalState);
+  const { data: nowPlayingMovies } = useVideoQuery("movie", "now_playing");
+  const { data: popularMovies } = useVideoQuery("movie", "popular");
+  const { data: upcomingMovies } = useVideoQuery("movie", "upcoming");
 
   return (
     <Wrapper>
@@ -54,13 +45,9 @@ function Home() {
         <Loader>Loading...</Loader>
       ) : (
         <>
-          <Banner
-            id={nowPlayingMovies?.results[0]?.id!}
-            field="movies"
-            bgPhoto={nowPlayingMovies?.results[0]?.backdrop_path || "undefined"}
-            title={nowPlayingMovies?.results[0]?.title! || "undefined"}
-            overview={nowPlayingMovies?.results[0]?.overview! || "undefined"}
-          />
+          {nowPlayingMovies && (
+            <Banner data={nowPlayingMovies.results[0]} field="movies" />
+          )}
           <Sliders>
             <Slider
               data={popularMovies}
@@ -81,6 +68,7 @@ function Home() {
               field="movies"
             />
           </Sliders>
+          {isModal && <Modal />}
         </>
       )}
     </Wrapper>

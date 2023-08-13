@@ -3,8 +3,7 @@ import { makeImagePath } from "../utils/makePath";
 import styled from "styled-components";
 import { getImages } from "../apis/api";
 import { BsPlayFill, BsInfoCircle } from "react-icons/bs";
-import { IBanner } from "../types/component";
-import { IGetImage } from "../types/data";
+import { IData, IGetImage } from "../types/data";
 
 const Wrapper = styled.div<{ bgPhoto: string }>`
   height: 100vh;
@@ -54,22 +53,28 @@ const Buttons = styled.div`
   }
 `;
 
-function Banner({ bgPhoto, title, overview, field, id }: IBanner) {
-  const { data, isLoading } = useQuery<IGetImage>(["images", id], () =>
-    getImages(field.slice(0, -1), id)
+interface IBanner {
+  data: IData;
+  field: string;
+}
+
+function Banner({ data, field }: IBanner) {
+  const { data: image, isLoading } = useQuery<IGetImage>(
+    ["images", data.id],
+    () => getImages(field.slice(0, -1), data.id)
   );
 
   return (
     <>
-      {data ? (
-        <Wrapper bgPhoto={makeImagePath(data.backdrops[0].file_path || "")}>
+      {image ? (
+        <Wrapper bgPhoto={makeImagePath(image.backdrops[0].file_path || "")}>
           <div>
-            {data.logos[0]?.file_path != undefined ? (
+            {image.logos[0]?.file_path != undefined ? (
               <Logo
-                logoPhoto={makeImagePath(data?.logos[0].file_path!, "w500")}
+                logoPhoto={makeImagePath(image?.logos[0].file_path!, "w500")}
               />
             ) : (
-              <div>{title}</div>
+              <div>{data.title ? data.title : data.name}</div>
             )}
             <Buttons>
               <button>

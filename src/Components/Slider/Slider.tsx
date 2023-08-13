@@ -3,44 +3,22 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { makeImagePath } from "../../utils/makePath";
 import { useNavigate, useMatch, PathMatch } from "react-router-dom";
-import Modal from "../Modal/Modal";
 import SliderBox from "./SliderBox";
 import { IGetDataResult } from "../../types/data";
 import { ISlider } from "../../types/component";
+import { SliderPages } from "./SliderPages";
+import { SliderArrow } from "./SliderArrow";
+import { useRecoilValue } from "recoil";
+import { isModalState } from "../../recoil/atom";
+import Modali from "../Modal/Modal";
 
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
   margin: 0px 50px;
   position: relative;
   h2 {
+    color: ${(props) => props.theme.white.lighter};
     font-size: 28px;
     margin-bottom: 20px;
-  }
-`;
-
-const Arrow = styled(motion.div)`
-  font-size: 20px;
-  width: 50px;
-  height: 50px;
-  background-color: rgb(0, 0, 0, 0.8);
-  border-radius: 50%;
-  position: absolute;
-  transform: translateY(85%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-  opacity: 0.5;
-
-  &:hover {
-    opacity: 1;
-    cursor: pointer;
-    font-weight: 600;
-  }
-  &:first-child {
-    left: -30px;
-  }
-  &:last-child {
-    right: -30px;
   }
 `;
 
@@ -65,54 +43,47 @@ const rowVariants = {
 };
 
 export default function Slider({ data, title, listType, field }: ISlider) {
-  const [idx, setIdx] = useState(0); // 슬라이더 인덱스
-  const [leaving, setLeaving] = useState(false); // 슬라이더 진행 중인지
+  const [idx, setIdx] = useState(0);
+  const [leaving, setLeaving] = useState(false);
   const [isBack, setIsBack] = useState(false);
   const offset = 6;
-  const navigate = useNavigate();
-  const bigMovieMatch = useMatch(`/:field/:dataId`);
+  const isModal = useRecoilValue(isModalState);
+
   const toggleLeaving = () => setLeaving((prev) => !prev);
 
-  const increaseIndex = async () => {
-    if (data) {
-      if (leaving) return;
-      toggleLeaving();
-      await setIsBack(false);
-      const totalMovies = data.results.length - 1;
-      const maxIdx = Math.floor(totalMovies / offset) - 1;
-      setIdx((prev) => (prev === maxIdx ? 0 : prev + 1));
-    }
-  };
-  const decreaseIndex = async () => {
-    if (data) {
-      if (leaving) return;
-      toggleLeaving();
-      await setIsBack(true);
-      const totalMovies = data.results.length - 1;
-      const minIdx = 0;
-      setIdx((prev) =>
-        prev === minIdx ? Math.floor(totalMovies / offset) - 1 : prev - 1
-      );
-    }
-  };
+  const bigMovieMatch = useMatch(`/:field/:dataId`);
 
-  const onBoxClicked = async (
-    dataId: number,
-    listType: string,
-    field: string
-  ) => {
-    await navigate(`/${field}/${dataId}`);
-    console.log(bigMovieMatch);
+  const changeIndex = (isBack: boolean) => {
+    if (data && !leaving) {
+      toggleLeaving();
+      setIsBack(!isBack);
+      const totalMovies = data.results!.length - 1;
+      const maxIdx = Math.floor(totalMovies / offset) - 1;
+      const minIdx = 0;
+      isBack
+        ? setIdx((prev) => (prev === maxIdx ? 0 : prev + 1))
+        : setIdx((prev) =>
+            prev === minIdx ? Math.floor(totalMovies / offset) - 1 : prev - 1
+          );
+    }
   };
 
   return (
     <div>
-      <Wrapper>
-        <h2>{title}</h2>
-        <div>
-          <Arrow onClick={decreaseIndex}>&lt;</Arrow>
-          <Arrow onClick={increaseIndex}>&gt;</Arrow>
-        </div>
+      <Wrapper initial="hidden" whileHover="hover" exit="exit">
+        {data && (
+          <>
+            <div>
+              <h2>{title}</h2>
+              <SliderPages
+                title={title}
+                maxIndex={data.results.length}
+                index={idx}
+              />
+            </div>
+            <SliderArrow onChangeIndex={changeIndex} />
+          </>
+        )}
         <AnimatePresence
           custom={isBack}
           initial={false}
@@ -130,22 +101,17 @@ export default function Slider({ data, title, listType, field }: ISlider) {
             {data?.results
               .slice(1)
               .slice(offset * idx, offset * idx + offset)
-              .map((data) => (
-                <SliderBox data={data} field={field} />
+              .map((data, idx) => (
+                <SliderBox
+                  key={idx}
+                  data={data}
+                  field={field}
+                  listType={listType}
+                />
               ))}
           </Row>
         </AnimatePresence>
       </Wrapper>
-      <AnimatePresence>
-        {bigMovieMatch ? (
-          <Modal
-            key={bigMovieMatch.params.dataId! + listType}
-            dataId={bigMovieMatch.params.dataId!}
-            listType={listType}
-            field={bigMovieMatch.params.field!}
-          />
-        ) : null}
-      </AnimatePresence>
     </div>
   );
 }

@@ -1,9 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
-import { getonTheAirTvs, getPopularTvs } from "../apis/api";
 import Banner from "../Components/Banner";
 import Slider from "../Components/Slider/Slider";
 import { IGetDataResult } from "../types/data";
+import { useVideoQuery } from "../hooks/useVideoQuery";
+import { useState } from "react";
+import { isModalState, loadingState } from "../recoil/atom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import Modal from "../Components/Modal/Modal";
 
 const Wrapper = styled.div`
   background-color: black;
@@ -28,15 +32,10 @@ const Sliders = styled.div`
 `;
 
 function Tv() {
-  const { data: popularTvs, isLoading } = useQuery<IGetDataResult>(
-    ["tvs", "popular"],
-    getPopularTvs
-  );
-
-  const { data: onTheAirTvs } = useQuery<IGetDataResult>(
-    ["tvs", "onTheAir"],
-    getonTheAirTvs
-  );
+  const isLoading = useRecoilValue(loadingState);
+  const isModal = useRecoilValue(isModalState);
+  const { data: popularTvs } = useVideoQuery("tv", "top_rated");
+  const { data: onTheAirTvs } = useVideoQuery("tv", "on_the_air");
 
   return (
     <Wrapper>
@@ -44,13 +43,7 @@ function Tv() {
         <Loader>Loading...</Loader>
       ) : (
         <>
-          <Banner
-            id={popularTvs?.results[0].id!}
-            field="tvs"
-            bgPhoto={popularTvs?.results[0]?.backdrop_path || "undefined"}
-            title={popularTvs?.results[0]?.name! || "undefined"}
-            overview={popularTvs?.results[0]?.overview! || "undefined"}
-          />
+          {popularTvs && <Banner data={popularTvs!.results[0]} field="tvs" />}
           <Sliders>
             <Slider
               data={popularTvs}
@@ -65,6 +58,7 @@ function Tv() {
               field="tvs"
             />
           </Sliders>
+          {isModal && <Modal />}
         </>
       )}
     </Wrapper>

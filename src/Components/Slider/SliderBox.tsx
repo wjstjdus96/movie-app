@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { FaPlay, FaHeart, FaAngleDown } from "react-icons/fa";
 import { ISliderBox } from "../../types/component";
 import { IGetImage } from "../../types/data";
+import { useRecoilState } from "recoil";
+import { isModalState, modalInfoState } from "../../recoil/atom";
 
 const Box = styled(motion.div)<{ bgPhoto: string }>`
   width: 227px;
@@ -129,8 +131,10 @@ const infoVariants = {
   },
 };
 
-function SliderBox({ field, data }: ISliderBox) {
+function SliderBox({ field, data, listType }: ISliderBox) {
   const navigate = useNavigate();
+  const [isModal, setIsModal] = useRecoilState(isModalState);
+  const [modalInfo, setModalInfo] = useRecoilState(modalInfoState);
   const { data: imageData, isLoading: imageLoading } = useQuery<IGetImage>(
     ["images", data.id],
     () => getImages(field.slice(0, -1), data.id)
@@ -138,6 +142,8 @@ function SliderBox({ field, data }: ISliderBox) {
 
   const onBoxClicked = (dataId: number, field: string) => {
     navigate(`/${field}/${dataId}`);
+    setIsModal(true);
+    setModalInfo({ id: dataId, listType: listType, field: field, keyword: "" });
   };
 
   return (
@@ -145,7 +151,7 @@ function SliderBox({ field, data }: ISliderBox) {
       {imageData ? (
         <Box
           key={data.id}
-          layoutId={data.id + ""}
+          layoutId={listType + data.id}
           variants={boxVariants}
           whileHover="hover"
           initial="normal"
@@ -188,7 +194,9 @@ function SliderBox({ field, data }: ISliderBox) {
             </Info>
           </div>
         </Box>
-      ) : null}
+      ) : (
+        <div></div>
+      )}
     </>
   );
 }

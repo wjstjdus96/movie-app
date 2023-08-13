@@ -10,6 +10,7 @@ export interface IBanner {
 
 export interface ISliderBox {
   field: string;
+  listType: string;
   data: any;
 }
 
@@ -37,4 +38,19 @@ export interface IModal {
   field: string;
   keyword?: string;
   totalField?: string;
+}
+
+export interface ISliderPages {
+  maxIndex: number;
+  index: number;
+  title: string;
+}
+
+export interface IPaginationProps {
+  maxIndex: number;
+  curIndex: number;
+}
+
+export interface ISliderArrow {
+  onChangeIndex: (isBack: boolean) => void;
 }

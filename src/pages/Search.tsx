@@ -7,11 +7,14 @@ import { makeImagePath } from "../utils/makePath";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { IForm } from "../types/component";
-import { IGetDataResult } from "../types/data";
+import { IData, IGetDataResult } from "../types/data";
 import { useSearchQuery } from "../hooks/useSearchQuery";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { searchResultSelector } from "../recoil/selector";
-import { searchResultState } from "../recoil/atom";
+import { keywordState, searchResultState } from "../recoil/atom";
+import { toggleButtonClicked } from "../utils/toggleButton";
+import useDebounce from "../hooks/useDebounce";
+import SliderBox from "../Components/Slider/SliderBox";
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -122,74 +125,43 @@ const infoVariants = {
 };
 
 function Search() {
-  const location = useLocation();
-  const keyword = new URLSearchParams(location.search).get("keyword");
-  const { register, handleSubmit } = useForm<IForm>({
-    defaultValues: { keyword: `${keyword}` },
-  });
   const navigate = useNavigate();
-  const [totalData, setTotalData] = useRecoilState(searchResultState);
-  const [filteredData, setfilteredData] = useState([]);
-  const { data: searchedResult } = useQuery(["search", keyword], () => {
-    if (keyword) getSearch(keyword);
-    return null;
-  });
+  const [keyword, setKeyword] = useRecoilState(keywordState);
+  const [totalResult, setTotalResult] = useRecoilState(searchResultState);
+  const [selectedType, setSelectedType] = useState("movies");
+  const debouncedKeyword = useDebounce({ value: keyword, delay: 300 });
+  const onKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setKeyword(e.target.value);
+    navigate(`/search/${selectedType}?keyword=${e.target.value}`);
+  };
 
-  const modalMatch = useMatch(`/search/:mediaType/:dataId`);
-  const searchType = useMatch(`/search/:mediaType`)?.params.mediaType;
-  const [type, setType] = useState(searchType);
-  let [dataType, setDataType] = useState("");
-
-  const onValid = (data: IForm) => {
-    console.log(searchedResult);
-    navigate(`/search/movies?keyword=${data.keyword}`);
+  const getKeywordResults = async (keyword: string) => {
+    const response = await getSearch(keyword);
+    setTotalResult(response);
+    console.log(response);
   };
 
   const onFieldButtonClicked = (field: string) => {
     const clickedType = document.getElementById(field);
-
+    setSelectedType(clickedType!.id);
     navigate(`/search/${clickedType?.id}?keyword=${keyword}`);
     toggleButtonClicked(clickedType!.id);
   };
 
-  const toggleButtonClicked = (mediaType: string) => {
-    const btns = document.getElementsByTagName("button");
-    for (let i = 0; i < btns.length; i++) {
-      if (btns[i].id == mediaType) {
-        btns[i].classList.add("actived");
-      } else {
-        btns[i].classList.remove("actived");
-      }
-    }
-  };
-
-  const onBoxClicked = async (
-    dataId: number,
-    dataMediaType: string,
-    mediaType: string
-  ) => {
-    setDataType(dataMediaType);
-    navigate(`/search/${mediaType}/${dataId}?keyword=${keyword}`);
-  };
-
-  const decideType = () => {
-    let type = searchType ? searchType : modalMatch?.params.mediaType;
-    setType(type);
-  };
-
   useEffect(() => {
-    if (!modalMatch) {
-      onFieldButtonClicked(searchType ? searchType : "totals");
+    if (debouncedKeyword) {
+      getKeywordResults(debouncedKeyword);
+    } else {
+      setTotalResult(null);
     }
-    decideType();
-  }, [searchType]);
+  }, [debouncedKeyword]);
 
   return (
     <Wrapper>
-      <Form onSubmit={handleSubmit(onValid)}>
-        <Input {...register("keyword", { required: true, minLength: 1 })} />
+      <Form>
+        <Input type="text" value={keyword} onChange={onKeywordChange} />
       </Form>
-      <p>" {keyword} " 에 대한 검색결과입니다.</p>
+      <p>" {debouncedKeyword} " 에 대한 검색결과입니다.</p>
       <FieldButtons>
         <button
           id="movies"
@@ -201,36 +173,21 @@ function Search() {
         <button id="tvs" onClick={() => onFieldButtonClicked("tvs")}>
           시리즈
         </button>
-        <button id="persons" onClick={() => onFieldButtonClicked("persons")}>
-          인물
-        </button>
       </FieldButtons>
       <AnimatePresence>
-        <Results>
-          {filteredData.length != 0 ? (
-            filteredData.map((item: any) => (
-              <Box
-                variants={boxVariants}
-                initial="normal"
-                whileHover="hover"
-                transition={{ type: "tween" }}
-                bgPhoto={makeImagePath(item.backdrop_path, "w500")}
-                onClick={() =>
-                  onBoxClicked(item.id, item.media_type, searchType!)
-                }
-              >
-                <Info variants={infoVariants}>
-                  <h4>
-                    {item.title && item.title}
-                    {item.name && item.name}
-                  </h4>
-                </Info>
-              </Box>
-            ))
-          ) : (
-            <p>검색 결과 없음</p>
-          )}
-        </Results>
+        {totalResult ? (
+          <Results>
+            {totalResult.results
+              .filter(
+                (item: IData) => item.media_type == selectedType.slice(0, -1)
+              )
+              .map((item) => (
+                <SliderBox field={selectedType} data={item} listType="" />
+              ))}
+          </Results>
+        ) : (
+          <div>검색 결과가 없습니다</div>
+        )}
       </AnimatePresence>
     </Wrapper>
   );

@@ -12,6 +12,7 @@ export interface IData {
   poster_path: string;
   release_date?: string;
   first_air_date?: string;
+  media_type?: string;
   vote_average: number;
   vote_count: number;
 }

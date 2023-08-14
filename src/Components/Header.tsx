@@ -9,6 +9,8 @@ import {
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { IForm } from "../types/component";
+import { useRecoilState } from "recoil";
+import { keywordState } from "../recoil/atom";
 
 const Nav = styled(motion.nav)`
   display: flex;
@@ -104,6 +106,7 @@ const logoVariants = {
 
 function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
+  const [keyword, setKeyword] = useRecoilState(keywordState);
   const homeMatch = useMatch("/");
   const tvMatch = useMatch("tv");
   const { scrollY } = useScroll();
@@ -112,7 +115,8 @@ function Header() {
   const navigate = useNavigate();
   const openSearch = () => setSearchOpen((prev) => !prev);
   const onValid = (data: IForm) => {
-    navigate(`/search/totals?keyword=${data.keyword}`);
+    navigate(`/search/movies?keyword=${data.keyword}`);
+    setKeyword(data.keyword);
   };
 
   useMotionValueEvent(scrollY, "change", (latest) => {

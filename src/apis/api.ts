@@ -38,9 +38,8 @@ export function getImages(type: string, id: number) {
 }
 
 //search
-export async function getSearch(query: string, field: string) {
-  let type = field == "multi" ? field : field.slice(0, field.length - 1);
-  return await fetch(
-    `${BASE_PATH}/search/${type}?api_key=${API_KEY}&language=${LNG}&query=${query}&page=1`
+export function getSearch(keyword: string) {
+  return fetch(
+    `${BASE_PATH}/search/multi?api_key=${API_KEY}&language=${LNG}&query=${keyword}&page=1`
   ).then((response) => response.json());
 }

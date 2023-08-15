@@ -11,10 +11,13 @@ import { IData, IGetDataResult } from "../types/data";
 import { useSearchQuery } from "../hooks/useSearchQuery";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { searchResultSelector } from "../recoil/selector";
-import { keywordState, searchResultState } from "../recoil/atom";
+import { isModalState, keywordState, searchResultState } from "../recoil/atom";
 import { toggleButtonClicked } from "../utils/toggleButton";
 import useDebounce from "../hooks/useDebounce";
 import SliderBox from "../Components/Slider/SliderBox";
+import SearchList from "../Components/Search/SearchList";
+import { useRef } from "react";
+import Modal from "../Components/Modal/Modal";
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -132,48 +135,69 @@ interface Itype {
 function Search() {
   const navigate = useNavigate();
   const [keyword, setKeyword] = useRecoilState(keywordState);
+  const [inputKeyword, setInputKeyword] = useState(keyword);
   const [totalResult, setTotalResult] = useRecoilState(searchResultState);
   const [selectedType, setSelectedType] = useState({
     name: "전체",
-    type: "",
+    type: "total",
   });
-
-  const debouncedKeyword = useDebounce({ value: keyword, delay: 300 });
-
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isModal, setIsModal] = useRecoilState(isModalState);
 
   const onChangeIsExpanded = () => setIsExpanded(!isExpanded);
 
   const onChangeSearchType = (type: Itype) => {
+    const url = type.type == "total" ? "" : `/${type.type}`;
     setSelectedType(type);
-    navigate(`/search/${type.type}?keyword=${keyword}`);
+    navigate(`/search${url}?keyword=${keyword}`);
   };
 
-  const onKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setKeyword(e.target.value);
-    navigate(`/search/${selectedType.type}?keyword=${e.target.value}`);
+  const onInputKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputKeyword(e.target.value);
+  };
+
+  const handleOnSubmit = () => {
+    setKeyword(inputKeyword);
+    setSelectedType({
+      name: "전체",
+      type: "total",
+    });
+    navigate(`/search?keyword=${inputKeyword}`);
+  };
+
+  const handleOnEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.code == "Enter") {
+      handleOnSubmit();
+    }
   };
 
   const getKeywordResults = async (keyword: string) => {
     const response = await getSearch(keyword);
     setTotalResult(response);
-    console.log(response);
   };
 
   useEffect(() => {
-    if (debouncedKeyword) {
-      getKeywordResults(debouncedKeyword);
+    if (keyword) {
+      getKeywordResults(keyword);
     } else {
       setTotalResult(null);
     }
-  }, [debouncedKeyword]);
 
-  useEffect(() => {}, [selectedType]);
+    setSelectedType({
+      name: "전체",
+      type: "total",
+    });
+  }, [keyword]);
 
   return (
     <Wrapper>
       <Form>
-        <Input type="text" value={keyword} onChange={onKeywordChange} />
+        <Input
+          type="text"
+          value={inputKeyword}
+          onChange={onInputKeywordChange}
+          onKeyDown={handleOnEnterPress}
+        />
         <TypeButtons>
           <button onClick={onChangeIsExpanded}>{selectedType.name}</button>
           {isExpanded && (
@@ -190,24 +214,16 @@ function Search() {
           )}
         </TypeButtons>
       </Form>
-      <p>" {debouncedKeyword} " 에 대한 검색결과입니다.</p>
-
-      <AnimatePresence>
-        {totalResult ? (
-          <Results>
-            {totalResult.results
-              .filter((item: IData) => {
-                if (selectedType.type == "totals") return item;
-                return item.media_type == selectedType.type.slice(0, -1);
-              })
-              .map((item) => (
-                <SliderBox field={selectedType.type} data={item} listType="" />
-              ))}
-          </Results>
-        ) : (
-          <div>검색 결과가 없습니다</div>
-        )}
-      </AnimatePresence>
+      {totalResult ? (
+        <>
+          <AnimatePresence>
+            <SearchList key="searchList" type={selectedType.type} />
+          </AnimatePresence>
+        </>
+      ) : (
+        <p>검색어를 입력해주세요</p>
+      )}
+      {isModal && <Modal />}
     </Wrapper>
   );
 }

@@ -131,7 +131,13 @@ const infoVariants = {
   },
 };
 
-function SliderBox({ field, data, listType }: ISliderBox) {
+function SliderBox({
+  field,
+  data,
+  listType,
+  keyword,
+  isTotalType,
+}: ISliderBox) {
   const navigate = useNavigate();
   const [isModal, setIsModal] = useRecoilState(isModalState);
   const [modalInfo, setModalInfo] = useRecoilState(modalInfoState);
@@ -141,9 +147,21 @@ function SliderBox({ field, data, listType }: ISliderBox) {
   );
 
   const onBoxClicked = (dataId: number, field: string) => {
-    navigate(`/${field}/${dataId}`);
     setIsModal(true);
-    setModalInfo({ id: dataId, listType: listType, field: field, keyword: "" });
+    setModalInfo({
+      id: dataId,
+      listType: listType,
+      field: field,
+      keyword: keyword ? keyword : "",
+    });
+    if (keyword) {
+      console.log("키워드 이따");
+      isTotalType
+        ? navigate(`/search/${dataId}?keyword=${keyword}`)
+        : navigate(`/search/${field}/${dataId}?keyword=${keyword}`);
+    } else {
+      navigate(`/${field}/${dataId}`);
+    }
   };
 
   return (

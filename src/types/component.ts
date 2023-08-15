@@ -12,6 +12,8 @@ export interface ISliderBox {
   field: string;
   listType: string;
   data: any;
+  keyword?: string;
+  isTotalType?: boolean;
 }
 
 export interface ISlider {

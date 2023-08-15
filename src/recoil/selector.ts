@@ -8,11 +8,12 @@ export const searchResultSelector = selectorFamily<any, string>({
     (param: string) =>
     ({ get }) => {
       const totalResult = get(searchResultState);
-      if (totalResult) {
-        return totalResult.results.filter(
-          (result: IData) => result.media_type == param
+      if (param == "total")
+        return totalResult?.results.filter(
+          (result: IData) => result.media_type != "person"
         );
-      }
-      return null;
+      return totalResult?.results.filter(
+        (result: IData) => result.media_type + "s" == param
+      );
     },
 });

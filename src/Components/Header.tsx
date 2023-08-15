@@ -9,7 +9,7 @@ import {
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { IForm } from "../types/component";
-import { useRecoilState } from "recoil";
+import { DefaultValue, useRecoilState } from "recoil";
 import { keywordState } from "../recoil/atom";
 
 const Nav = styled(motion.nav)`
@@ -111,11 +111,13 @@ function Header() {
   const tvMatch = useMatch("tv");
   const { scrollY } = useScroll();
   const navAnimation = useAnimation();
-  const { register, handleSubmit } = useForm<IForm>();
+  const { register, handleSubmit, setValue } = useForm<IForm>();
   const navigate = useNavigate();
   const openSearch = () => setSearchOpen((prev) => !prev);
   const onValid = (data: IForm) => {
     setKeyword(data.keyword);
+    setSearchOpen(false);
+    setValue("keyword", "");
     navigate(`/search?keyword=${data.keyword}`);
   };
 
@@ -179,7 +181,7 @@ function Header() {
             ></path>
           </motion.svg>
           <Input
-            {...register("keyword", { required: true, minLength: 2 })}
+            {...register("keyword", { required: true, minLength: 1 })}
             placeholder="검색어를 입력하세요"
             transition={{ type: "linear" }}
             animate={{ scaleX: searchOpen ? 1 : 0 }}

@@ -24,8 +24,6 @@ function SearchList({ type }: ISearchList) {
   const filteredResult = useRecoilValue(searchResultSelector(type));
   const keyword = useRecoilValue(keywordState);
 
-  console.log(filteredResult);
-
   return (
     <>
       <p>" {keyword} " 에 대한 검색결과입니다.</p>

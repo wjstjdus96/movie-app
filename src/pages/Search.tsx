@@ -20,7 +20,6 @@ import { useRef } from "react";
 import Modal from "../Components/Modal/Modal";
 
 const Wrapper = styled.div`
-  height: 100vh;
   margin: 10vh;
   padding-top: 5vh;
   p {
@@ -179,6 +178,7 @@ function Search() {
   useEffect(() => {
     if (keyword) {
       getKeywordResults(keyword);
+      setInputKeyword(keyword);
     } else {
       setTotalResult(null);
     }

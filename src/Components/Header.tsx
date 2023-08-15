@@ -115,7 +115,7 @@ function Header() {
   const navigate = useNavigate();
   const openSearch = () => setSearchOpen((prev) => !prev);
   const onValid = (data: IForm) => {
-    navigate(`/search/movies?keyword=${data.keyword}`);
+    navigate(`/search/total?keyword=${data.keyword}`);
     setKeyword(data.keyword);
   };
 

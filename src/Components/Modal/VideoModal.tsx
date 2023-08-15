@@ -133,7 +133,6 @@ export default function VideoModal({
   field,
   keyword,
 }: IVideoModal) {
-  console.log(detailData);
   return (
     <>
       <Head bgPhoto={makeImagePath(detailData?.backdrop_path || "")}></Head>

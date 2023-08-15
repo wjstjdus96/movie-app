@@ -21,11 +21,14 @@ const Wrapper = styled.div`
   margin: 10vh;
   padding-top: 5vh;
   p {
-    margin-bottom: 25px;
+    margin-bottom: 30px;
   }
 `;
 
-const Form = styled.form``;
+const Form = styled.div`
+  position: relative;
+  margin-bottom: 25px;
+`;
 
 const Input = styled.input`
   width: 300px;
@@ -34,27 +37,18 @@ const Input = styled.input`
   font-size: 20px;
   border: 1px solid ${(props) => props.theme.white.lighter};
   padding: 10px;
-  margin-bottom: 25px;
 `;
 
-const FieldButtons = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  width: 100%;
-  /* gap: 10px; */
-  margin-bottom: 20px;
-  button {
-    border: 1px solid ${(props) => props.theme.white.lighter};
-    color: ${(props) => props.theme.white.lighter};
-    padding: 4px 0px;
-    background-color: rgba(20, 20, 20, 0.9);
-    &:active {
-      background-color: #bdc3c7;
-    }
-  }
-  .actived {
-    background-color: #bdc3c7;
-  }
+const TypeButtons = styled.div`
+  position: absolute;
+  top: 10px;
+  left: 320px;
+`;
+
+const ExpandedButtons = styled.div`
+  margin-top: 2px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Results = styled.div`
@@ -124,28 +118,46 @@ const infoVariants = {
   },
 };
 
+const typeList = [
+  { name: "전체", type: "total" },
+  { name: "영화", type: "movies" },
+  { name: "시리즈", type: "tvs" },
+];
+
+interface Itype {
+  name: string;
+  type: string;
+}
+
 function Search() {
   const navigate = useNavigate();
   const [keyword, setKeyword] = useRecoilState(keywordState);
   const [totalResult, setTotalResult] = useRecoilState(searchResultState);
-  const [selectedType, setSelectedType] = useState("movies");
+  const [selectedType, setSelectedType] = useState({
+    name: "전체",
+    type: "",
+  });
+
   const debouncedKeyword = useDebounce({ value: keyword, delay: 300 });
+
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const onChangeIsExpanded = () => setIsExpanded(!isExpanded);
+
+  const onChangeSearchType = (type: Itype) => {
+    setSelectedType(type);
+    navigate(`/search/${type.type}?keyword=${keyword}`);
+  };
+
   const onKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
-    navigate(`/search/${selectedType}?keyword=${e.target.value}`);
+    navigate(`/search/${selectedType.type}?keyword=${e.target.value}`);
   };
 
   const getKeywordResults = async (keyword: string) => {
     const response = await getSearch(keyword);
     setTotalResult(response);
     console.log(response);
-  };
-
-  const onFieldButtonClicked = (field: string) => {
-    const clickedType = document.getElementById(field);
-    setSelectedType(clickedType!.id);
-    navigate(`/search/${clickedType?.id}?keyword=${keyword}`);
-    toggleButtonClicked(clickedType!.id);
   };
 
   useEffect(() => {
@@ -156,33 +168,40 @@ function Search() {
     }
   }, [debouncedKeyword]);
 
+  useEffect(() => {}, [selectedType]);
+
   return (
     <Wrapper>
       <Form>
         <Input type="text" value={keyword} onChange={onKeywordChange} />
+        <TypeButtons>
+          <button onClick={onChangeIsExpanded}>{selectedType.name}</button>
+          {isExpanded && (
+            <ExpandedButtons onClick={onChangeIsExpanded}>
+              {typeList.map((type, idx) => (
+                <button
+                  key={type.type}
+                  onClick={() => onChangeSearchType(type)}
+                >
+                  {type.name}
+                </button>
+              ))}
+            </ExpandedButtons>
+          )}
+        </TypeButtons>
       </Form>
       <p>" {debouncedKeyword} " 에 대한 검색결과입니다.</p>
-      <FieldButtons>
-        <button
-          id="movies"
-          className="actived"
-          onClick={() => onFieldButtonClicked("movies")}
-        >
-          영화
-        </button>
-        <button id="tvs" onClick={() => onFieldButtonClicked("tvs")}>
-          시리즈
-        </button>
-      </FieldButtons>
+
       <AnimatePresence>
         {totalResult ? (
           <Results>
             {totalResult.results
-              .filter(
-                (item: IData) => item.media_type == selectedType.slice(0, -1)
-              )
+              .filter((item: IData) => {
+                if (selectedType.type == "totals") return item;
+                return item.media_type == selectedType.type.slice(0, -1);
+              })
               .map((item) => (
-                <SliderBox field={selectedType} data={item} listType="" />
+                <SliderBox field={selectedType.type} data={item} listType="" />
               ))}
           </Results>
         ) : (

@@ -1,16 +1,13 @@
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { makeImagePath } from "../../utils/makePath";
-import { useNavigate, useMatch, PathMatch } from "react-router-dom";
+import { useMatch } from "react-router-dom";
 import SliderBox from "./SliderBox";
-import { IGetDataResult } from "../../types/data";
 import { ISlider } from "../../types/component";
 import { SliderPages } from "./SliderPages";
 import { SliderArrow } from "./SliderArrow";
 import { useRecoilValue } from "recoil";
 import { isModalState } from "../../recoil/atom";
-import Modali from "../Modal/Modal";
 
 const Wrapper = styled(motion.div)`
   margin: 0px 50px;

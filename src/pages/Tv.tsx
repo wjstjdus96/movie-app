@@ -1,12 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 import Banner from "../Components/Banner";
 import Slider from "../Components/Slider/Slider";
-import { IGetDataResult } from "../types/data";
 import { useVideoQuery } from "../hooks/useVideoQuery";
-import { useState } from "react";
 import { isModalState, loadingState } from "../recoil/atom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import Modal from "../Components/Modal/Modal";
 
 const Wrapper = styled.div`

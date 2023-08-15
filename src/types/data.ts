@@ -126,3 +126,8 @@ export interface Season {
   season_number: number;
   vote_average: number;
 }
+
+export interface Itype {
+  name: string;
+  type: string;
+}

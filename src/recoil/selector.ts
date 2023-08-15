@@ -1,6 +1,6 @@
-import { selector, selectorFamily } from "recoil";
+import { selectorFamily } from "recoil";
 import { searchResultState } from "./atom";
-import { IData, IGetDataResult } from "../types/data";
+import { IData } from "../types/data";
 
 export const searchResultSelector = selectorFamily<any, string>({
   key: "searchResultSelector",

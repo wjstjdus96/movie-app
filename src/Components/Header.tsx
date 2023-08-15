@@ -6,10 +6,10 @@ import {
   useMotionValueEvent,
   useScroll,
 } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { IForm } from "../types/component";
-import { DefaultValue, useRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { keywordState } from "../recoil/atom";
 
 const Nav = styled(motion.nav)`
@@ -114,6 +114,7 @@ function Header() {
   const { register, handleSubmit, setValue } = useForm<IForm>();
   const navigate = useNavigate();
   const openSearch = () => setSearchOpen((prev) => !prev);
+
   const onValid = (data: IForm) => {
     setKeyword(data.keyword);
     setSearchOpen(false);

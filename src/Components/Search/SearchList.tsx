@@ -1,4 +1,3 @@
-import { AnimatePresence } from "framer-motion";
 import { useRecoilValue } from "recoil";
 import { keywordState, searchResultState } from "../../recoil/atom";
 import { searchResultSelector } from "../../recoil/selector";
@@ -6,6 +5,8 @@ import styled from "styled-components";
 import SliderBox from "../Slider/SliderBox";
 import { IData } from "../../types/data";
 import React from "react";
+import { ISearchList } from "../../types/component";
+
 const Results = styled.div`
   display: grid;
   justify-content: space-between;
@@ -14,10 +15,6 @@ const Results = styled.div`
   gap: 10px;
   grid-template-columns: repeat(auto-fill, minmax(15%, auto));
 `;
-
-interface ISearchList {
-  type: string;
-}
 
 function SearchList({ type }: ISearchList) {
   const totalResult = useRecoilValue(searchResultState);

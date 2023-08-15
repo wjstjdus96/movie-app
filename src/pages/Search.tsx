@@ -1,23 +1,13 @@
-import { useQueries, useQuery, useMutation } from "@tanstack/react-query";
-import { useLocation, useNavigate, useMatch } from "react-router";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { getSearch } from "../apis/api";
 import { motion, AnimatePresence } from "framer-motion";
-import { makeImagePath } from "../utils/makePath";
-import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { IForm } from "../types/component";
-import { IData, IGetDataResult } from "../types/data";
-import { useSearchQuery } from "../hooks/useSearchQuery";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { searchResultSelector } from "../recoil/selector";
+import { useRecoilState } from "recoil";
 import { isModalState, keywordState, searchResultState } from "../recoil/atom";
-import { toggleButtonClicked } from "../utils/toggleButton";
-import useDebounce from "../hooks/useDebounce";
-import SliderBox from "../Components/Slider/SliderBox";
 import SearchList from "../Components/Search/SearchList";
-import { useRef } from "react";
 import Modal from "../Components/Modal/Modal";
+import { Itype } from "../types/data";
 
 const Wrapper = styled.div`
   margin: 10vh;
@@ -53,83 +43,11 @@ const ExpandedButtons = styled.div`
   flex-direction: column;
 `;
 
-const Results = styled.div`
-  display: grid;
-  justify-content: space-between;
-  align-items: center;
-  justify-items: center;
-  gap: 10px;
-  grid-template-columns: repeat(auto-fill, minmax(15%, auto));
-`;
-
-const Box = styled(motion.div)<{ bgPhoto: string }>`
-  width: 227px;
-  height: 128px;
-  min-height: 100%;
-  background-image: url(${(prop) => prop.bgPhoto});
-  border-radius: 3px;
-  background-size: cover;
-  background-position: center center;
-  &:first-child {
-    transform-origin: center left;
-  }
-  &:last-child {
-    transform-origin: center right;
-  }
-`;
-
-const Info = styled(motion.div)`
-  padding: 5px;
-  border-radius: 0 0 5px 5px;
-  background-color: ${(props) => props.theme.modal.background};
-  background-color: rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  h4 {
-    text-align: center;
-    font-size: 12px;
-  }
-`;
-
-const boxVariants = {
-  normal: {
-    scale: 1,
-  },
-  hover: {
-    scale: 1.3,
-    y: -80,
-    transition: {
-      delay: 0.5,
-      duration: 0.2,
-      type: "tween",
-    },
-  },
-};
-
-const infoVariants = {
-  hover: {
-    opacity: 1,
-    backgroundcolor: "rgba(0,0,0,1)",
-    transition: {
-      delay: 0.5,
-      duration: 0.1,
-      type: "tween",
-    },
-  },
-};
-
 const typeList = [
   { name: "전체", type: "total" },
   { name: "영화", type: "movies" },
   { name: "시리즈", type: "tvs" },
 ];
-
-interface Itype {
-  name: string;
-  type: string;
-}
 
 function Search() {
   const navigate = useNavigate();
@@ -202,7 +120,7 @@ function Search() {
           <button onClick={onChangeIsExpanded}>{selectedType.name}</button>
           {isExpanded && (
             <ExpandedButtons onClick={onChangeIsExpanded}>
-              {typeList.map((type, idx) => (
+              {typeList.map((type) => (
                 <button
                   key={type.type}
                   onClick={() => onChangeSearchType(type)}

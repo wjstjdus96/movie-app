@@ -120,7 +120,7 @@ const Related = styled.div`
 
 const RelatedMovies = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(20%, auto));
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   justify-content: space-between;
   align-items: center;

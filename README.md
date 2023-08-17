@@ -1,6 +1,8 @@
 # Netflix 클론 코딩
-넷플릭스 클론 사이트 입니다
 
+![image](https://github.com/wjstjdus96/movie-app/assets/77755620/d3c30403-2368-41cc-a48d-f5ceceae9334)
+
+넷플릭스 클론 사이트 입니다
 ## 🌐 프로젝트 링크
 
 [Clone Netflix 바로가기](https://wjstjdus96.github.io/movie-app/)

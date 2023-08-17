@@ -9,15 +9,11 @@ import { ISearchList } from "../../types/component";
 
 const Results = styled.div`
   display: grid;
-  justify-content: space-between;
-  align-items: center;
-  justify-items: center;
   gap: 10px;
-  grid-template-columns: repeat(auto-fill, minmax(15%, auto));
+  grid-template-columns: repeat(6, 1fr);
 `;
 
 function SearchList({ type }: ISearchList) {
-  const totalResult = useRecoilValue(searchResultState);
   const filteredResult = useRecoilValue(searchResultSelector(type));
   const keyword = useRecoilValue(keywordState);
 

@@ -1,13 +1,10 @@
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { useMatch } from "react-router-dom";
 import SliderBox from "./SliderBox";
 import { ISlider } from "../../types/component";
 import { SliderPages } from "./SliderPages";
 import { SliderArrow } from "./SliderArrow";
-import { useRecoilValue } from "recoil";
-import { isModalState } from "../../recoil/atom";
 
 const Wrapper = styled(motion.div)`
   margin: 0px 50px;

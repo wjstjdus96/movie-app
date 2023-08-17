@@ -42,17 +42,18 @@ const Logo = styled.img<{ bgPhoto: string }>`
 `;
 
 const TextLogo = styled.h2<{ length: number }>`
+  margin: 0 !important;
   display: flex;
   position: absolute;
   font-family: "Oswald, sans-serif";
   left: 20px;
-  bottom: -10px;
-  font-size: ${(props) => (props.length > 10 ? "20px" : "28px")} !important;
+  bottom: 10px;
+  font-size: ${(props) => (props.length > 10 ? "18px" : "25px")} !important;
   width: 80%;
   font-weight: 900;
   text-align: center;
   color: white;
-  text-shadow: 2px 2px #558abb;
+  text-shadow: 1px 1px #558abb;
   align-items: flex-end;
   margin: 0;
 `;
@@ -155,7 +156,6 @@ function SliderBox({
       keyword: keyword ? keyword : "",
     });
     if (keyword) {
-      console.log("키워드 이따");
       isTotalType
         ? navigate(`/search/${dataId}?keyword=${keyword}`)
         : navigate(`/search/${field}/${dataId}?keyword=${keyword}`);

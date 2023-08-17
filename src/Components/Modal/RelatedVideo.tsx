@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { makeImagePath, makePosterPath } from "../../utils/makePath";
+import { makePosterPath } from "../../utils/makePath";
 import { RelatedMovieProps } from "../../types/data";
+import { useSetRecoilState } from "recoil";
+import { modalInfoState } from "../../recoil/atom";
 
 const Wrapper = styled.div`
   position: relative;
@@ -40,7 +42,14 @@ export default function RelatedMovie({
   keyword,
 }: RelatedMovieProps) {
   const navigate = useNavigate();
+  const setModalInfo = useSetRecoilState(modalInfoState);
   const onRelatedClicked = () => {
+    setModalInfo({
+      id: Number(id),
+      listType: "",
+      field: field,
+      keyword: keyword ? keyword : "",
+    });
     if (keyword) {
       return navigate(`/search/${field}/${id}?keyword=${keyword}`);
     }

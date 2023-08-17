@@ -11,7 +11,14 @@ export const isModalState = atom<boolean>({
   default: false,
 });
 
-export const modalInfoState = atom({
+interface IModalInfoState {
+  id: number;
+  listType: string;
+  field: string;
+  keyword: string;
+}
+
+export const modalInfoState = atom<IModalInfoState>({
   key: "modalInfo",
   default: { id: 0, listType: "", field: "", keyword: "" },
 });

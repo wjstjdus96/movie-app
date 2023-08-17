@@ -19,28 +19,50 @@ const Wrapper = styled.div`
 
 const Form = styled.div`
   position: relative;
-  margin-bottom: 25px;
 `;
 
 const Input = styled.input`
+  position: absolute;
+  left: 70px;
   width: 300px;
   color: ${(props) => props.theme.white.lighter};
   background-color: rgba(20, 20, 20, 0.9);
   font-size: 20px;
   border: 1px solid ${(props) => props.theme.white.lighter};
   padding: 10px;
+  border-radius: 5px;
 `;
 
 const TypeButtons = styled.div`
   position: absolute;
   top: 10px;
-  left: 320px;
+  > :first-child {
+    border-radius: 5px;
+  }
+  button {
+    border: 0.5px solid ${(props) => props.theme.white.lighter};
+    width: 60px;
+    padding: 5px 0;
+    cursor: pointer;
+    background-color: ${(props) => props.theme.black.darker};
+    color: ${(props) => props.theme.white.lighter};
+  }
 `;
 
 const ExpandedButtons = styled.div`
   margin-top: 2px;
   display: flex;
   flex-direction: column;
+  button:first-child {
+    border-radius: 5px 5px 0 0;
+  }
+  button:last-child {
+    border-radius: 0 0 5px 5px;
+  }
+`;
+
+const ResultBody = styled.div`
+  margin-top: 70px;
 `;
 
 const typeList = [
@@ -110,14 +132,10 @@ function Search() {
   return (
     <Wrapper>
       <Form>
-        <Input
-          type="text"
-          value={inputKeyword}
-          onChange={onInputKeywordChange}
-          onKeyDown={handleOnEnterPress}
-        />
         <TypeButtons>
-          <button onClick={onChangeIsExpanded}>{selectedType.name}</button>
+          <button onClick={onChangeIsExpanded}>
+            {selectedType.name + "▾"}
+          </button>
           {isExpanded && (
             <ExpandedButtons onClick={onChangeIsExpanded}>
               {typeList.map((type) => (
@@ -131,16 +149,24 @@ function Search() {
             </ExpandedButtons>
           )}
         </TypeButtons>
+        <Input
+          type="text"
+          value={inputKeyword}
+          onChange={onInputKeywordChange}
+          onKeyDown={handleOnEnterPress}
+        />
       </Form>
-      {totalResult ? (
-        <>
-          <AnimatePresence>
-            <SearchList key="searchList" type={selectedType.type} />
-          </AnimatePresence>
-        </>
-      ) : (
-        <p>검색어를 입력해주세요</p>
-      )}
+      <ResultBody>
+        {totalResult ? (
+          <>
+            <AnimatePresence>
+              <SearchList key="searchList" type={selectedType.type} />
+            </AnimatePresence>
+          </>
+        ) : (
+          <p>검색어를 입력해주세요</p>
+        )}
+      </ResultBody>
       {isModal && <Modal />}
     </Wrapper>
   );

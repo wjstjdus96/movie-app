@@ -31,8 +31,9 @@ const Sliders = styled.div`
 function Tv() {
   const isLoading = useRecoilValue(loadingState);
   const isModal = useRecoilValue(isModalState);
-  const { data: popularTvs } = useVideoQuery("tv", "top_rated");
+  const { data: topRatedTvs } = useVideoQuery("tv", "top_rated");
   const { data: onTheAirTvs } = useVideoQuery("tv", "on_the_air");
+  const { data: popularTvs } = useVideoQuery("tv", "popular");
 
   return (
     <Wrapper>
@@ -40,12 +41,18 @@ function Tv() {
         <Loader>Loading...</Loader>
       ) : (
         <>
-          {popularTvs && <Banner data={popularTvs!.results[0]} field="tvs" />}
+          {topRatedTvs && <Banner data={topRatedTvs!.results[0]} field="tvs" />}
           <Sliders>
             <Slider
               data={popularTvs}
               title="인기 티비쇼"
-              listType="popular"
+              listType="polular"
+              field="tvs"
+            />
+            <Slider
+              data={topRatedTvs}
+              title="평점 높은 티비쇼"
+              listType="topRated"
               field="tvs"
             />
             <Slider

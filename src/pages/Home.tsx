@@ -34,6 +34,7 @@ function Home() {
   const { data: nowPlayingMovies } = useVideoQuery("movie", "now_playing");
   const { data: popularMovies } = useVideoQuery("movie", "popular");
   const { data: upcomingMovies } = useVideoQuery("movie", "upcoming");
+  const { data: topRatedMovies } = useVideoQuery("movie", "top_rated");
 
   return (
     <Wrapper>
@@ -48,19 +49,25 @@ function Home() {
             <Slider
               data={popularMovies}
               title="인기 영화"
-              listType="Popular"
+              listType="popular"
+              field="movies"
+            />
+            <Slider
+              data={topRatedMovies}
+              title="평점 높은 영화"
+              listType="topRated"
               field="movies"
             />
             <Slider
               data={nowPlayingMovies}
-              title="현재 상영 중"
-              listType="NowPlaying"
+              title="현재 상영 중인 영화"
+              listType="nowPlaying"
               field="movies"
             />
             <Slider
               data={upcomingMovies}
               title=" 개봉 예정 영화"
-              listType="UpComing"
+              listType="upComing"
               field="movies"
             />
           </Sliders>

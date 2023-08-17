@@ -54,13 +54,15 @@ export default function Modal() {
 
   const { isLoading: detailLoading, data: detailData } = useQuery<IDetailData>(
     ["details", id],
-    () => getVideoModalInfo({ query: "", field, id })
+    () => getVideoModalInfo({ query: "", field: field.slice(0, -1), id })
   );
 
   const { isLoading: similarLoading, data: similarData } =
     useQuery<IGetDataResult>(["related", id], () =>
-      getVideoModalInfo({ query: "similar", field, id })
+      getVideoModalInfo({ query: "similar", field: field.slice(0, -1), id })
     );
+
+  const isLoading = detailLoading || similarLoading;
 
   const onOverlayClicked = () => {
     setIsModal(false);
@@ -78,12 +80,14 @@ export default function Modal() {
         exit={{ opacity: 0 }}
       />
       <ModalWrapper key={id} layoutId={listType + id}>
-        <VideoModal
-          detailData={detailData}
-          relatedData={similarData}
-          field={field}
-          keyword={keyword}
-        />
+        {!isLoading && (
+          <VideoModal
+            detailData={detailData}
+            relatedData={similarData}
+            field={field}
+            keyword={keyword}
+          />
+        )}
       </ModalWrapper>
     </AnimatePresence>
   );

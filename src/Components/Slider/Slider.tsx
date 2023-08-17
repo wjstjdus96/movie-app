@@ -1,16 +1,10 @@
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { makeImagePath } from "../../utils/makePath";
-import { useNavigate, useMatch, PathMatch } from "react-router-dom";
 import SliderBox from "./SliderBox";
-import { IGetDataResult } from "../../types/data";
 import { ISlider } from "../../types/component";
 import { SliderPages } from "./SliderPages";
 import { SliderArrow } from "./SliderArrow";
-import { useRecoilValue } from "recoil";
-import { isModalState } from "../../recoil/atom";
-import Modali from "../Modal/Modal";
 
 const Wrapper = styled(motion.div)`
   margin: 0px 50px;
@@ -47,11 +41,8 @@ export default function Slider({ data, title, listType, field }: ISlider) {
   const [leaving, setLeaving] = useState(false);
   const [isBack, setIsBack] = useState(false);
   const offset = 6;
-  const isModal = useRecoilValue(isModalState);
 
   const toggleLeaving = () => setLeaving((prev) => !prev);
-
-  const bigMovieMatch = useMatch(`/:field/:dataId`);
 
   const changeIndex = (isBack: boolean) => {
     if (data && !leaving) {
@@ -77,7 +68,7 @@ export default function Slider({ data, title, listType, field }: ISlider) {
               <h2>{title}</h2>
               <SliderPages
                 title={title}
-                maxIndex={data.results.length}
+                maxIndex={Math.round(data.results.length / offset) - 1}
                 index={idx}
               />
             </div>

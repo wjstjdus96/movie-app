@@ -6,9 +6,11 @@ import {
   useMotionValueEvent,
   useScroll,
 } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { IForm } from "../types/component";
+import { useRecoilState } from "recoil";
+import { keywordState } from "../recoil/atom";
 
 const Nav = styled(motion.nav)`
   display: flex;
@@ -104,15 +106,20 @@ const logoVariants = {
 
 function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
+  const [keyword, setKeyword] = useRecoilState(keywordState);
   const homeMatch = useMatch("/");
   const tvMatch = useMatch("tv");
   const { scrollY } = useScroll();
   const navAnimation = useAnimation();
-  const { register, handleSubmit } = useForm<IForm>();
+  const { register, handleSubmit, setValue } = useForm<IForm>();
   const navigate = useNavigate();
   const openSearch = () => setSearchOpen((prev) => !prev);
+
   const onValid = (data: IForm) => {
-    navigate(`/search/totals?keyword=${data.keyword}`);
+    setKeyword(data.keyword);
+    setSearchOpen(false);
+    setValue("keyword", "");
+    navigate(`/search?keyword=${data.keyword}`);
   };
 
   useMotionValueEvent(scrollY, "change", (latest) => {
@@ -175,7 +182,7 @@ function Header() {
             ></path>
           </motion.svg>
           <Input
-            {...register("keyword", { required: true, minLength: 2 })}
+            {...register("keyword", { required: true, minLength: 1 })}
             placeholder="검색어를 입력하세요"
             transition={{ type: "linear" }}
             animate={{ scaleX: searchOpen ? 1 : 0 }}

@@ -12,6 +12,7 @@ export interface IData {
   poster_path: string;
   release_date?: string;
   first_air_date?: string;
+  media_type?: string;
   vote_average: number;
   vote_count: number;
 }
@@ -124,4 +125,9 @@ export interface Season {
   poster_path: string;
   season_number: number;
   vote_average: number;
+}
+
+export interface Itype {
+  name: string;
+  type: string;
 }

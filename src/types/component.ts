@@ -12,6 +12,8 @@ export interface ISliderBox {
   field: string;
   listType: string;
   data: any;
+  keyword?: string;
+  isTotalType?: boolean;
 }
 
 export interface ISlider {
@@ -53,4 +55,8 @@ export interface IPaginationProps {
 
 export interface ISliderArrow {
   onChangeIndex: (isBack: boolean) => void;
+}
+
+export interface ISearchList {
+  type: string;
 }

@@ -1,4 +1,3 @@
-import { motion, AnimatePresence } from "framer-motion";
 import { makeImagePath, makePosterPath } from "../../utils/makePath";
 import styled from "styled-components";
 import RelatedMovie from "./RelatedVideo";
@@ -133,7 +132,6 @@ export default function VideoModal({
   field,
   keyword,
 }: IVideoModal) {
-  console.log(detailData);
   return (
     <>
       <Head bgPhoto={makeImagePath(detailData?.backdrop_path || "")}></Head>

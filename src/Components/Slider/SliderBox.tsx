@@ -42,17 +42,18 @@ const Logo = styled.img<{ bgPhoto: string }>`
 `;
 
 const TextLogo = styled.h2<{ length: number }>`
+  margin: 0 !important;
   display: flex;
   position: absolute;
   font-family: "Oswald, sans-serif";
   left: 20px;
-  bottom: -10px;
-  font-size: ${(props) => (props.length > 10 ? "20px" : "28px")} !important;
+  bottom: 10px;
+  font-size: ${(props) => (props.length > 10 ? "18px" : "25px")} !important;
   width: 80%;
   font-weight: 900;
   text-align: center;
   color: white;
-  text-shadow: 2px 2px #558abb;
+  text-shadow: 1px 1px #558abb;
   align-items: flex-end;
   margin: 0;
 `;
@@ -131,7 +132,13 @@ const infoVariants = {
   },
 };
 
-function SliderBox({ field, data, listType }: ISliderBox) {
+function SliderBox({
+  field,
+  data,
+  listType,
+  keyword,
+  isTotalType,
+}: ISliderBox) {
   const navigate = useNavigate();
   const [isModal, setIsModal] = useRecoilState(isModalState);
   const [modalInfo, setModalInfo] = useRecoilState(modalInfoState);
@@ -141,9 +148,20 @@ function SliderBox({ field, data, listType }: ISliderBox) {
   );
 
   const onBoxClicked = (dataId: number, field: string) => {
-    navigate(`/${field}/${dataId}`);
     setIsModal(true);
-    setModalInfo({ id: dataId, listType: listType, field: field, keyword: "" });
+    setModalInfo({
+      id: dataId,
+      listType: listType,
+      field: field,
+      keyword: keyword ? keyword : "",
+    });
+    if (keyword) {
+      isTotalType
+        ? navigate(`/search/${dataId}?keyword=${keyword}`)
+        : navigate(`/search/${field}/${dataId}?keyword=${keyword}`);
+    } else {
+      navigate(`/${field}/${dataId}`);
+    }
   };
 
   return (

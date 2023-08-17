@@ -59,9 +59,8 @@ interface IBanner {
 }
 
 function Banner({ data, field }: IBanner) {
-  const { data: image, isLoading } = useQuery<IGetImage>(
-    ["images", data.id],
-    () => getImages(field.slice(0, -1), data.id)
+  const { data: image } = useQuery<IGetImage>(["images", data.id], () =>
+    getImages(field.slice(0, -1), data.id)
   );
 
   return (

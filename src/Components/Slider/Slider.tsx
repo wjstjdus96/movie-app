@@ -44,11 +44,8 @@ export default function Slider({ data, title, listType, field }: ISlider) {
   const [leaving, setLeaving] = useState(false);
   const [isBack, setIsBack] = useState(false);
   const offset = 6;
-  const isModal = useRecoilValue(isModalState);
 
   const toggleLeaving = () => setLeaving((prev) => !prev);
-
-  const bigMovieMatch = useMatch(`/:field/:dataId`);
 
   const changeIndex = (isBack: boolean) => {
     if (data && !leaving) {
@@ -74,7 +71,7 @@ export default function Slider({ data, title, listType, field }: ISlider) {
               <h2>{title}</h2>
               <SliderPages
                 title={title}
-                maxIndex={data.results.length}
+                maxIndex={Math.round(data.results.length / offset) - 1}
                 index={idx}
               />
             </div>

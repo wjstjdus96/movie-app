@@ -35,10 +35,6 @@ const Logo = styled(motion.svg)`
   width: 95px;
   height: 25px;
   fill: ${(props) => props.theme.red};
-  path {
-    stroke-width: 6px;
-    stroke: ${(props) => props.theme.black.lighter};
-  }
 `;
 
 const Items = styled.ul`
@@ -74,7 +70,7 @@ const Circle = styled(motion.div)`
   width: 5px;
   height: 5px;
   border-radius: 5px;
-  bottom: -10px;
+  bottom: -13px;
   left: 0;
   right: 0;
   margin: 0 auto;
@@ -108,7 +104,7 @@ function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [keyword, setKeyword] = useRecoilState(keywordState);
   const homeMatch = useMatch("/");
-  const tvMatch = useMatch("tv");
+  const tvMatch = useMatch("tvs");
   const { scrollY } = useScroll();
   const navAnimation = useAnimation();
   const { register, handleSubmit, setValue } = useForm<IForm>();

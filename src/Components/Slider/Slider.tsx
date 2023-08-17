@@ -5,6 +5,7 @@ import SliderBox from "./SliderBox";
 import { ISlider } from "../../types/component";
 import { SliderPages } from "./SliderPages";
 import { SliderArrow } from "./SliderArrow";
+import { IData } from "../../types/data";
 
 const Wrapper = styled(motion.div)`
   margin: 0px 50px;
@@ -92,7 +93,7 @@ export default function Slider({ data, title, listType, field }: ISlider) {
             {data?.results
               .slice(1)
               .slice(offset * idx, offset * idx + offset)
-              .map((data, idx) => (
+              .map((data: IData, idx: number) => (
                 <SliderBox
                   key={idx}
                   data={data}

@@ -69,6 +69,7 @@ const Info = styled(motion.div)`
   width: 100%;
   h4 {
     font-size: 12px;
+    margin-left: 5px;
   }
 `;
 
@@ -123,9 +124,9 @@ const infoVariants = {
   hover: {
     opacity: 1,
     backgroundcolor: "rgba(0,0,0,1)",
-    padding: "15px",
+    padding: "10px",
     transition: {
-      delay: 0.5,
+      delay: 0.7,
       duration: 0.2,
       type: "tween",
     },

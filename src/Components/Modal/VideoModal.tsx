@@ -55,21 +55,21 @@ const Intro = styled.div`
   h1 {
     font-size: 200%;
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 1vh;
   }
   h2 {
     font-size: 120%;
-    margin-bottom: 10px;
+    margin-bottom: 2vh;
   }
   h4 {
-    margin-bottom: 15px;
+    margin-bottom: 3vh;
   }
 `;
 
 const FirstInfos = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 1vh;
+  margin-bottom: 2vh;
   font-size: 0.9rem;
   & > div:first-child {
     border: 1px solid white;
@@ -169,9 +169,10 @@ export default function VideoModal({
                   <span>{(detailData?.vote_average + "").slice(0, 3)}</span>
                   <span>({detailData?.vote_count.toLocaleString()})</span>
                 </div>
-                <div>
-                  {detailData?.runtime && <div>{detailData?.runtime}분</div>}
-                </div>
+                {detailData?.runtime && <div>{detailData?.runtime}분</div>}
+                {detailData?.number_of_episodes && (
+                  <div>{detailData?.number_of_episodes} 에피소드</div>
+                )}
               </SecondInfos>
               {detailData?.tagline && (
                 <h4>
@@ -183,7 +184,7 @@ export default function VideoModal({
             </div>
           </Intro>
 
-          {relatedData && (
+          {relatedData.results.length != 0 && (
             <>
               <hr />
               <Related>

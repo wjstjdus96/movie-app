@@ -7,11 +7,13 @@ import { modalInfoState } from "../../recoil/atom";
 
 const Wrapper = styled.div`
   position: relative;
+  width: 9vw;
 `;
 
 const Box = styled.img`
-  object-fit: contain;
-  width: 8vw;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
 `;
 
 const Title = styled.div`
@@ -24,7 +26,7 @@ const Title = styled.div`
   width: 100%;
   height: 100%;
   opacity: 0;
-  transition: 0.3s;
+  transition: 0.8s;
   &:hover {
     opacity: 1;
   }

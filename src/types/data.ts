@@ -15,6 +15,7 @@ export interface IData {
   media_type?: string;
   vote_average: number;
   vote_count: number;
+  number_of_episodes?: number;
 }
 
 export interface IGetDataResult {

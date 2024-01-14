@@ -1,4 +1,4 @@
-import { IGetDataResult } from "./data";
+import { IData, IGetDataResult } from "./data";
 
 export interface IBanner {
   id: number;
@@ -59,4 +59,9 @@ export interface ISliderArrow {
 
 export interface ISearchList {
   type: string;
+}
+
+export interface IMainBanner {
+  data: IData;
+  field: string;
 }

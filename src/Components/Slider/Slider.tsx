@@ -7,36 +7,6 @@ import { SliderPages } from "./SliderPages";
 import { SliderArrow } from "./SliderArrow";
 import { IData } from "../../types/data";
 
-const Wrapper = styled(motion.div)`
-  margin: 0px 50px;
-  position: relative;
-  h2 {
-    color: ${(props) => props.theme.white.lighter};
-    font-size: 28px;
-    margin-bottom: 20px;
-  }
-`;
-
-const Row = styled(motion.div)`
-  display: grid;
-  gap: 10px;
-  grid-template-columns: repeat(6, 1fr);
-  position: absolute;
-  width: 100%;
-`;
-
-const rowVariants = {
-  invisible: (isBack: boolean) => ({
-    x: isBack ? -window.outerWidth - 5 : window.outerWidth + 5,
-  }),
-  visible: {
-    x: 0,
-  },
-  exit: (isBack: boolean) => ({
-    x: isBack ? window.outerWidth + 5 : -window.outerWidth - 5,
-  }),
-};
-
 export default function Slider({ data, title, listType, field }: ISlider) {
   const [idx, setIdx] = useState(0);
   const [leaving, setLeaving] = useState(false);
@@ -107,3 +77,33 @@ export default function Slider({ data, title, listType, field }: ISlider) {
     </div>
   );
 }
+
+const Wrapper = styled(motion.div)`
+  margin: 0px 50px;
+  position: relative;
+  h2 {
+    color: ${(props) => props.theme.white.lighter};
+    font-size: 25px;
+    margin-bottom: 20px;
+  }
+`;
+
+const Row = styled(motion.div)`
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(6, 1fr);
+  position: absolute;
+  width: 100%;
+`;
+
+const rowVariants = {
+  invisible: (isBack: boolean) => ({
+    x: isBack ? -window.outerWidth - 5 : window.outerWidth + 5,
+  }),
+  visible: {
+    x: 0,
+  },
+  exit: (isBack: boolean) => ({
+    x: isBack ? window.outerWidth + 5 : -window.outerWidth - 5,
+  }),
+};

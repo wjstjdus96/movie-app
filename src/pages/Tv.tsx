@@ -6,28 +6,6 @@ import { isModalState, loadingState } from "../recoil/atom";
 import { useRecoilValue } from "recoil";
 import Modal from "../Components/Modal/Modal";
 
-const Wrapper = styled.div`
-  background-color: black;
-  padding-bottom: 50px;
-`;
-
-const Loader = styled.div`
-  color: white;
-  position: fixed;
-  left: 50%;
-  margin: 0 auto;
-  top: 50%;
-  transform: translateX(-50%);
-`;
-
-const Sliders = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 180px;
-  position: relative;
-  top: -150px;
-`;
-
 function Tv() {
   const isLoading = useRecoilValue(loadingState);
   const isModal = useRecoilValue(isModalState);
@@ -70,3 +48,25 @@ function Tv() {
 }
 
 export default Tv;
+
+const Wrapper = styled.div`
+  background-color: black;
+  padding-bottom: 50px;
+`;
+
+const Loader = styled.div`
+  color: white;
+  position: fixed;
+  left: 50%;
+  margin: 0 auto;
+  top: 50%;
+  transform: translateX(-50%);
+`;
+
+const Sliders = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 180px;
+  position: relative;
+  top: -120px;
+`;

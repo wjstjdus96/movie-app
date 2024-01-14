@@ -12,94 +12,6 @@ import { IForm } from "../types/component";
 import { useRecoilState } from "recoil";
 import { keywordState } from "../recoil/atom";
 
-const Nav = styled(motion.nav)`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: fixed;
-  width: 100%;
-  top: 0;
-  font-size: 14px;
-  padding: 20px 60px;
-  color: white;
-  z-index: 30;
-`;
-
-const Col = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const Logo = styled(motion.svg)`
-  margin-right: 50px;
-  width: 95px;
-  height: 25px;
-  fill: ${(props) => props.theme.red};
-`;
-
-const Items = styled.ul`
-  display: flex;
-  align-items: center;
-`;
-
-const Item = styled.li`
-  margin-right: 20px;
-  color: ${(props) => props.theme.white.darker};
-  transition: color 0.3s ease-in-out;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  &:hover {
-    color: ${(props) => props.theme.white.lighter};
-  }
-`;
-
-const Search = styled(motion.form)`
-  color: white;
-  svg {
-    height: 25px;
-  }
-  display: flex;
-  align-items: center;
-  position: relative;
-`;
-
-const Circle = styled(motion.div)`
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  border-radius: 5px;
-  bottom: -13px;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  background-color: ${(props) => props.theme.red};
-`;
-
-const Input = styled(motion.input)`
-  width: 250px;
-  transform-origin: right center;
-  position: absolute;
-  right: 0px;
-  padding: 10px;
-  padding-left: 40px;
-  z-index: -1;
-  color: ${(props) => props.theme.white.lighter};
-  font-size: 12px;
-  background-color: rgba(20, 20, 20, 0.9);
-  border: 1px solid ${(props) => props.theme.white.lighter};
-`;
-
-const logoVariants = {
-  normal: {
-    fillOpacity: 1,
-  },
-  active: {
-    fillOpacity: 0.5,
-  },
-};
-
 function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [keyword, setKeyword] = useRecoilState(keywordState);
@@ -190,3 +102,91 @@ function Header() {
 }
 
 export default Header;
+
+const Nav = styled(motion.nav)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  font-size: 14px;
+  padding: 20px 60px;
+  color: white;
+  z-index: 30;
+`;
+
+const Col = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Logo = styled(motion.svg)`
+  margin-right: 50px;
+  width: 95px;
+  height: 25px;
+  fill: ${(props) => props.theme.red};
+`;
+
+const Items = styled.ul`
+  display: flex;
+  align-items: center;
+`;
+
+const Item = styled.li`
+  margin-right: 20px;
+  color: ${(props) => props.theme.white.darker};
+  transition: color 0.3s ease-in-out;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  &:hover {
+    color: ${(props) => props.theme.white.lighter};
+  }
+`;
+
+const Search = styled(motion.form)`
+  color: white;
+  svg {
+    height: 25px;
+  }
+  display: flex;
+  align-items: center;
+  position: relative;
+`;
+
+const Circle = styled(motion.div)`
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 5px;
+  bottom: -13px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  background-color: ${(props) => props.theme.red};
+`;
+
+const Input = styled(motion.input)`
+  width: 250px;
+  transform-origin: right center;
+  position: absolute;
+  right: 0px;
+  padding: 10px;
+  padding-left: 40px;
+  z-index: -1;
+  color: ${(props) => props.theme.white.lighter};
+  font-size: 12px;
+  background-color: rgba(20, 20, 20, 0.9);
+  border: 1px solid ${(props) => props.theme.white.lighter};
+`;
+
+const logoVariants = {
+  normal: {
+    fillOpacity: 1,
+  },
+  active: {
+    fillOpacity: 0.5,
+  },
+};

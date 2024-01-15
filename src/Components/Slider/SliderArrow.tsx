@@ -2,6 +2,27 @@ import { motion } from "framer-motion";
 import styled from "styled-components";
 import { ISliderArrow } from "../../types/component";
 
+export function SliderArrow({ onChangeIndex }: ISliderArrow) {
+  return (
+    <ArrowWrapper variants={arrowWrapperVariants}>
+      <Arrow
+        variants={arrowVariants}
+        whileHover="hoverOnArrow"
+        onClick={() => onChangeIndex(false)}
+      >
+        &lt;
+      </Arrow>
+      <Arrow
+        variants={arrowVariants}
+        whileHover="hoverOnArrow"
+        onClick={() => onChangeIndex(true)}
+      >
+        &gt;
+      </Arrow>
+    </ArrowWrapper>
+  );
+}
+
 const ArrowWrapper = styled(motion.div)`
   z-index: 0;
   > div {
@@ -62,24 +83,3 @@ const arrowVariants = {
     },
   },
 };
-
-export function SliderArrow({ onChangeIndex }: ISliderArrow) {
-  return (
-    <ArrowWrapper variants={arrowWrapperVariants}>
-      <Arrow
-        variants={arrowVariants}
-        whileHover="hoverOnArrow"
-        onClick={() => onChangeIndex(false)}
-      >
-        &lt;
-      </Arrow>
-      <Arrow
-        variants={arrowVariants}
-        whileHover="hoverOnArrow"
-        onClick={() => onChangeIndex(true)}
-      >
-        &gt;
-      </Arrow>
-    </ArrowWrapper>
-  );
-}

@@ -2,6 +2,22 @@ import { motion } from "framer-motion";
 import { IPaginationProps, ISliderPages } from "../../types/component";
 import styled from "styled-components";
 
+export function SliderPages({ maxIndex, index }: ISliderPages) {
+  return (
+    <Pagination
+      maxIndex={maxIndex}
+      curIndex={index}
+      variants={paginationVariants}
+    >
+      {Array(maxIndex + 1)
+        .fill(0)
+        .map((_, idx) => (
+          <motion.div key={idx}></motion.div>
+        ))}
+    </Pagination>
+  );
+}
+
 const Pagination = styled(motion.div)<IPaginationProps>`
   opacity: 0;
   margin-right: 2rem;
@@ -40,19 +56,3 @@ const paginationVariants = {
     },
   },
 };
-
-export function SliderPages({ maxIndex, index }: ISliderPages) {
-  return (
-    <Pagination
-      maxIndex={maxIndex}
-      curIndex={index}
-      variants={paginationVariants}
-    >
-      {Array(maxIndex + 1)
-        .fill(0)
-        .map((_, idx) => (
-          <motion.div key={idx}></motion.div>
-        ))}
-    </Pagination>
-  );
-}

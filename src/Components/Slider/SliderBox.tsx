@@ -1,14 +1,63 @@
 import { useQuery } from "@tanstack/react-query";
-import { getImages } from "../../apis/api";
+import { motion } from "framer-motion";
 import styled from "styled-components";
-import { motion, AnimatePresence } from "framer-motion";
-import { makeImagePath } from "../../utils/makePath";
-import { useNavigate } from "react-router-dom";
-import { FaPlay, FaHeart, FaAngleDown } from "react-icons/fa";
+import { getImages } from "../../apis/api";
 import { ISliderBox } from "../../types/component";
 import { IGetImage } from "../../types/data";
-import { useRecoilState } from "recoil";
-import { isModalState, modalInfoState } from "../../recoil/atom";
+import { makeImagePath } from "../../utils/makePath";
+import { SliderBoxInfo } from "./SliderBoxInfo";
+
+function SliderBox({
+  field,
+  data,
+  listType,
+  keyword,
+  isTotalType,
+}: ISliderBox) {
+  const boxInfoProps = { field, data, listType, keyword, isTotalType };
+  const { data: imageData, isLoading: imageLoading } = useQuery<IGetImage>(
+    ["images", data.id],
+    () => getImages(field.slice(0, -1), data.id)
+  );
+
+  return (
+    <>
+      {imageData ? (
+        <Box
+          key={data.id}
+          layoutId={listType + data.id}
+          variants={boxVariants}
+          whileHover="hover"
+          initial="normal"
+          transition={{ type: "tween" }}
+          bgPhoto={makeImagePath(imageData?.backdrops[0]?.file_path!, "w500")}
+        >
+          <div>
+            {imageData.logos[0]?.file_path != undefined ? (
+              <Logo
+                bgPhoto={makeImagePath(imageData?.logos[0].file_path!, "w500")}
+              />
+            ) : (
+              <TextLogo
+                length={
+                  data.original_title
+                    ? data.original_title.length
+                    : data.original_name.length
+                }
+              >
+                {data.original_title ? data.original_title : data.original_name}
+              </TextLogo>
+            )}
+          </div>
+          <SliderBoxInfo {...boxInfoProps} />
+        </Box>
+      ) : (
+        <SkeletonBox />
+      )}
+    </>
+  );
+}
+export default SliderBox;
 
 const Box = styled(motion.div)<{ bgPhoto: string }>`
   width: 227px;
@@ -58,51 +107,6 @@ const TextLogo = styled.h2<{ length: number }>`
   margin: 0;
 `;
 
-const Info = styled(motion.div)`
-  position: absolute;
-  padding: 5px;
-  border-radius: 0 0 5px 5px;
-  background-color: ${(props) => props.theme.modal.background};
-  background-color: rgba(0, 0, 0);
-  opacity: 0;
-  position: absolute;
-  width: 100%;
-  h4 {
-    font-size: 12px;
-    margin-left: 5px;
-  }
-`;
-
-const InfoBtn = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  & > div {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    cursor: pointer;
-    & > div {
-      height: 30px;
-      width: 30px;
-      border: 1px solid white;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  }
-  & > div:last-child {
-    height: 30px;
-    width: 30px;
-    border: 1px solid white;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-`;
-
 const boxVariants = {
   normal: {
     scale: 1,
@@ -120,103 +124,9 @@ const boxVariants = {
   },
 };
 
-const infoVariants = {
-  hover: {
-    opacity: 1,
-    backgroundcolor: "rgba(0,0,0,1)",
-    padding: "10px",
-    transition: {
-      delay: 0.7,
-      duration: 0.2,
-      type: "tween",
-    },
-  },
-};
-
-function SliderBox({
-  field,
-  data,
-  listType,
-  keyword,
-  isTotalType,
-}: ISliderBox) {
-  const navigate = useNavigate();
-  const [isModal, setIsModal] = useRecoilState(isModalState);
-  const [modalInfo, setModalInfo] = useRecoilState(modalInfoState);
-  const { data: imageData, isLoading: imageLoading } = useQuery<IGetImage>(
-    ["images", data.id],
-    () => getImages(field.slice(0, -1), data.id)
-  );
-
-  const onBoxClicked = (dataId: number, field: string) => {
-    setIsModal(true);
-    setModalInfo({
-      id: dataId,
-      listType: listType,
-      field: field,
-      keyword: keyword ? keyword : "",
-    });
-    if (keyword) {
-      isTotalType
-        ? navigate(`/search/${dataId}?keyword=${keyword}`)
-        : navigate(`/search/${field}/${dataId}?keyword=${keyword}`);
-    } else {
-      navigate(`/${field}/${dataId}`);
-    }
-  };
-
-  return (
-    <>
-      {imageData ? (
-        <Box
-          key={data.id}
-          layoutId={listType + data.id}
-          variants={boxVariants}
-          whileHover="hover"
-          initial="normal"
-          transition={{ type: "tween" }}
-          bgPhoto={makeImagePath(imageData?.backdrops[0]?.file_path!, "w500")}
-        >
-          <div>
-            {imageData.logos[0]?.file_path != undefined ? (
-              <Logo
-                bgPhoto={makeImagePath(imageData?.logos[0].file_path!, "w500")}
-              />
-            ) : (
-              <TextLogo
-                length={
-                  data.original_title
-                    ? data.original_title.length
-                    : data.original_name.length
-                }
-              >
-                {data.original_title ? data.original_title : data.original_name}
-              </TextLogo>
-            )}
-          </div>
-          <div>
-            <Info variants={infoVariants}>
-              <InfoBtn>
-                <div>
-                  <div>
-                    <FaPlay size="13" />
-                  </div>
-                  <div>
-                    <FaHeart size="13" />
-                  </div>
-                </div>
-                <div onClick={() => onBoxClicked(data.id, field)}>
-                  <FaAngleDown size="18" />
-                </div>
-              </InfoBtn>
-              <h4>{data.title ? data.title : data.name}</h4>
-            </Info>
-          </div>
-        </Box>
-      ) : (
-        <div></div>
-      )}
-    </>
-  );
-}
-export default SliderBox;
+const SkeletonBox = styled.div`
+  width: 227px;
+  height: 128px;
+  border-radius: 5px;
+  background-color: lightgray;
+`;

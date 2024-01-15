@@ -10,9 +10,7 @@ function Banner({ data, field }: IMainBanner) {
   const { data: image } = useQuery<IGetImage>(["images", data.id], () =>
     getImages(field.slice(0, -1), data.id)
   );
-  const overview = data.overview.split(".", 3).join("");
-
-  console.log(data);
+  const overview = data.overview.split(".", 3).join(".");
 
   return (
     <>

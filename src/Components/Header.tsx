@@ -60,21 +60,21 @@ function Header() {
         </Link>
         <Items>
           <Item>
-            <Link to="/">
-              Home
-              {homeMatch && <Circle layoutId="circle" />}
-            </Link>
+            <Link to="/">홈{homeMatch && <Circle layoutId="circle" />}</Link>
           </Item>
           <Item>
             <Link to="tvs">
-              Tv Shows
+              시리즈
               {tvMatch && <Circle layoutId="circle" />}
             </Link>
           </Item>
         </Items>
       </Col>
       <Col>
-        <Search onSubmit={handleSubmit(onValid)}>
+        <Search
+          onSubmit={handleSubmit(onValid)}
+          onBlur={() => console.log("아아")}
+        >
           <motion.svg
             onClick={openSearch}
             animate={{ x: searchOpen ? -215 : 0 }}
@@ -135,14 +135,14 @@ const Items = styled.ul`
 
 const Item = styled.li`
   margin-right: 20px;
-  color: ${(props) => props.theme.white.darker};
+  color: ${(props) => props.theme.white.lighter};
   transition: color 0.3s ease-in-out;
   position: relative;
   display: flex;
   justify-content: center;
   flex-direction: column;
   &:hover {
-    color: ${(props) => props.theme.white.lighter};
+    color: ${(props) => props.theme.white.darker};
   }
 `;
 

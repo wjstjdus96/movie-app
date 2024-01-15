@@ -4,7 +4,7 @@ import { RecoilRoot } from "recoil";
 import { ThemeProvider } from "styled-components";
 import App from "./App";
 import GlobalStyles from "./styles/GlobalStyles";
-import { theme } from "./theme";
+import { theme } from "./styles/theme";
 
 const client = new QueryClient();
 

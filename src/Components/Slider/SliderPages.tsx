@@ -41,7 +41,7 @@ const paginationVariants = {
   },
 };
 
-export function SliderPages({ maxIndex, index, title }: ISliderPages) {
+export function SliderPages({ maxIndex, index }: ISliderPages) {
   return (
     <Pagination
       maxIndex={maxIndex}

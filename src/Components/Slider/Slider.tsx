@@ -6,6 +6,7 @@ import { ISlider } from "../../types/component";
 import { SliderPages } from "./SliderPages";
 import { SliderArrow } from "./SliderArrow";
 import { IData } from "../../types/data";
+import { SliderTitle } from "./SliderTitle";
 
 export default function Slider({ data, title, listType, field }: ISlider) {
   const [idx, setIdx] = useState(0);
@@ -36,9 +37,8 @@ export default function Slider({ data, title, listType, field }: ISlider) {
         {data && (
           <>
             <div>
-              <h2>{title}</h2>
+              <SliderTitle title={title} />
               <SliderPages
-                title={title}
                 maxIndex={Math.round(data.results.length / offset) - 1}
                 index={idx}
               />
@@ -81,11 +81,6 @@ export default function Slider({ data, title, listType, field }: ISlider) {
 const Wrapper = styled(motion.div)`
   margin: 0px 50px;
   position: relative;
-  h2 {
-    color: ${(props) => props.theme.white.lighter};
-    font-size: 25px;
-    margin-bottom: 20px;
-  }
 `;
 
 const Row = styled(motion.div)`

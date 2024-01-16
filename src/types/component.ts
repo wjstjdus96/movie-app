@@ -14,6 +14,7 @@ export interface ISliderBox {
   data: any;
   keyword?: string;
   isTotalType?: boolean;
+  logoImage?: string;
 }
 
 export interface ISlider {
@@ -32,6 +33,7 @@ export interface IVideoModal {
   relatedData: any;
   field: string;
   keyword?: string;
+  logo: string | undefined;
 }
 
 export interface IModal {

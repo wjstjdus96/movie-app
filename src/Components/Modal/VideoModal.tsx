@@ -3,20 +3,91 @@ import styled from "styled-components";
 import RelatedMovie from "./RelatedVideo";
 import { AiFillStar } from "react-icons/ai";
 import { IVideoModal } from "../../types/component";
+import { VideoModalHead } from "./VideoModalHead";
 
-const Head = styled.div<{ bgPhoto: string }>`
-  overflow: visible;
-  background-image: linear-gradient(
-      rgba(0, 0, 0, 0),
-      ${(props) => props.theme.modal.background}
-    ),
-    url(${(prop) => prop.bgPhoto});
-  background-size: cover;
-  height: 55vh;
-  background-position: center center;
-  border-radius: 10px 10px 0 0;
-`;
+export default function VideoModal({
+  detailData,
+  relatedData,
+  field,
+  keyword,
+  logo,
+}: IVideoModal) {
+  return (
+    <>
+      <VideoModalHead
+        bgImage={detailData?.backdrop_path}
+        logoImage={logo}
+        title={detailData?.title ? detailData?.title : detailData?.name}
+      />
+      <Body>
+        {/* <Intro>
+          <div>
+            <FirstInfos>
+              <div>
+                {detailData?.release_date
+                  ? detailData?.release_date?.slice(0, 4)
+                  : detailData?.first_air_date?.slice(0, 4)}
+              </div>
+              <div>
+                {detailData?.genres?.map((item: any, idx: number) => (
+                  <div key={item.name}>
+                    {item.name}
+                    {detailData?.genres[idx + 1] && <p>/</p>}
+                  </div>
+                ))}
+              </div>
+            </FirstInfos>
+            <h1>{detailData?.title ? detailData?.title : detailData?.name}</h1>
+            <h2>
+              {detailData?.original_title
+                ? detailData?.original_title
+                : detailData?.original_name}
+            </h2>
+            <SecondInfos>
+              <div>
+                <AiFillStar color="yellow" size="23" />
+                <span>{(detailData?.vote_average + "").slice(0, 3)}</span>
+                <span>({detailData?.vote_count.toLocaleString()})</span>
+              </div>
+              {detailData?.runtime && <div>{detailData?.runtime}분</div>}
+              {detailData?.number_of_episodes && (
+                <div>{detailData?.number_of_episodes} 에피소드</div>
+              )}
+            </SecondInfos>
+            {detailData?.tagline && (
+              <h4>
+                &#124; &nbsp;
+                {detailData?.tagline}
+              </h4>
+            )}
+            <p>{detailData?.overview}</p>
+          </div>
+        </Intro> */}
 
+        {relatedData.results.length != 0 && (
+          <>
+            <hr />
+            <Related>
+              <h2>비슷한 컨텐츠</h2>
+              <RelatedMovies>
+                {relatedData?.results.map((item: any) => (
+                  <RelatedMovie
+                    key={item.id}
+                    id={item.id}
+                    title={item.title ? item.title : item.name}
+                    poster={item.poster_path}
+                    field={field}
+                    keyword={keyword}
+                  />
+                ))}
+              </RelatedMovies>
+            </Related>
+          </>
+        )}
+      </Body>
+    </>
+  );
+}
 const Body = styled.div`
   padding: 10px 40px;
   width: 100%;
@@ -125,87 +196,3 @@ const RelatedMovies = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
-
-export default function VideoModal({
-  detailData,
-  relatedData,
-  field,
-  keyword,
-}: IVideoModal) {
-  return (
-    <>
-      <Head bgPhoto={makeImagePath(detailData?.backdrop_path || "")}></Head>
-      <Body>
-        <div>
-          <Intro>
-            <img src={makePosterPath(detailData?.poster_path || "", "w500")} />
-            <div>
-              <FirstInfos>
-                <div>
-                  {detailData?.release_date
-                    ? detailData?.release_date?.slice(0, 4)
-                    : detailData?.first_air_date?.slice(0, 4)}
-                </div>
-                <div>
-                  {detailData?.genres?.map((item: any, idx: number) => (
-                    <div key={item.name}>
-                      {item.name}
-                      {detailData?.genres[idx + 1] && <p>/</p>}
-                    </div>
-                  ))}
-                </div>
-              </FirstInfos>
-              <h1>
-                {detailData?.title ? detailData?.title : detailData?.name}
-              </h1>
-              <h2>
-                {detailData?.original_title
-                  ? detailData?.original_title
-                  : detailData?.original_name}
-              </h2>
-              <SecondInfos>
-                <div>
-                  <AiFillStar color="yellow" size="23" />
-                  <span>{(detailData?.vote_average + "").slice(0, 3)}</span>
-                  <span>({detailData?.vote_count.toLocaleString()})</span>
-                </div>
-                {detailData?.runtime && <div>{detailData?.runtime}분</div>}
-                {detailData?.number_of_episodes && (
-                  <div>{detailData?.number_of_episodes} 에피소드</div>
-                )}
-              </SecondInfos>
-              {detailData?.tagline && (
-                <h4>
-                  &#124; &nbsp;
-                  {detailData?.tagline}
-                </h4>
-              )}
-              <p>{detailData?.overview}</p>
-            </div>
-          </Intro>
-
-          {relatedData.results.length != 0 && (
-            <>
-              <hr />
-              <Related>
-                <h2>비슷한 컨텐츠</h2>
-                <RelatedMovies>
-                  {relatedData?.results.map((item: any) => (
-                    <RelatedMovie
-                      key={item.id}
-                      id={item.id}
-                      title={item.title ? item.title : item.name}
-                      poster={item.poster_path}
-                      field={field}
-                      keyword={keyword}
-                    />
-                  ))}
-                </RelatedMovies>
-              </Related>
-            </>
-          )}
-        </div>
-      </Body>
-    </>
-  );
-}

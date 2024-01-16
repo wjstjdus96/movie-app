@@ -1,14 +1,13 @@
+import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { FaAngleDown, FaPlay, FaPlus, FaRegThumbsUp } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
+import { getVideoModalInfo } from "../../apis/api";
 import { isModalState, modalInfoState } from "../../recoil/atom";
 import { ISliderBox } from "../../types/component";
-import { DetailYear } from "../InfoDetail/DetailReleasedYear";
-import { useQuery } from "@tanstack/react-query";
 import { IDetailData } from "../../types/data";
-import { getVideoModalInfo } from "../../apis/api";
 
 export function SliderBoxInfo({
   field,
@@ -16,6 +15,7 @@ export function SliderBoxInfo({
   listType,
   keyword,
   isTotalType,
+  logoImage,
 }: ISliderBox) {
   const navigate = useNavigate();
   const setIsModal = useSetRecoilState(isModalState);
@@ -26,8 +26,6 @@ export function SliderBoxInfo({
     () =>
       getVideoModalInfo({ query: "", field: field.slice(0, -1), id: data.id })
   );
-
-  console.log(detailData);
 
   const onBoxClicked = (dataId: number, field: string) => {
     setIsModal(true);

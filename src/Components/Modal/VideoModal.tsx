@@ -5,6 +5,7 @@ import { AiFillStar } from "react-icons/ai";
 import { IVideoModal } from "../../types/component";
 import { VideoModalHead } from "./VideoModalHead";
 import { VideoModalMainInfo } from "./VideoModalMainInfo";
+import { VideoModalRelated } from "./VideoModalRelated";
 
 export default function VideoModal({
   detailData,
@@ -23,21 +24,11 @@ export default function VideoModal({
       <Body>
         <VideoModalMainInfo detailData={detailData} />
         {relatedData.results.length != 0 && (
-          <Related>
-            <h2>비슷한 컨텐츠</h2>
-            <RelatedMovies>
-              {relatedData?.results.map((item: any) => (
-                <RelatedMovie
-                  key={item.id}
-                  id={item.id}
-                  title={item.title ? item.title : item.name}
-                  poster={item.poster_path}
-                  field={field}
-                  keyword={keyword}
-                />
-              ))}
-            </RelatedMovies>
-          </Related>
+          <VideoModalRelated
+            relatedData={relatedData.results}
+            field={field}
+            keyword={keyword}
+          />
         )}
       </Body>
     </>

@@ -5,37 +5,6 @@ import { RelatedMovieProps } from "../../types/data";
 import { useSetRecoilState } from "recoil";
 import { modalInfoState } from "../../recoil/atom";
 
-const Wrapper = styled.div`
-  position: relative;
-  width: 9vw;
-`;
-
-const Box = styled.img`
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-`;
-
-const Title = styled.div`
-  position: absolute;
-  top: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.5);
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  transition: 0.8s;
-  &:hover {
-    opacity: 1;
-  }
-  h4 {
-    font-size: 0.5rem;
-    padding: 10px;
-  }
-`;
-
 export default function RelatedMovie({
   id,
   title,
@@ -67,3 +36,35 @@ export default function RelatedMovie({
     </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  position: relative;
+  width: 10vw;
+  cursor: pointer;
+`;
+
+const Box = styled.img`
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+`;
+
+const Title = styled.div`
+  position: absolute;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: 0.8s;
+  &:hover {
+    opacity: 1;
+  }
+  h4 {
+    font-size: 1rem;
+    padding: 10px;
+  }
+`;

@@ -13,10 +13,10 @@ export function VideoModalHead({ bgImage, logoImage, title }: IVideoModalHead) {
   return (
     <Wrapper bgPhoto={makeImagePath(bgImage || "")}>
       <HeadInfoBox>
-        {logoImage ? (
+        {logoImage != undefined ? (
           <Logo src={makeImagePath(logoImage, "w500")} />
         ) : (
-          <div>{title}</div>
+          <TextLogo>{title}</TextLogo>
         )}
         <ButtonsBox>
           <button>
@@ -51,6 +51,14 @@ const Wrapper = styled.div<{ bgPhoto: string }>`
 
 const Logo = styled.img`
   width: 13rem;
+`;
+
+const TextLogo = styled.div`
+  font-size: 3rem;
+  font-family: "Oswald, sans-serif";
+  font-weight: 900;
+  color: white;
+  text-shadow: 1px 1px #558abb;
 `;
 
 const HeadInfoBox = styled.div`

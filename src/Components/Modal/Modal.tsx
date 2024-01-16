@@ -53,7 +53,7 @@ export default function Modal() {
             relatedData={similarData}
             field={field}
             keyword={keyword}
-            logo={imageData?.logos[0].file_path}
+            logo={imageData?.logos[0]?.file_path! || undefined}
           />
         )}
       </ModalWrapper>
@@ -75,7 +75,7 @@ const ModalWrapper = styled(motion.div)`
   position: fixed;
   background-color: ${(props) => props.theme.modal.background};
   border-radius: 10px;
-  width: 60vw;
+  width: 55vw;
   height: 90vh;
   top: 0;
   bottom: 0;

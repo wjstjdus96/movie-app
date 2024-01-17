@@ -15,7 +15,6 @@ export function SliderBoxInfo({
   listType,
   keyword,
   isTotalType,
-  logoImage,
 }: ISliderBox) {
   const navigate = useNavigate();
   const setIsModal = useSetRecoilState(isModalState);

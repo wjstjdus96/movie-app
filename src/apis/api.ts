@@ -12,9 +12,14 @@ interface IGetVideoModalInfo {
 }
 
 export async function getVideos({ field, listType }: IGetVideos) {
-  return fetch(
-    `${BASE_PATH}/${field}/${listType}?api_key=${API_KEY}&language=${LNG}&region=${REGION}`
-  ).then((response) => response.json());
+  let url = `${BASE_PATH}`;
+
+  if (listType == "trending")
+    url += `/${listType}/${field}/day?api_key=${API_KEY}&language=${LNG}`;
+  if (listType != "trending")
+    url += `/${field}/${listType}?api_key=${API_KEY}&language=${LNG}&region=${REGION}`;
+
+  return fetch(url).then((response) => response.json());
 }
 
 export async function getVideoModalInfo({

@@ -13,6 +13,7 @@ function Home() {
   const { data: popularMovies } = useVideoQuery("movie", "popular");
   const { data: upcomingMovies } = useVideoQuery("movie", "upcoming");
   const { data: topRatedMovies } = useVideoQuery("movie", "top_rated");
+  const { data: trendingMovies } = useVideoQuery("movie", "trending");
 
   return (
     <Wrapper>
@@ -24,6 +25,12 @@ function Home() {
             <Banner data={nowPlayingMovies.results[0]} field="movies" />
           )}
           <Sliders>
+            <Slider
+              data={trendingMovies}
+              title="오늘의 Top10"
+              listType="trending"
+              field="movies"
+            />
             <Slider
               data={popularMovies}
               title="인기 영화"
@@ -75,7 +82,7 @@ const Loader = styled.div`
 const Sliders = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 180px;
+  gap: 11rem;
   position: relative;
   top: -120px;
 `;

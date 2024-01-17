@@ -49,10 +49,7 @@ function SliderBox({
               </TextLogo>
             )}
           </div>
-          <SliderBoxInfo
-            {...boxInfoProps}
-            logoImage={imageData.logos[0]?.file_path!}
-          />
+          <SliderBoxInfo {...boxInfoProps} />
         </Box>
       ) : (
         <SkeletonBox />

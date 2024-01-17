@@ -1,7 +1,4 @@
-import { makeImagePath, makePosterPath } from "../../utils/makePath";
 import styled from "styled-components";
-import RelatedMovie from "./RelatedVideo";
-import { AiFillStar } from "react-icons/ai";
 import { IVideoModal } from "../../types/component";
 import { VideoModalHead } from "./VideoModalHead";
 import { VideoModalMainInfo } from "./VideoModalMainInfo";
@@ -41,20 +38,4 @@ const Body = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-`;
-
-const Related = styled.div`
-  margin-top: 15px;
-  h2 {
-    margin-bottom: 15px;
-    font-size: 1.4rem;
-  }
-`;
-
-const RelatedMovies = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  justify-content: space-between;
-  align-items: center;
 `;

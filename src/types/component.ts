@@ -14,7 +14,7 @@ export interface ISliderBox {
   data: any;
   keyword?: string;
   isTotalType?: boolean;
-  logoImage?: string;
+  number?: number;
 }
 
 export interface ISlider {
@@ -56,6 +56,7 @@ export interface IPaginationProps {
 
 export interface ISliderArrow {
   onChangeIndex: (isBack: boolean) => void;
+  isTrending: boolean;
 }
 
 export interface ISearchList {

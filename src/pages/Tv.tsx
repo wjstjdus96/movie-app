@@ -12,6 +12,7 @@ function Tv() {
   const { data: topRatedTvs } = useVideoQuery("tv", "top_rated");
   const { data: onTheAirTvs } = useVideoQuery("tv", "on_the_air");
   const { data: popularTvs } = useVideoQuery("tv", "popular");
+  const { data: trendingTvs } = useVideoQuery("tv", "trending");
 
   return (
     <Wrapper>
@@ -21,6 +22,12 @@ function Tv() {
         <>
           {topRatedTvs && <Banner data={topRatedTvs!.results[0]} field="tvs" />}
           <Sliders>
+            <Slider
+              data={trendingTvs}
+              title="오늘의 Top10"
+              listType="trending"
+              field="tvs"
+            />
             <Slider
               data={popularTvs}
               title="인기 티비쇼"

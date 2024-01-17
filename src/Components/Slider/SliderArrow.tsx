@@ -2,13 +2,14 @@ import { motion } from "framer-motion";
 import styled from "styled-components";
 import { ISliderArrow } from "../../types/component";
 
-export function SliderArrow({ onChangeIndex }: ISliderArrow) {
+export function SliderArrow({ onChangeIndex, isTrending }: ISliderArrow) {
   return (
     <ArrowWrapper variants={arrowWrapperVariants}>
       <Arrow
         variants={arrowVariants}
         whileHover="hoverOnArrow"
         onClick={() => onChangeIndex(false)}
+        isTrending={isTrending}
       >
         &lt;
       </Arrow>
@@ -16,6 +17,7 @@ export function SliderArrow({ onChangeIndex }: ISliderArrow) {
         variants={arrowVariants}
         whileHover="hoverOnArrow"
         onClick={() => onChangeIndex(true)}
+        isTrending={isTrending}
       >
         &gt;
       </Arrow>
@@ -27,7 +29,7 @@ const ArrowWrapper = styled(motion.div)`
   z-index: 0;
   > div {
     position: absolute;
-    top: 53px;
+    top: 3.1rem;
   }
   > :first-child {
     left: -35px;
@@ -39,11 +41,11 @@ const ArrowWrapper = styled(motion.div)`
   }
 `;
 
-const Arrow = styled(motion.div)`
+const Arrow = styled(motion.div)<{ isTrending: boolean }>`
   font-size: 20px;
   color: ${(props) => props.theme.white.lighter};
   width: 35px;
-  height: 128px;
+  height: ${(props) => (props.isTrending ? "10.7rem" : "128px")};
   background-color: rgba(119, 119, 119, 0.3);
   display: flex;
   align-items: center;

@@ -82,7 +82,7 @@ const ModalWrapper = styled(motion.div)`
   left: 0;
   right: 0;
   margin: auto;
-  z-index: 100;
+  z-index: 999;
   overflow-y: scroll;
   &::-webkit-scrollbar {
     width: 6px;

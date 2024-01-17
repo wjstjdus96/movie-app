@@ -26,8 +26,6 @@ export function SliderBoxInfo({
       getVideoModalInfo({ query: "", field: field.slice(0, -1), id: data.id })
   );
 
-  console.log(detailData?.genres);
-
   const onBoxClicked = (dataId: number, field: string) => {
     setIsModal(true);
     setModalInfo({

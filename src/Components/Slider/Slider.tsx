@@ -118,6 +118,7 @@ const Row = styled(motion.div)`
   gap: 10px;
   grid-template-columns: repeat(6, 1fr);
   position: absolute;
+  z-index: 0;
   width: 100%;
 `;
 

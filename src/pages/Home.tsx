@@ -85,4 +85,5 @@ const Sliders = styled.div`
   gap: 11rem;
   position: relative;
   top: -120px;
+  z-index: 0;
 `;

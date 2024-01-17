@@ -6,6 +6,7 @@ import { ISliderBox } from "../../types/component";
 import { IGetImage } from "../../types/data";
 import { makeImagePath } from "../../utils/makePath";
 import { SliderBoxInfo } from "./SliderBoxInfo";
+import { SliderBoxLogo } from "./SliderLogo";
 
 function SliderBox({
   field,
@@ -32,23 +33,12 @@ function SliderBox({
           transition={{ type: "tween" }}
           bgPhoto={makeImagePath(imageData?.backdrops[0]?.file_path!, "w500")}
         >
-          <div>
-            {imageData.logos[0]?.file_path != undefined ? (
-              <Logo
-                bgPhoto={makeImagePath(imageData?.logos[0].file_path!, "w500")}
-              />
-            ) : (
-              <TextLogo
-                length={
-                  data.original_title
-                    ? data.original_title.length
-                    : data.original_name.length
-                }
-              >
-                {data.original_title ? data.original_title : data.original_name}
-              </TextLogo>
-            )}
-          </div>
+          <SliderBoxLogo
+            logo={imageData.logos[0]?.file_path}
+            title={
+              data.original_title ? data.original_title : data.original_name
+            }
+          />
           <SliderBoxInfo {...boxInfoProps} />
         </Box>
       ) : (

@@ -71,10 +71,7 @@ function Header() {
         </Items>
       </Col>
       <Col>
-        <Search
-          onSubmit={handleSubmit(onValid)}
-          onBlur={() => console.log("아아")}
-        >
+        <Search onSubmit={handleSubmit(onValid)}>
           <motion.svg
             onClick={openSearch}
             animate={{ x: searchOpen ? -215 : 0 }}

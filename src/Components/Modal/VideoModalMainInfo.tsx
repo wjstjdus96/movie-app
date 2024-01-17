@@ -28,10 +28,7 @@ export function VideoModalMainInfo({ detailData }: VideoModalMainInfo) {
         )}
         <GenreBox>
           {detailData?.genres?.map((item: any, idx: number) => (
-            <div key={item.name}>
-              {item.name}
-              {detailData?.genres[idx + 1] && <p>/</p>}
-            </div>
+            <Genre key={item.name}>{item.name}</Genre>
           ))}
         </GenreBox>
       </AdditionInfoBox>
@@ -57,10 +54,17 @@ const GenreBox = styled.div`
     margin-left: 5px !important;
     margin: 0 0;
   }
-  p {
-    display: flex;
-    margin-left: 5px !important;
-    margin: 0 0;
+`;
+
+const Genre = styled.div`
+  &::after {
+    content: "/";
+    float: right;
+    display: block;
+    margin: 0 5px;
+  }
+  &:last-child::after {
+    content: "";
   }
 `;
 

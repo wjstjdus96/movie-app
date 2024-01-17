@@ -26,6 +26,8 @@ export function SliderBoxInfo({
       getVideoModalInfo({ query: "", field: field.slice(0, -1), id: data.id })
   );
 
+  console.log(detailData?.genres);
+
   const onBoxClicked = (dataId: number, field: string) => {
     setIsModal(true);
     setModalInfo({
@@ -74,10 +76,9 @@ export function SliderBoxInfo({
           </HeadInfo>
           <GenresBox>
             {detailData?.genres?.map((item: any, idx: number) => (
-              <div key={item.name}>
-                {item.name}
-                {detailData?.genres[idx + 1] && <p>/</p>}
-              </div>
+              <Genre key={item.name}>
+                <div> {item.name}</div>
+              </Genre>
             ))}
           </GenresBox>
         </Info>
@@ -154,10 +155,17 @@ const GenresBox = styled.div`
     display: flex;
     margin: 0 0;
   }
-  p {
+`;
+
+const Genre = styled.div`
+  &::after {
+    content: "/";
+    float: right;
+    display: block;
     margin: 0 5px;
-    color: ${(props) => props.theme.gray.normal};
-    font-weight: 700;
+  }
+  &:last-child::after {
+    content: "";
   }
 `;
 

@@ -1,7 +1,6 @@
 {
   "name": "seoflix",
   "version": "0.1.0",
-  "homepage": "./",
   "private": true,
   "dependencies": {
     "@tanstack/react-query": "^4.24.9",

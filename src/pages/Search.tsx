@@ -110,13 +110,13 @@ function Search() {
     }
   };
 
-  const getKeywordResults = async (keyword: string) => {
-    const response = await getSearch(keyword);
-    setTotalResult(response);
-  };
-
   useEffect(() => {
     if (keyword) {
+      const getKeywordResults = async (keyword: string) => {
+        const response = await getSearch(keyword);
+        setTotalResult(response);
+      };
+
       getKeywordResults(keyword);
       setInputKeyword(keyword);
     } else {
@@ -127,7 +127,7 @@ function Search() {
       name: "전체",
       type: "total",
     });
-  }, [keyword, getKeywordResults, setTotalResult]);
+  }, [keyword, setTotalResult]);
 
   return (
     <Wrapper>

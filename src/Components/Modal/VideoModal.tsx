@@ -20,7 +20,7 @@ export default function VideoModal({
       />
       <Body>
         <VideoModalMainInfo detailData={detailData} />
-        {relatedData.results.length != 0 && (
+        {relatedData.results.length !== 0 && (
           <VideoModalRelated
             relatedData={relatedData.results}
             field={field}

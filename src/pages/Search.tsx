@@ -1,12 +1,12 @@
-import { useNavigate } from "react-router";
-import styled from "styled-components";
-import { getSearch } from "../apis/api";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
-import { isModalState, keywordState, searchResultState } from "../recoil/atom";
-import SearchList from "../Components/Search/SearchList";
+import { useNavigate } from "react-router";
+import { useRecoilState, useRecoilValue } from "recoil";
+import styled from "styled-components";
 import Modal from "../Components/Modal/Modal";
+import SearchList from "../Components/Search/SearchList";
+import { getSearch } from "../apis/api";
+import { isModalState, keywordState, searchResultState } from "../recoil/atom";
 import { Itype } from "../types/data";
 
 const Wrapper = styled.div`
@@ -81,12 +81,12 @@ function Search() {
     type: "total",
   });
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isModal, setIsModal] = useRecoilState(isModalState);
+  const isModal = useRecoilValue(isModalState);
 
   const onChangeIsExpanded = () => setIsExpanded(!isExpanded);
 
   const onChangeSearchType = (type: Itype) => {
-    const url = type.type == "total" ? "" : `/${type.type}`;
+    const url = type.type === "total" ? "" : `/${type.type}`;
     setSelectedType(type);
     navigate(`/search${url}?keyword=${keyword}`);
   };
@@ -105,7 +105,7 @@ function Search() {
   };
 
   const handleOnEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.code == "Enter") {
+    if (e.code === "Enter") {
       handleOnSubmit();
     }
   };
@@ -127,7 +127,7 @@ function Search() {
       name: "전체",
       type: "total",
     });
-  }, [keyword]);
+  }, [keyword, getKeywordResults, setTotalResult]);
 
   return (
     <Wrapper>

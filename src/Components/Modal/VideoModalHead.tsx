@@ -13,7 +13,7 @@ export function VideoModalHead({ bgImage, logoImage, title }: IVideoModalHead) {
   return (
     <Wrapper bgPhoto={makeImagePath(bgImage || "")}>
       <HeadInfoBox>
-        {logoImage != undefined ? (
+        {logoImage !== undefined ? (
           <Logo src={makeImagePath(logoImage, "w500")} />
         ) : (
           <TextLogo>{title}</TextLogo>

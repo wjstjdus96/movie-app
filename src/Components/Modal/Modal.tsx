@@ -1,16 +1,16 @@
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { isModalState, modalInfoState } from "../../recoil/atom";
-import { AnimatePresence, motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
-import { IDetailData, IGetDataResult, IGetImage } from "../../types/data";
-import { getImages, getVideoModalInfo } from "../../apis/api";
+import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
+import { getImages, getVideoModalInfo } from "../../apis/api";
+import { isModalState, modalInfoState } from "../../recoil/atom";
+import { IDetailData, IGetDataResult, IGetImage } from "../../types/data";
 import VideoModal from "./VideoModal";
 
 export default function Modal() {
   const setIsModal = useSetRecoilState(isModalState);
-  const [modalInfo, setModalInfo] = useRecoilState(modalInfoState);
+  const modalInfo = useRecoilValue(modalInfoState);
   const { id, field, keyword, listType } = modalInfo;
   const navigate = useNavigate();
 
@@ -33,9 +33,10 @@ export default function Modal() {
 
   const onOverlayClicked = () => {
     setIsModal(false);
-    if (field == "totals") return navigate(`/search/totals?keyword=${keyword}`);
+    if (field === "totals")
+      return navigate(`/search/totals?keyword=${keyword}`);
     if (keyword) return navigate(`/search/${field}?keyword=${keyword}`);
-    if (field == "movies") return navigate(`/`);
+    if (field === "movies") return navigate(`/`);
     return navigate("/tvs");
   };
 

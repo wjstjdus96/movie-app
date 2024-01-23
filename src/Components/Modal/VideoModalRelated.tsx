@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import RelatedMovie from "./RelatedVideo";
 
-export interface VideoModalRelated {
+export interface IVideoModalRelated {
   relatedData: any;
   field: string;
   keyword?: string;
@@ -11,7 +11,7 @@ export function VideoModalRelated({
   relatedData,
   field,
   keyword,
-}: VideoModalRelated) {
+}: IVideoModalRelated) {
   return (
     <Wrapper>
       <h2>비슷한 컨텐츠</h2>

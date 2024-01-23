@@ -17,9 +17,8 @@ export function NumberSliderBox({
   number,
 }: ISliderBox) {
   const boxInfoProps = { field, data, listType, keyword, isTotalType };
-  const { data: imageData, isLoading: imageLoading } = useQuery<IGetImage>(
-    ["images", data.id],
-    () => getImages(field.slice(0, -1), data.id)
+  const { data: imageData } = useQuery<IGetImage>(["images", data.id], () =>
+    getImages(field.slice(0, -1), data.id)
   );
 
   return (

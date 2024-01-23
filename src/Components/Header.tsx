@@ -1,5 +1,3 @@
-import { Link, useMatch, useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import {
   motion,
   useAnimation,
@@ -8,13 +6,15 @@ import {
 } from "framer-motion";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { IForm } from "../types/component";
-import { useRecoilState } from "recoil";
+import { Link, useMatch, useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import styled from "styled-components";
 import { keywordState } from "../recoil/atom";
+import { IForm } from "../types/component";
 
 function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
-  const [keyword, setKeyword] = useRecoilState(keywordState);
+  const setKeyword = useSetRecoilState(keywordState);
   const homeMatch = useMatch("/");
   const tvMatch = useMatch("tvs");
   const { scrollY } = useScroll();

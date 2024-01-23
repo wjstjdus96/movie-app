@@ -14,9 +14,9 @@ interface IGetVideoModalInfo {
 export async function getVideos({ field, listType }: IGetVideos) {
   let url = `${BASE_PATH}`;
 
-  if (listType == "trending")
+  if (listType === "trending")
     url += `/${listType}/${field}/day?api_key=${API_KEY}&language=${LNG}`;
-  if (listType != "trending")
+  if (listType !== "trending")
     url += `/${field}/${listType}?api_key=${API_KEY}&language=${LNG}&region=${REGION}`;
 
   return fetch(url).then((response) => response.json());
@@ -31,7 +31,7 @@ export async function getVideoModalInfo({
 
   if (query) url += `/${query}`;
   url += `?api_key=${API_KEY}&language=${LNG}`;
-  if (query == "similar") url += "&page=1";
+  if (query === "similar") url += "&page=1";
 
   return fetch(url).then((response) => response.json());
 }

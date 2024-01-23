@@ -17,7 +17,7 @@ function Banner({ data, field }: IMainBanner) {
       {image && (
         <Wrapper bgPhoto={makeImagePath(image.backdrops[0].file_path || "")}>
           <div>
-            {image.logos[0]?.file_path != undefined ? (
+            {image.logos[0]?.file_path !== undefined ? (
               <Logo
                 logoPhoto={makeImagePath(image?.logos[0].file_path!, "w500")}
               />

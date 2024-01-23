@@ -8,12 +8,12 @@ export const searchResultSelector = selectorFamily<any, string>({
     (param: string) =>
     ({ get }) => {
       const totalResult = get(searchResultState);
-      if (param == "total")
+      if (param === "total")
         return totalResult?.results.filter(
-          (result: IData) => result.media_type != "person"
+          (result: IData) => result.media_type !== "person"
         );
       return totalResult?.results.filter(
-        (result: IData) => result.media_type + "s" == param
+        (result: IData) => result.media_type + "s" === param
       );
     },
 });

@@ -1,11 +1,11 @@
 import { AiFillStar } from "react-icons/ai";
 import styled from "styled-components";
 
-export interface VideoModalMainInfo {
+export interface IVideoModalMainInfo {
   detailData: any;
 }
 
-export function VideoModalMainInfo({ detailData }: VideoModalMainInfo) {
+export function VideoModalMainInfo({ detailData }: IVideoModalMainInfo) {
   return (
     <Wrapper>
       <TitleBox>

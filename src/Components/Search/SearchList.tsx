@@ -1,11 +1,11 @@
-import { useRecoilValue } from "recoil";
-import { keywordState, searchResultState } from "../../recoil/atom";
-import { searchResultSelector } from "../../recoil/selector";
-import styled from "styled-components";
-import SliderBox from "../Slider/SliderBox";
-import { IData } from "../../types/data";
 import React from "react";
+import { useRecoilValue } from "recoil";
+import styled from "styled-components";
+import { keywordState } from "../../recoil/atom";
+import { searchResultSelector } from "../../recoil/selector";
 import { ISearchList } from "../../types/component";
+import { IData } from "../../types/data";
+import SliderBox from "../Slider/SliderBox";
 
 const Results = styled.div`
   display: grid;
@@ -21,7 +21,7 @@ function SearchList({ type }: ISearchList) {
     <>
       <p>" {keyword} " 에 대한 검색결과입니다.</p>
       <Results>
-        {filteredResult.length != 0 ? (
+        {filteredResult.length !== 0 ? (
           filteredResult.map((item: IData) => (
             <SliderBox
               key={item.id}
@@ -29,7 +29,7 @@ function SearchList({ type }: ISearchList) {
               data={item}
               listType=""
               keyword={keyword}
-              isTotalType={type == "total" ? true : false}
+              isTotalType={type === "total" ? true : false}
             />
           ))
         ) : (

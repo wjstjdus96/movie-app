@@ -20,7 +20,7 @@ export default function Slider({ data, title, listType, field }: ISlider) {
   const changeIndex = (isBack: boolean) => {
     if (data && !leaving) {
       const length =
-        listType == "trending"
+        listType === "trending"
           ? data.results!.slice(0, 13).length
           : data.results!.length;
 
@@ -39,7 +39,7 @@ export default function Slider({ data, title, listType, field }: ISlider) {
 
   return (
     <Wrapper
-      isTrending={listType == "trending"}
+      isTrending={listType === "trending"}
       initial="hidden"
       whileHover="hover"
       exit="exit"
@@ -50,7 +50,7 @@ export default function Slider({ data, title, listType, field }: ISlider) {
             <SliderTitle title={title} />
             <SliderPages
               maxIndex={
-                listType == "trending"
+                listType === "trending"
                   ? Math.round(data.results.slice(0, 13).length / offset) - 1
                   : Math.round(data.results.length / offset) - 1
               }
@@ -59,7 +59,7 @@ export default function Slider({ data, title, listType, field }: ISlider) {
           </div>
           <SliderArrow
             onChangeIndex={changeIndex}
-            isTrending={listType == "trending"}
+            isTrending={listType === "trending"}
           />
         </>
       )}
@@ -77,7 +77,7 @@ export default function Slider({ data, title, listType, field }: ISlider) {
           transition={{ type: "tween" }}
           key={idx}
         >
-          {listType != "trending"
+          {listType !== "trending"
             ? data?.results
                 .slice(1)
                 .slice(offset * idx, offset * idx + offset)

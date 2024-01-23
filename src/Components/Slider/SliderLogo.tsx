@@ -9,7 +9,7 @@ export interface ISliderBoxLogo {
 export function SliderBoxLogo({ logo, title }: ISliderBoxLogo) {
   return (
     <Wrapper>
-      {logo != undefined ? (
+      {logo !== undefined ? (
         <Logo bgPhoto={makeImagePath(logo, "w500")} />
       ) : (
         <TextLogo length={title.length}>{title}</TextLogo>

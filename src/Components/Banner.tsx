@@ -27,11 +27,11 @@ function Banner({ data, field }: IMainBanner) {
             <Overview>{overview}</Overview>
             <Buttons>
               <button>
-                <BsPlayFill size="24" />
+                <BsPlayFill />
                 재생
               </button>
               <button>
-                <BsInfoCircle size="24" />
+                <BsInfoCircle />
                 상세정보
               </button>
             </Buttons>
@@ -45,35 +45,45 @@ function Banner({ data, field }: IMainBanner) {
 export default Banner;
 
 const Wrapper = styled.div<{ bgPhoto: string }>`
-  height: 100vh;
-  padding: 50px;
+  padding: 0px 50px;
+  margin-bottom: 12rem;
   background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)),
     url(${(prop) => prop.bgPhoto});
   background-size: cover;
   & > div {
-    width: 50%;
+    width: 60%;
+  }
+  @media all and (min-width: 360px) and (max-width: 767px) {
+    padding: 0px 20px;
+    margin-bottom: 10rem;
   }
 `;
 
 const Logo = styled.img<{ logoPhoto: string }>`
   content: url(${(prop) => prop.logoPhoto});
+  width: 100%;
   background-size: cover;
   margin-top: 100px;
-  max-width: 50%;
-  max-height: 20%;
+  max-width: 25vw;
+  @media all and (min-width: 360px) and (max-width: 767px) {
+    margin-top: 70px;
+    max-width: 40vw;
+  }
 `;
 
 const Overview = styled.div`
-  font-size: 1.1rem;
+  font-size: 1.1vw;
   line-height: 1.5;
   margin: 30px 0;
+  @media all and (min-width: 360px) and (max-width: 767px) {
+    font-size: 1.6vw;
+  }
 `;
 
 const Buttons = styled.div`
   display: flex;
   gap: 20px;
   & > button {
-    padding: 10px 30px;
     flex-shrink: 0;
     display: flex;
     justify-content: center;
@@ -81,7 +91,6 @@ const Buttons = styled.div`
     gap: 5px;
     border-radius: 5px;
     border: none;
-    font-size: 18px;
     cursor: pointer;
     &:first-child {
       background-color: white;
@@ -92,6 +101,20 @@ const Buttons = styled.div`
     }
     &:hover {
       filter: brightness(70%);
+    }
+    @media all and (min-width: 360px) and (max-width: 767px) {
+      padding: 5px 13px;
+      font-size: 10px;
+    }
+
+    @media all and (min-width: 768px) and (max-width: 1200px) {
+      padding: 8px 20px;
+      font-size: 13px;
+    }
+
+    @media all and (min-width: 1201px) {
+      padding: 10px 30px;
+      font-size: 18px;
     }
   }
 `;

@@ -111,6 +111,9 @@ const Nav = styled(motion.nav)`
   padding: 20px 60px;
   color: white;
   z-index: 30;
+  @media all and (max-width: 767px) {
+    padding: 20px 30px;
+  }
 `;
 
 const Col = styled.div`

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SliderBox from "./SliderBox";
 import { ISlider } from "../../types/component";
 import { SliderPages } from "./SliderPages";
@@ -8,12 +8,14 @@ import { SliderArrow } from "./SliderArrow";
 import { IData } from "../../types/data";
 import { SliderTitle } from "./SliderTitle";
 import { NumberSliderBox } from "./NumberSliderBox";
+import { useSliderSize } from "../../hooks/useSliderSize";
 
 export default function Slider({ data, title, listType, field }: ISlider) {
   const [idx, setIdx] = useState(0);
   const [leaving, setLeaving] = useState(false);
   const [isBack, setIsBack] = useState(false);
-  const offset = 6;
+  const [offset, setOffset] = useState(6);
+  const { sliderSize } = useSliderSize();
 
   const toggleLeaving = () => setLeaving((prev) => !prev);
 
@@ -36,6 +38,16 @@ export default function Slider({ data, title, listType, field }: ISlider) {
           );
     }
   };
+
+  useEffect(() => {
+    const sliderItemNum = Math.floor(window.innerWidth / 227);
+
+    const updateSlider = () => {
+      setOffset(sliderItemNum);
+    };
+
+    updateSlider();
+  }, [sliderSize]);
 
   return (
     <Wrapper
@@ -111,12 +123,15 @@ const Wrapper = styled(motion.div)<{ isTrending?: boolean }>`
   margin: 0px 50px;
   position: relative;
   margin: ${(props) => (props.isTrending ? "0 50px 3rem" : "0px 50px")};
+
+  @media all and (max-width: 767px) {
+    margin: ${(props) => (props.isTrending ? "0 20px 3rem" : "0px 20px")};
+  }
 `;
 
 const Row = styled(motion.div)`
-  display: grid;
+  display: flex;
   gap: 10px;
-  grid-template-columns: repeat(6, 1fr);
   position: absolute;
   z-index: 0;
   width: 100%;

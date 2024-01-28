@@ -51,9 +51,9 @@ const Wrapper = styled.div<{ bgPhoto: string }>`
     url(${(prop) => prop.bgPhoto});
   background-size: cover;
   & > div {
-    width: 60%;
+    width: 50%;
   }
-  @media all and (min-width: 360px) and (max-width: 767px) {
+  @media all and (max-width: 767px) {
     padding: 0px 20px;
     margin-bottom: 10rem;
   }
@@ -65,7 +65,7 @@ const Logo = styled.img<{ logoPhoto: string }>`
   background-size: cover;
   margin-top: 100px;
   max-width: 25vw;
-  @media all and (min-width: 360px) and (max-width: 767px) {
+  @media all and (max-width: 767px) {
     margin-top: 70px;
     max-width: 40vw;
   }
@@ -75,7 +75,7 @@ const Overview = styled.div`
   font-size: 1.1vw;
   line-height: 1.5;
   margin: 30px 0;
-  @media all and (min-width: 360px) and (max-width: 767px) {
+  @media all and (max-width: 767px) {
     font-size: 1.6vw;
   }
 `;
@@ -102,7 +102,7 @@ const Buttons = styled.div`
     &:hover {
       filter: brightness(70%);
     }
-    @media all and (min-width: 360px) and (max-width: 767px) {
+    @media all and (max-width: 767px) {
       padding: 5px 13px;
       font-size: 10px;
     }

@@ -1,47 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { FaAngleDown, FaPlay, FaPlus, FaRegThumbsUp } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { getVideoModalInfo } from "../../apis/api";
-import { isModalState, modalInfoState } from "../../recoil/atom";
-import { ISliderBox } from "../../types/component";
+import { ISliderBoxInfo } from "../../types/component";
 import { IDetailData } from "../../types/data";
 
-export function SliderBoxInfo({
-  field,
-  data,
-  listType,
-  keyword,
-  isTotalType,
-}: ISliderBox) {
-  const navigate = useNavigate();
-  const setIsModal = useSetRecoilState(isModalState);
-  const setModalInfo = useSetRecoilState(modalInfoState);
-
+export function SliderBoxInfo({ field, data, onClickDetail }: ISliderBoxInfo) {
   const { isLoading: detailLoading, data: detailData } = useQuery<IDetailData>(
     ["details", data.id],
     () =>
       getVideoModalInfo({ query: "", field: field.slice(0, -1), id: data.id })
   );
-
-  const onBoxClicked = (dataId: number, field: string) => {
-    setIsModal(true);
-    setModalInfo({
-      id: dataId,
-      listType: listType,
-      field: field,
-      keyword: keyword ? keyword : "",
-    });
-    if (keyword) {
-      isTotalType
-        ? navigate(`/search/${dataId}?keyword=${keyword}`)
-        : navigate(`/search/${field}/${dataId}?keyword=${keyword}`);
-    } else {
-      navigate(`/${field}/${dataId}`);
-    }
-  };
 
   return (
     <Wrapper>
@@ -59,7 +29,7 @@ export function SliderBoxInfo({
                 <FaRegThumbsUp size="13" />
               </ButtonBox>
             </div>
-            <ButtonBox onClick={() => onBoxClicked(data.id, field)}>
+            <ButtonBox onClick={onClickDetail}>
               <FaAngleDown size="18" />
             </ButtonBox>
           </InfoBtn>

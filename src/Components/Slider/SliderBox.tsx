@@ -7,6 +7,8 @@ import { IGetImage } from "../../types/data";
 import { makeImagePath } from "../../utils/makePath";
 import { SliderBoxInfo } from "./SliderBoxInfo";
 import { SliderBoxLogo } from "./SliderLogo";
+import { useMediaQuery } from "react-responsive";
+import { useOpenSliderModal } from "../../hooks/useOpenSliderModal";
 
 function SliderBox({
   field,
@@ -15,15 +17,24 @@ function SliderBox({
   keyword,
   isTotalType,
 }: ISliderBox) {
-  const boxInfoProps = { field, data, listType, keyword, isTotalType };
+  const boxInfoProps = { field, data };
   const { data: imageData } = useQuery<IGetImage>(["images", data.id], () =>
     getImages(field.slice(0, -1), data.id)
   );
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const { onOpenSliderModal } = useOpenSliderModal({
+    field,
+    dataId: data.id,
+    listType,
+    keyword,
+    isTotalType,
+  });
 
   return (
     <>
       {imageData ? (
         <Box
+          onClick={isMobile ? onOpenSliderModal : undefined}
           key={data.id}
           layoutId={listType + data.id}
           variants={boxVariants}
@@ -38,7 +49,7 @@ function SliderBox({
               data.original_title ? data.original_title : data.original_name
             }
           />
-          <SliderBoxInfo {...boxInfoProps} />
+          <SliderBoxInfo {...boxInfoProps} onClickDetail={onOpenSliderModal} />
         </Box>
       ) : (
         <SkeletonBox />

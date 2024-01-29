@@ -1,10 +1,12 @@
-import styled from "styled-components";
-import { ISliderBox } from "../../types/component";
-import { motion } from "framer-motion";
-import { makeImagePath, makePosterPath } from "../../utils/makePath";
 import { useQuery } from "@tanstack/react-query";
+import { motion } from "framer-motion";
+import { useMediaQuery } from "react-responsive";
+import styled from "styled-components";
 import { getImages } from "../../apis/api";
+import { useOpenSliderModal } from "../../hooks/useOpenSliderModal";
+import { ISliderBox } from "../../types/component";
 import { IGetImage } from "../../types/data";
+import { makeImagePath, makePosterPath } from "../../utils/makePath";
 import { SliderBoxInfo } from "./SliderBoxInfo";
 import { SliderBoxLogo } from "./SliderLogo";
 
@@ -16,15 +18,25 @@ export function NumberSliderBox({
   isTotalType,
   number,
 }: ISliderBox) {
-  const boxInfoProps = { field, data, listType, keyword, isTotalType };
+  const boxInfoProps = { field, data };
   const { data: imageData } = useQuery<IGetImage>(["images", data.id], () =>
     getImages(field.slice(0, -1), data.id)
   );
+
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const { onOpenSliderModal } = useOpenSliderModal({
+    field,
+    dataId: data.id,
+    listType,
+    keyword,
+    isTotalType,
+  });
 
   return (
     <>
       {imageData ? (
         <Wrapper
+          onClick={isMobile ? onOpenSliderModal : undefined}
           key={data.id}
           layoutId={listType + data.id}
           whileHover="hover"
@@ -48,7 +60,10 @@ export function NumberSliderBox({
                 data.original_title ? data.original_title : data.original_name
               }
             />
-            <SliderBoxInfo {...boxInfoProps} />
+            <SliderBoxInfo
+              {...boxInfoProps}
+              onClickDetail={onOpenSliderModal}
+            />
           </HoverBox>
         </Wrapper>
       ) : (

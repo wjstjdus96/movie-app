@@ -17,6 +17,12 @@ export interface ISliderBox {
   number?: number;
 }
 
+export interface ISliderBoxInfo {
+  field: string;
+  data: any;
+  onClickDetail: () => void;
+}
+
 export interface ISlider {
   data?: IGetDataResult;
   title: string;

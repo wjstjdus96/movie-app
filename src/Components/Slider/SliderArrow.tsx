@@ -24,6 +24,9 @@ const ArrowWrapper = styled(motion.div)<{ isLeft: boolean }>`
     border-radius: ${(props) =>
       props.isLeft ? "10px 0 0 10px" : "0 10px 10px 0"};
     left: ${(props) => props.isLeft && "-35px"};
+    @media all and (max-width: 767px) {
+      left: ${(props) => props.isLeft && "-20px"};
+    }
   }
 `;
 
@@ -39,6 +42,9 @@ const Arrow = styled(motion.div)`
   &:hover {
     cursor: pointer;
     font-weight: 600;
+  }
+  @media all and (max-width: 767px) {
+    width: 20px;
   }
 `;
 

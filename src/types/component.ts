@@ -56,7 +56,7 @@ export interface IPaginationProps {
 
 export interface ISliderArrow {
   onChangeIndex: (isBack: boolean) => void;
-  isTrending: boolean;
+  isLeft: boolean;
 }
 
 export interface ISearchList {

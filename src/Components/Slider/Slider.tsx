@@ -57,23 +57,17 @@ export default function Slider({ data, title, listType, field }: ISlider) {
       exit="exit"
     >
       {data && (
-        <>
-          <div>
-            <SliderTitle title={title} />
-            <SliderPages
-              maxIndex={
-                listType === "trending"
-                  ? Math.round(data.results.slice(0, 13).length / offset) - 1
-                  : Math.round(data.results.length / offset) - 1
-              }
-              index={idx}
-            />
-          </div>
-          <SliderArrow
-            onChangeIndex={changeIndex}
-            isTrending={listType === "trending"}
+        <div>
+          <SliderTitle title={title} />
+          <SliderPages
+            maxIndex={
+              listType === "trending"
+                ? Math.round(data.results.slice(0, 13).length / offset) - 1
+                : Math.round(data.results.length / offset) - 1
+            }
+            index={idx}
           />
-        </>
+        </div>
       )}
       <AnimatePresence
         custom={isBack}
@@ -82,37 +76,42 @@ export default function Slider({ data, title, listType, field }: ISlider) {
       >
         <Row
           custom={isBack}
-          variants={rowVariants}
           initial="invisible"
           animate="visible"
+          whileHover="hover"
+          variants={rowVariants}
           exit="exit"
           transition={{ type: "tween" }}
           key={idx}
         >
-          {listType !== "trending"
-            ? data?.results
-                .slice(1)
-                .slice(offset * idx, offset * idx + offset)
-                .map((data: IData, idx: number) => (
-                  <SliderBox
-                    key={idx}
-                    data={data}
-                    field={field}
-                    listType={listType}
-                  />
-                ))
-            : data?.results
-                .slice(0, 12)
-                .slice(offset * idx, offset * idx + offset)
-                .map((data: IData, num: number) => (
-                  <NumberSliderBox
-                    key={idx}
-                    number={offset * idx + num + 1}
-                    data={data}
-                    field={field}
-                    listType={listType}
-                  />
-                ))}
+          <SliderArrow onChangeIndex={changeIndex} isLeft={true} />
+          <SlideItems>
+            {listType !== "trending"
+              ? data?.results
+                  .slice(1)
+                  .slice(offset * idx, offset * idx + offset)
+                  .map((data: IData, idx: number) => (
+                    <SliderBox
+                      key={idx}
+                      data={data}
+                      field={field}
+                      listType={listType}
+                    />
+                  ))
+              : data?.results
+                  .slice(0, 12)
+                  .slice(offset * idx, offset * idx + offset)
+                  .map((data: IData, num: number) => (
+                    <NumberSliderBox
+                      key={idx}
+                      number={offset * idx + num + 1}
+                      data={data}
+                      field={field}
+                      listType={listType}
+                    />
+                  ))}
+          </SlideItems>
+          <SliderArrow onChangeIndex={changeIndex} isLeft={false} />
         </Row>
       </AnimatePresence>
     </Wrapper>
@@ -122,18 +121,23 @@ export default function Slider({ data, title, listType, field }: ISlider) {
 const Wrapper = styled(motion.div)<{ isTrending?: boolean }>`
   margin: 0px 50px;
   position: relative;
-  margin: ${(props) => (props.isTrending ? "0 50px 3rem" : "0px 50px")};
+  margin: ${(props) => (props.isTrending ? "0 50px 1rem" : "0px 50px")};
 
   @media all and (max-width: 767px) {
-    margin: ${(props) => (props.isTrending ? "0 20px 3rem" : "0px 20px")};
+    margin: ${(props) => (props.isTrending ? "0 20px 1rem" : "0px 20px")};
   }
 `;
 
 const Row = styled(motion.div)`
   display: flex;
-  gap: 10px;
   position: absolute;
   z-index: 0;
+  width: 100%;
+`;
+
+const SlideItems = styled.div`
+  display: flex;
+  gap: 10px;
   width: 100%;
 `;
 

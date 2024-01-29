@@ -24,11 +24,15 @@ const Pagination = styled(motion.div)<IPaginationProps>`
   display: grid;
   position: absolute;
   right: 0;
-  top: 20px;
+  top: 15px;
   z-index: 0;
   grid-template-columns: repeat(${(props) => props.maxIndex + 1}, 1fr);
   grid-gap: 2px;
   > div {
+    @media all and (max-width: 767px) {
+      width: 10px;
+      height: 2px;
+    }
     height: 3px;
     width: 20px;
     background-color: ${(props) => props.theme.white.darker};

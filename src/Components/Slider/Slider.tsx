@@ -40,7 +40,7 @@ export default function Slider({ data, title, listType, field }: ISlider) {
   };
 
   useEffect(() => {
-    const sliderItemNum = Math.floor(window.innerWidth / 227);
+    const sliderItemNum = Math.round(window.innerWidth / 250);
 
     const updateSlider = () => {
       setOffset(sliderItemNum);

@@ -48,8 +48,8 @@ export function NumberSliderBox({
                 data.original_title ? data.original_title : data.original_name
               }
             />
+            <SliderBoxInfo {...boxInfoProps} />
           </HoverBox>
-          <SliderBoxInfo {...boxInfoProps} />
         </Wrapper>
       ) : (
         <SkeletonBox />
@@ -59,14 +59,13 @@ export function NumberSliderBox({
 }
 
 const Wrapper = styled(motion.div)`
-  width: 227px;
-  min-height: 100%;
+  width: 100%;
+  height: 100%;
 `;
 
 const DefaultPosterBox = styled(motion.div)`
   display: flex;
   justify-content: space-between;
-  align-items: center;
   width: 100%;
   height: 100%;
 `;
@@ -74,18 +73,17 @@ const DefaultPosterBox = styled(motion.div)`
 const Number = styled.div<{ isBiggerThanTen?: boolean }>`
   position: relative;
   width: 50%;
-  height: 100%;
   & > div {
-    margin: 0;
+    /* font-size: ${(props) => (props.isBiggerThanTen ? "9rem" : "14rem")}; */
+    font-size: 10rem;
     position: absolute;
-    right: -1.5rem;
-    font-size: ${(props) => (props.isBiggerThanTen ? "9rem" : "14rem")};
-    letter-spacing: -12px;
+    top: 40%;
+    left: 70%;
+    transform: translate(-50%, -50%);
     -webkit-text-stroke: 4px ${(props) => props.theme.gray.normal};
     color: black;
+    letter-spacing: -12px;
     font-weight: 900;
-    z-index: 0;
-    bottom: ${(props) => (props.isBiggerThanTen ? "0" : "-2rem")};
   }
 `;
 
@@ -141,7 +139,7 @@ const hoverBoxVariants = {
 
 const HoverBox = styled(motion.div)<{ bgPhoto: string }>`
   display: none;
-  width: 227px;
+  width: 100%;
   height: 128px;
   background-image: url(${(prop) => prop.bgPhoto});
   border-radius: 5px;
@@ -161,7 +159,7 @@ const HoverBox = styled(motion.div)<{ bgPhoto: string }>`
 `;
 
 const SkeletonBox = styled.div`
-  width: 227px;
+  width: 100%;
   height: 10.7rem;
   border-radius: 5px;
   background-color: lightgray;

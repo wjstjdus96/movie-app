@@ -49,7 +49,7 @@ function SliderBox({
 export default SliderBox;
 
 const Box = styled(motion.div)<{ bgPhoto: string }>`
-  width: 227px;
+  width: 100%;
   height: 128px;
   min-height: 100%;
   background-image: url(${(prop) => prop.bgPhoto});
@@ -87,7 +87,7 @@ const boxVariants = {
 };
 
 const SkeletonBox = styled.div`
-  width: 227px;
+  width: 100%;
   height: 128px;
   border-radius: 5px;
   background-color: lightgray;

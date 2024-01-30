@@ -22,7 +22,6 @@ export function NumberSliderBox({
   const { data: imageData } = useQuery<IGetImage>(["images", data.id], () =>
     getImages(field.slice(0, -1), data.id)
   );
-
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const { onOpenSliderModal } = useOpenSliderModal({
     field,

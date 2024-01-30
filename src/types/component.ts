@@ -73,3 +73,41 @@ export interface IMainBanner {
   data: IData;
   field: string;
 }
+
+export interface IVideoModalHead {
+  bgImage: string;
+  logoImage: string | undefined;
+  title?: string;
+}
+
+export interface IVideoModalMainInfo {
+  detailData: any;
+}
+
+export interface IVideoModalRelated {
+  relatedData: any;
+  field: string;
+  keyword?: string;
+}
+
+export interface ISliderBoxLogo {
+  logo: string | undefined;
+  title: string;
+}
+
+export interface ISliderTitle {
+  title: string;
+}
+
+export interface IUseOpenSliderModal {
+  field: string;
+  dataId: number;
+  listType: string;
+  keyword?: string;
+  isTotalType?: boolean;
+}
+
+export interface ISliderSize {
+  width: number | undefined;
+  height: number | undefined;
+}

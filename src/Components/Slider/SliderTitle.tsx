@@ -1,10 +1,7 @@
 import { motion } from "framer-motion";
 import styled, { keyframes } from "styled-components";
 import { IoIosArrowForward } from "react-icons/io";
-
-export interface ISliderTitle {
-  title: string;
-}
+import { ISliderTitle } from "../../types/component";
 
 export function SliderTitle({ title }: ISliderTitle) {
   return (

@@ -1,10 +1,6 @@
 import styled from "styled-components";
 import { makeImagePath } from "../../utils/makePath";
-
-export interface ISliderBoxLogo {
-  logo: string | undefined;
-  title: string;
-}
+import { ISliderBoxLogo } from "../../types/component";
 
 export function SliderBoxLogo({ logo, title }: ISliderBoxLogo) {
   return (

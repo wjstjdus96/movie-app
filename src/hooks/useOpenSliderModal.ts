@@ -1,14 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { isModalState, modalInfoState } from "../recoil/atom";
-
-interface IUseOpenSliderModal {
-  field: string;
-  dataId: number;
-  listType: string;
-  keyword?: string;
-  isTotalType?: boolean;
-}
+import { IUseOpenSliderModal } from "../types/component";
 
 export const useOpenSliderModal = ({
   field,

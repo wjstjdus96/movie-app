@@ -40,12 +40,22 @@ const Wrapper = styled.div`
 
 const RelatedMovies = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
   justify-content: space-between;
   align-items: center;
   & > div {
     width: 100%;
     height: 100%;
+  }
+  @media all and (max-width: 767px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media all and (min-width: 768px) and (max-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media all and (min-width: 1201px) {
+    grid-template-columns: repeat(4, 1fr);
   }
 `;

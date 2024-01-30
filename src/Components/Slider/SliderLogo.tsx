@@ -18,7 +18,9 @@ export function SliderBoxLogo({ logo, title }: ISliderBoxLogo) {
   );
 }
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  position: relative;
+`;
 
 const Logo = styled.img<{ bgPhoto: string }>`
   position: absolute;

@@ -9,62 +9,6 @@ import { getSearch } from "../apis/api";
 import { isModalState, keywordState, searchResultState } from "../recoil/atom";
 import { Itype } from "../types/data";
 
-const Wrapper = styled.div`
-  margin: 10vh;
-  padding-top: 5vh;
-  p {
-    margin-bottom: 30px;
-  }
-`;
-
-const Form = styled.div`
-  position: relative;
-`;
-
-const Input = styled.input`
-  position: absolute;
-  left: 70px;
-  width: 300px;
-  color: ${(props) => props.theme.white.lighter};
-  background-color: rgba(20, 20, 20, 0.9);
-  font-size: 20px;
-  border: 1px solid ${(props) => props.theme.white.lighter};
-  padding: 10px;
-  border-radius: 5px;
-`;
-
-const TypeButtons = styled.div`
-  position: absolute;
-  top: 10px;
-  > :first-child {
-    border-radius: 5px;
-  }
-  button {
-    border: 0.5px solid ${(props) => props.theme.white.lighter};
-    width: 60px;
-    padding: 5px 0;
-    cursor: pointer;
-    background-color: ${(props) => props.theme.black.darker};
-    color: ${(props) => props.theme.white.lighter};
-  }
-`;
-
-const ExpandedButtons = styled.div`
-  margin-top: 2px;
-  display: flex;
-  flex-direction: column;
-  button:first-child {
-    border-radius: 5px 5px 0 0;
-  }
-  button:last-child {
-    border-radius: 0 0 5px 5px;
-  }
-`;
-
-const ResultBody = styled.div`
-  margin-top: 70px;
-`;
-
 const typeList = [
   { name: "전체", type: "total" },
   { name: "영화", type: "movies" },
@@ -173,3 +117,63 @@ function Search() {
 }
 
 export default Search;
+
+const Wrapper = styled.div`
+  margin: 10vh;
+  padding-top: 5vh;
+  p {
+    margin-bottom: 30px;
+  }
+
+  @media all and (max-width: 767px) {
+    margin: 5vh 20px;
+  }
+`;
+
+const Form = styled.div`
+  position: relative;
+`;
+
+const Input = styled.input`
+  position: absolute;
+  left: 70px;
+  width: 300px;
+  color: ${(props) => props.theme.white.lighter};
+  background-color: rgba(20, 20, 20, 0.9);
+  font-size: 20px;
+  border: 1px solid ${(props) => props.theme.white.lighter};
+  padding: 10px;
+  border-radius: 5px;
+`;
+
+const TypeButtons = styled.div`
+  position: absolute;
+  top: 10px;
+  > :first-child {
+    border-radius: 5px;
+  }
+  button {
+    border: 0.5px solid ${(props) => props.theme.white.lighter};
+    width: 60px;
+    padding: 5px 0;
+    cursor: pointer;
+    background-color: ${(props) => props.theme.black.darker};
+    color: ${(props) => props.theme.white.lighter};
+  }
+`;
+
+const ExpandedButtons = styled.div`
+  margin-top: 2px;
+  display: flex;
+  flex-direction: column;
+  button:first-child {
+    border-radius: 5px 5px 0 0;
+  }
+  button:last-child {
+    border-radius: 0 0 5px 5px;
+  }
+`;
+
+const ResultBody = styled.div`
+  margin-top: 70px;
+`;

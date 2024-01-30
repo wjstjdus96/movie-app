@@ -48,6 +48,7 @@ export default function Modal() {
         exit={{ opacity: 0 }}
       />
       <ModalWrapper key={id} layoutId={listType + id}>
+        <CloseButton onClick={onOverlayClicked}>X</CloseButton>
         {!isLoading && (
           <VideoModal
             detailData={detailData}
@@ -98,4 +99,33 @@ const ModalWrapper = styled(motion.div)`
     background-clip: padding-box;
     border: 3px solid transparent;
   }
+  @media all and (max-width: 767px) {
+    width: 96vw;
+  }
+
+  @media all and (min-width: 768px) and (max-width: 1200px) {
+    width: 80vw;
+  }
+
+  @media all and (min-width: 1201px) {
+    width: 55vw;
+  }
+`;
+
+const CloseButton = styled.button`
+  position: absolute;
+  z-index: 1000;
+  right: 0;
+  margin: 10px;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #4e4e4e;
+  color: white;
+  border: none;
+  font-size: 10px;
+  opacity: 80%;
 `;

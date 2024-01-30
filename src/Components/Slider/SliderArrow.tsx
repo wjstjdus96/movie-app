@@ -2,50 +2,39 @@ import { motion } from "framer-motion";
 import styled from "styled-components";
 import { ISliderArrow } from "../../types/component";
 
-export function SliderArrow({ onChangeIndex, isTrending }: ISliderArrow) {
+export function SliderArrow({ onChangeIndex, isLeft }: ISliderArrow) {
   return (
-    <ArrowWrapper variants={arrowWrapperVariants}>
+    <ArrowWrapper variants={arrowWrapperVariants} isLeft={isLeft}>
       <Arrow
         variants={arrowVariants}
         whileHover="hoverOnArrow"
-        onClick={() => onChangeIndex(false)}
-        isTrending={isTrending}
+        onClick={() => onChangeIndex(!isLeft)}
       >
-        &lt;
-      </Arrow>
-      <Arrow
-        variants={arrowVariants}
-        whileHover="hoverOnArrow"
-        onClick={() => onChangeIndex(true)}
-        isTrending={isTrending}
-      >
-        &gt;
+        {isLeft ? <>&lt;</> : <> &gt;</>}
       </Arrow>
     </ArrowWrapper>
   );
 }
 
-const ArrowWrapper = styled(motion.div)`
+const ArrowWrapper = styled(motion.div)<{ isLeft: boolean }>`
+  position: relative;
   z-index: 0;
   > div {
     position: absolute;
-    top: 3.1rem;
-  }
-  > :first-child {
-    left: -35px;
-    border-radius: 10px 0 0 10px;
-  }
-  > :last-child {
-    right: -35px;
-    border-radius: 0 10px 10px 0;
+    border-radius: ${(props) =>
+      props.isLeft ? "10px 0 0 10px" : "0 10px 10px 0"};
+    left: ${(props) => props.isLeft && "-35px"};
+    @media all and (max-width: 767px) {
+      left: ${(props) => props.isLeft && "-20px"};
+    }
   }
 `;
 
-const Arrow = styled(motion.div)<{ isTrending: boolean }>`
+const Arrow = styled(motion.div)`
   font-size: 20px;
   color: ${(props) => props.theme.white.lighter};
   width: 35px;
-  height: ${(props) => (props.isTrending ? "10.7rem" : "128px")};
+  height: 100%;
   background-color: rgba(119, 119, 119, 0.3);
   display: flex;
   align-items: center;
@@ -53,6 +42,9 @@ const Arrow = styled(motion.div)<{ isTrending: boolean }>`
   &:hover {
     cursor: pointer;
     font-weight: 600;
+  }
+  @media all and (max-width: 767px) {
+    width: 20px;
   }
 `;
 

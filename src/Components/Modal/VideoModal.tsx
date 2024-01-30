@@ -38,4 +38,7 @@ const Body = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  @media all and (max-width: 767px) {
+    padding: 0 1.5rem;
+  }
 `;

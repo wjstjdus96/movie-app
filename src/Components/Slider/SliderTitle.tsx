@@ -27,7 +27,17 @@ const Wrapper = styled.div`
   gap: 10px;
   h2 {
     color: ${(props) => props.theme.white.lighter};
-    font-size: 25px;
+    @media all and (max-width: 767px) {
+      font-size: 15px;
+    }
+
+    @media all and (min-width: 768px) and (max-width: 1200px) {
+      font-size: 20px;
+    }
+
+    @media all and (min-width: 1201px) {
+      font-size: 25px;
+    }
   }
 `;
 
@@ -44,17 +54,42 @@ const MoreArrow = styled(motion.div)`
   display: flex;
   align-self: flex-end;
   align-items: center;
-  margin-bottom: 3px;
+  @media all and (max-width: 767px) {
+    margin-bottom: -1px;
+  }
+
+  @media all and (min-width: 768px) and (max-width: 1200px) {
+    margin-bottom: 0;
+  }
+
+  @media all and (min-width: 1201px) {
+    margin-bottom: 3px;
+  }
   & > div {
-    font-size: 14px;
-    width: 60px;
-    height: 20px;
+    @media all and (max-width: 767px) {
+      font-size: 10px;
+      width: 40px;
+      height: 13px;
+    }
+
+    @media all and (min-width: 768px) and (max-width: 1200px) {
+      font-size: 12px;
+      width: 50px;
+      height: 16px;
+    }
+
+    @media all and (min-width: 1201px) {
+      font-size: 14px;
+      width: 60px;
+      height: 20px;
+    }
     display: none;
     position: relative;
     & > div {
       position: absolute;
     }
   }
+
   &:hover {
     color: skyblue;
     font-weight: 700;

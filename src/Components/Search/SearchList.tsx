@@ -7,12 +7,6 @@ import { ISearchList } from "../../types/component";
 import { IData } from "../../types/data";
 import SliderBox from "../Slider/SliderBox";
 
-const Results = styled.div`
-  display: grid;
-  gap: 10px;
-  grid-template-columns: repeat(6, 1fr);
-`;
-
 function SearchList({ type }: ISearchList) {
   const filteredResult = useRecoilValue(searchResultSelector(type));
   const keyword = useRecoilValue(keywordState);
@@ -41,3 +35,9 @@ function SearchList({ type }: ISearchList) {
 }
 
 export default React.memo(SearchList);
+
+const Results = styled.div`
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+`;

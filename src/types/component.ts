@@ -17,6 +17,12 @@ export interface ISliderBox {
   number?: number;
 }
 
+export interface ISliderBoxInfo {
+  field: string;
+  data: any;
+  onClickDetail: () => void;
+}
+
 export interface ISlider {
   data?: IGetDataResult;
   title: string;
@@ -56,7 +62,7 @@ export interface IPaginationProps {
 
 export interface ISliderArrow {
   onChangeIndex: (isBack: boolean) => void;
-  isTrending: boolean;
+  isLeft: boolean;
 }
 
 export interface ISearchList {

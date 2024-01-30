@@ -1,4 +1,4 @@
-import { IData, IGetDataResult } from "./data";
+import { IData, IGetDataResult, Itype } from "./data";
 
 export interface IBanner {
   id: number;
@@ -110,4 +110,9 @@ export interface IUseOpenSliderModal {
 export interface ISliderSize {
   width: number | undefined;
   height: number | undefined;
+}
+
+export interface ISearchListInput {
+  selectedType: Itype;
+  setSelectedType: any;
 }

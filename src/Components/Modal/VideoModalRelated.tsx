@@ -1,11 +1,6 @@
 import styled from "styled-components";
 import RelatedMovie from "./RelatedVideo";
-
-export interface IVideoModalRelated {
-  relatedData: any;
-  field: string;
-  keyword?: string;
-}
+import { IVideoModalRelated } from "../../types/component";
 
 export function VideoModalRelated({
   relatedData,

@@ -2,12 +2,7 @@ import styled from "styled-components";
 import { makeImagePath } from "../../utils/makePath";
 import { BsPlayFill } from "react-icons/bs";
 import { FaPlus, FaRegThumbsUp } from "react-icons/fa";
-
-export interface IVideoModalHead {
-  bgImage: string;
-  logoImage: string | undefined;
-  title?: string;
-}
+import { IVideoModalHead } from "../../types/component";
 
 export function VideoModalHead({ bgImage, logoImage, title }: IVideoModalHead) {
   return (

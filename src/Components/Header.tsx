@@ -4,38 +4,15 @@ import {
   useMotionValueEvent,
   useScroll,
 } from "framer-motion";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { Link, useMatch, useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { Link, useMatch } from "react-router-dom";
 import styled from "styled-components";
-import { keywordState } from "../recoil/atom";
-import { IForm } from "../types/component";
-import { FaSearch } from "react-icons/fa";
-import { useMediaQuery } from "react-responsive";
+import HeaderSearch from "./Search/HeaderSearch";
 
 function Header() {
-  const [searchOpen, setSearchOpen] = useState(false);
-  const setKeyword = useSetRecoilState(keywordState);
   const homeMatch = useMatch("/");
   const tvMatch = useMatch("tvs");
   const { scrollY } = useScroll();
   const navAnimation = useAnimation();
-  const { register, handleSubmit, setValue } = useForm<IForm>();
-  const navigate = useNavigate();
-  const openSearch = () => setSearchOpen((prev) => !prev);
-
-  const isMobile = useMediaQuery({ maxWidth: 767 });
-  const searchIconAnimationValue = isMobile
-    ? { x: searchOpen ? -143 : 0 }
-    : { x: searchOpen ? -225 : 0 };
-
-  const onValid = (data: IForm) => {
-    setKeyword(data.keyword);
-    setSearchOpen(false);
-    setValue("keyword", "");
-    navigate(`/search?keyword=${data.keyword}`);
-  };
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (latest > 80) {
@@ -78,21 +55,7 @@ function Header() {
         </Items>
       </Col>
       <Col>
-        <Search onSubmit={handleSubmit(onValid)}>
-          <motion.div
-            onClick={openSearch}
-            animate={searchIconAnimationValue}
-            transition={{ type: "linear" }}
-          >
-            <FaSearch />
-          </motion.div>
-          <Input
-            {...register("keyword", { required: true, minLength: 1 })}
-            placeholder="검색어를 입력하세요"
-            transition={{ type: "linear" }}
-            animate={{ scaleX: searchOpen ? 1 : 0 }}
-          />
-        </Search>
+        <HeaderSearch />
       </Col>
     </Nav>
   );
@@ -149,13 +112,6 @@ const Item = styled.li`
   }
 `;
 
-const Search = styled(motion.form)`
-  color: white;
-  display: flex;
-  align-items: center;
-  position: relative;
-`;
-
 const Circle = styled(motion.div)`
   position: absolute;
   width: 5px;
@@ -166,25 +122,6 @@ const Circle = styled(motion.div)`
   right: 0;
   margin: 0 auto;
   background-color: ${(props) => props.theme.red};
-`;
-
-const Input = styled(motion.input)`
-  @media all and (max-width: 767px) {
-    width: 170px;
-    padding: 8px;
-    padding-left: 40px;
-  }
-  width: 250px;
-  transform-origin: right center;
-  position: absolute;
-  right: 0px;
-  padding: 10px;
-  padding-left: 40px;
-  z-index: -1;
-  color: ${(props) => props.theme.white.lighter};
-  font-size: 12px;
-  background-color: rgba(20, 20, 20, 0.9);
-  border: 1px solid ${(props) => props.theme.white.lighter};
 `;
 
 const logoVariants = {

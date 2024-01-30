@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
-
-interface ISliderSize {
-  width: number | undefined;
-  height: number | undefined;
-}
+import { ISliderSize } from "../types/component";
 
 export const useSliderSize = () => {
   const [sliderSize, setSliderSize] = useState<ISliderSize>({

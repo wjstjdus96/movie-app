@@ -67,12 +67,6 @@ const Box = styled(motion.div)<{ bgPhoto: string }>`
   border-radius: 5px;
   background-size: cover;
   background-position: center center;
-  &:first-child {
-    transform-origin: center left;
-  }
-  &:last-child {
-    transform-origin: center right;
-  }
   & > div {
     position: relative;
     width: 100%;

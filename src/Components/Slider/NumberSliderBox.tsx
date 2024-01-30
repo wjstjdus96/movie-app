@@ -89,8 +89,11 @@ const Number = styled.div<{ isBiggerThanTen?: boolean }>`
   position: relative;
   width: 50%;
   & > div {
-    /* font-size: ${(props) => (props.isBiggerThanTen ? "9rem" : "14rem")}; */
-    font-size: 10rem;
+    font-size: ${(props) => (props.isBiggerThanTen ? "10rem" : "14rem")};
+    @media all and (max-width: 767px) {
+      font-size: ${(props) => (props.isBiggerThanTen ? "8rem" : "10rem")};
+      letter-spacing: -17px;
+    }
     position: absolute;
     top: 40%;
     left: 70%;

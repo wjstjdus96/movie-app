@@ -121,17 +121,16 @@ export default function Slider({ data, title, listType, field }: ISlider) {
 const Wrapper = styled(motion.div)<{ isTrending?: boolean }>`
   margin: 0px 50px;
   position: relative;
-  margin: ${(props) => (props.isTrending ? "0 50px 1rem" : "0px 50px")};
+  margin: ${(props) => (props.isTrending ? "0 50px 2.5rem" : "0px 50px")};
 
   @media all and (max-width: 767px) {
-    margin: ${(props) => (props.isTrending ? "0 20px 1rem" : "0px 20px")};
+    margin: ${(props) => (props.isTrending ? "0 20px 1.5rem" : "0px 20px")};
   }
 `;
 
 const Row = styled(motion.div)`
   display: flex;
   position: absolute;
-  z-index: 0;
   width: 100%;
 `;
 
@@ -139,6 +138,12 @@ const SlideItems = styled.div`
   display: flex;
   gap: 10px;
   width: 100%;
+  & > div:first-child {
+    transform-origin: center left;
+  }
+  & > div:last-child {
+    transform-origin: center right;
+  }
 `;
 
 const rowVariants = {

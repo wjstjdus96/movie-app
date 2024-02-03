@@ -1,11 +1,10 @@
 # Netflix 클론 코딩
+![wjstjdus96 github io_movie-app_tvs (1)](https://github.com/wjstjdus96/movie-app/assets/77755620/9fa65a67-435b-4417-b2f1-c5e8743bad53)
 
-![image](https://github.com/wjstjdus96/movie-app/assets/77755620/d3c30403-2368-41cc-a48d-f5ceceae9334)
 
 넷플릭스 클론 사이트 입니다
 ## 🌐 프로젝트 링크
-
-[Clone Netflix 바로가기](https://wjstjdus96.github.io/movie-app/)
+[clone netflix 바로가기](https://d3lxuub2fu2gx3.cloudfront.net/)
 
 ## 📃 실행 방법
 ```
